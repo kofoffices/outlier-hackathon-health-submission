@@ -23,6 +23,29 @@ const config = {
         pixel: ["var(--font-pixel)", "VT323", "monospace"],
       },
       colors: {
+        // Retro color palette
+        retro: {
+          black: "#000000",
+          darkGray: "#333333",
+          gray: "#666666",
+          lightGray: "#999999",
+          white: "#FFFFFF",
+          red: "#FF0000",
+          orange: "#FF7F00",
+          yellow: "#FFFF00",
+          green: "#00FF00",
+          blue: "#0000FF",
+          purple: "#7F00FF",
+          pink: "#FF00FF",
+        },
+        // MacBook window colors
+        window: {
+          title: "#C0C0C0",
+          close: "#FF5F57",
+          minimize: "#FFBD2E",
+          maximize: "#28C940",
+        },
+        // Original theme colors preserved for compatibility
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -61,6 +84,12 @@ const config = {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        pixel: "0", // For pixel-perfect corners
+      },
+      boxShadow: {
+        'pixel': '4px 4px 0px 0px rgba(0, 0, 0, 1)',
+        'pixel-sm': '2px 2px 0px 0px rgba(0, 0, 0, 1)',
+        'pixel-lg': '8px 8px 0px 0px rgba(0, 0, 0, 1)',
       },
       keyframes: {
         "accordion-down": {
@@ -73,11 +102,16 @@ const config = {
         },
         "pixel-bounce": {
           "0%, 100%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(-5px)" },
+          "50%": { transform: "translateY(-4px)" },
         },
         "pixel-pulse": {
           "0%, 100%": { transform: "scale(1)" },
-          "50%": { transform: "scale(1.05)" },
+          "50%": { transform: "scale(1.02)" },
+        },
+        "pixel-shake": {
+          "0%, 100%": { transform: "translateX(0)" },
+          "25%": { transform: "translateX(-2px)" },
+          "75%": { transform: "translateX(2px)" },
         },
       },
       animation: {
@@ -85,6 +119,7 @@ const config = {
         "accordion-up": "accordion-up 0.2s ease-out",
         "pixel-bounce": "pixel-bounce 1s ease-in-out infinite",
         "pixel-pulse": "pixel-pulse 2s ease-in-out infinite",
+        "pixel-shake": "pixel-shake 0.2s ease-in-out",
       },
     },
   },

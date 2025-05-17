@@ -343,99 +343,87 @@ export function HealthFacts({ category }: HealthFactsProps) {
   const quote = quotes[currentQuote]
   const goal = goals[currentGoal]
 
-  // Get colors based on category
   const getCategoryColors = () => {
     switch (category) {
       case "mood":
-        return { bg: "bg-pink-50", border: "border-pink-300", text: "text-pink-800" }
+        return "bg-retro-pink border-retro-pink"
       case "hydration":
-        return { bg: "bg-blue-50", border: "border-blue-300", text: "text-blue-800" }
+        return "bg-retro-blue border-retro-blue"
       case "sleep":
-        return { bg: "bg-indigo-50", border: "border-indigo-300", text: "text-indigo-800" }
+        return "bg-retro-purple border-retro-purple"
       case "nutrition":
-        return { bg: "bg-green-50", border: "border-green-300", text: "text-green-800" }
+        return "bg-retro-green border-retro-green"
       case "fitness":
-        return { bg: "bg-purple-50", border: "border-purple-300", text: "text-purple-800" }
+        return "bg-retro-orange border-retro-orange"
       case "weight":
-        return { bg: "bg-teal-50", border: "border-teal-300", text: "text-teal-800" }
+        return "bg-retro-yellow border-retro-yellow"
       case "mental":
-        return { bg: "bg-rose-50", border: "border-rose-300", text: "text-rose-800" }
+        return "bg-retro-red border-retro-red"
       case "breathing":
-        return { bg: "bg-blue-50", border: "border-blue-300", text: "text-blue-800" }
+        return "bg-retro-blue border-retro-blue"
       case "stretching":
-        return { bg: "bg-amber-50", border: "border-amber-300", text: "text-amber-800" }
+        return "bg-retro-orange border-retro-orange"
       default:
-        return { bg: "bg-gray-50", border: "border-gray-300", text: "text-gray-800" }
+        return "bg-retro-blue border-retro-blue"
     }
   }
 
-  const colors = getCategoryColors()
-
   return (
-    <div className="space-y-6 mt-8">
-      {/* Did You Know Section */}
-      {fact && (
-        <div
-          className={cn(
-            "p-4 rounded-md border-2 border-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)] transition-all duration-300",
-            colors.bg,
-          )}
-        >
-          <div className="flex items-start gap-3">
-            <Lightbulb className={cn("h-6 w-6 mt-1", colors.text)} />
-            <div>
-              <h3 className="font-bold pixel-font text-lg mb-1">Did You Know?</h3>
-              <p className="text-sm font-medium mb-1">{fact.fact}</p>
-              {fact.source && <p className="text-xs italic">Source: {fact.source}</p>}
-            </div>
-          </div>
+    <div className="space-y-6">
+      {/* Facts Section */}
+      <div className="border-4 border-retro-black bg-retro-white shadow-pixel p-4">
+        <div className="flex items-center gap-2 mb-3">
+          <Lightbulb className={cn("h-5 w-5", getCategoryColors())} />
+          <h3 className="font-pixel text-lg font-bold text-retro-black">Did You Know?</h3>
         </div>
-      )}
+        <p className="text-retro-black font-pixel mb-2">{fact?.fact}</p>
+        {fact?.source && (
+          <p className="text-retro-gray text-sm font-pixel italic">Source: {fact.source}</p>
+        )}
+        <Button
+          variant="ghost"
+          className="mt-2 text-retro-black hover:text-retro-gray font-pixel"
+          onClick={() => setCurrentFact((prev) => (prev + 1) % facts.length)}
+        >
+          Next Fact <ArrowRight className="ml-2 h-4 w-4" />
+        </Button>
+      </div>
 
-      {/* Quote Section */}
-      {quote && (
-        <div
-          className={cn(
-            "p-4 rounded-md border-2 border-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)] transition-all duration-300",
-            colors.bg,
-          )}
-        >
-          <div className="flex items-start gap-3">
-            <Quote className={cn("h-6 w-6 mt-1", colors.text)} />
-            <div>
-              <h3 className="font-bold pixel-font text-lg mb-1">Inspiration</h3>
-              <p className="text-sm font-medium italic mb-1">"{quote.quote}"</p>
-              <p className="text-xs text-right">— {quote.author}</p>
-            </div>
-          </div>
+      {/* Quotes Section */}
+      <div className="border-4 border-retro-black bg-retro-white shadow-pixel p-4">
+        <div className="flex items-center gap-2 mb-3">
+          <Quote className={cn("h-5 w-5", getCategoryColors())} />
+          <h3 className="font-pixel text-lg font-bold text-retro-black">Quote of the Day</h3>
         </div>
-      )}
+        <blockquote className="text-retro-black font-pixel mb-2">
+          "{quote?.quote}"
+        </blockquote>
+        <p className="text-retro-gray text-sm font-pixel italic">- {quote?.author}</p>
+        <Button
+          variant="ghost"
+          className="mt-2 text-retro-black hover:text-retro-gray font-pixel"
+          onClick={() => setCurrentQuote((prev) => (prev + 1) % quotes.length)}
+        >
+          Next Quote <ArrowRight className="ml-2 h-4 w-4" />
+        </Button>
+      </div>
 
-      {/* Goal Section */}
-      {goal && (
-        <div
-          className={cn(
-            "p-4 rounded-md border-2 border-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)] transition-all duration-300",
-            colors.bg,
-          )}
-        >
-          <div className="flex items-start gap-3">
-            <Target className={cn("h-6 w-6 mt-1", colors.text)} />
-            <div>
-              <h3 className="font-bold pixel-font text-lg mb-1">Goal Suggestion</h3>
-              <p className="text-sm font-bold mb-1">{goal.goal}</p>
-              <p className="text-sm">{goal.description}</p>
-              <Button
-                variant="outline"
-                size="sm"
-                className={cn("mt-2 border-2 border-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)]", colors.bg)}
-              >
-                Add to My Goals <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </div>
-          </div>
+      {/* Goals Section */}
+      <div className="border-4 border-retro-black bg-retro-white shadow-pixel p-4">
+        <div className="flex items-center gap-2 mb-3">
+          <Target className={cn("h-5 w-5", getCategoryColors())} />
+          <h3 className="font-pixel text-lg font-bold text-retro-black">Daily Goal</h3>
         </div>
-      )}
+        <h4 className="text-retro-black font-pixel font-bold mb-1">{goal?.goal}</h4>
+        <p className="text-retro-gray text-sm font-pixel">{goal?.description}</p>
+        <Button
+          variant="ghost"
+          className="mt-2 text-retro-black hover:text-retro-gray font-pixel"
+          onClick={() => setCurrentGoal((prev) => (prev + 1) % goals.length)}
+        >
+          Next Goal <ArrowRight className="ml-2 h-4 w-4" />
+        </Button>
+      </div>
     </div>
   )
 }

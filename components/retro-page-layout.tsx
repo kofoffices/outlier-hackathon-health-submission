@@ -61,124 +61,124 @@ export function RetroPageLayout({ children, title, icon }: RetroPageLayoutProps)
   const getIconComponent = () => {
     switch (icon) {
       case "mood":
-        return <Heart className="h-6 w-6 text-pink-500" />
+        return <Heart className="h-6 w-6 text-retro-pink" />
       case "hydration":
-        return <Droplet className="h-6 w-6 text-blue-500" />
+        return <Droplet className="h-6 w-6 text-retro-blue" />
       case "sleep":
-        return <Moon className="h-6 w-6 text-indigo-500" />
+        return <Moon className="h-6 w-6 text-retro-purple" />
       case "nutrition":
-        return <Apple className="h-6 w-6 text-green-500" />
+        return <Apple className="h-6 w-6 text-retro-green" />
       case "fitness":
-        return <Dumbbell className="h-6 w-6 text-purple-500" />
+        return <Dumbbell className="h-6 w-6 text-retro-orange" />
       case "weight":
-        return <Scale className="h-6 w-6 text-teal-500" />
+        return <Scale className="h-6 w-6 text-retro-yellow" />
       case "mental":
-        return <Brain className="h-6 w-6 text-rose-500" />
+        return <Brain className="h-6 w-6 text-retro-red" />
       case "breathing":
-        return <Wind className="h-6 w-6 text-blue-500" />
+        return <Wind className="h-6 w-6 text-retro-blue" />
       case "stretching":
-        return <Stretch className="h-6 w-6 text-amber-500" />
+        return <Stretch className="h-6 w-6 text-retro-orange" />
       default:
-        return <Heart className="h-6 w-6 text-pink-500" />
+        return <Heart className="h-6 w-6 text-retro-pink" />
     }
   }
 
   const getHeaderColor = () => {
     switch (icon) {
       case "mood":
-        return "from-pink-300 to-pink-200 border-pink-400"
+        return "bg-retro-pink border-retro-pink"
       case "hydration":
-        return "from-blue-300 to-blue-200 border-blue-400"
+        return "bg-retro-blue border-retro-blue"
       case "sleep":
-        return "from-indigo-300 to-indigo-200 border-indigo-400"
+        return "bg-retro-purple border-retro-purple"
       case "nutrition":
-        return "from-green-300 to-green-200 border-green-400"
+        return "bg-retro-green border-retro-green"
       case "fitness":
-        return "from-purple-300 to-purple-200 border-purple-400"
+        return "bg-retro-orange border-retro-orange"
       case "weight":
-        return "from-teal-300 to-teal-200 border-teal-400"
+        return "bg-retro-yellow border-retro-yellow"
       case "mental":
-        return "from-rose-300 to-rose-200 border-rose-400"
+        return "bg-retro-red border-retro-red"
       case "breathing":
-        return "from-blue-300 to-blue-200 border-blue-400"
+        return "bg-retro-blue border-retro-blue"
       case "stretching":
-        return "from-amber-300 to-amber-200 border-amber-400"
+        return "bg-retro-orange border-retro-orange"
       default:
-        return "from-blue-300 to-blue-200 border-blue-400"
+        return "bg-retro-blue border-retro-blue"
     }
   }
 
   if (showLoadingScreen) {
     return (
-      <div className="fixed inset-0 flex items-center justify-center bg-gray-100">
-        <div className="w-80 p-6 bg-white border-2 border-gray-800 rounded-md shadow-[4px_4px_0px_0px_rgba(0,0,0,0.8)]">
+      <div className="fixed inset-0 flex items-center justify-center bg-retro-darkGray">
+        <div className="w-80 p-6 bg-retro-white border-4 border-retro-black rounded-none shadow-pixel">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-bold pixel-font">Loading {title}...</h2>
+            <h2 className="text-lg font-bold font-pixel text-retro-black">Loading {title}...</h2>
             <div className="flex space-x-1">
-              <div className="w-3 h-3 bg-yellow-400 border border-yellow-600 rounded-sm"></div>
-              <div className="w-3 h-3 bg-green-400 border border-green-600 rounded-sm"></div>
-              <div className="w-3 h-3 bg-red-400 border border-red-600 rounded-sm"></div>
+              <div className="w-3 h-3 bg-window-minimize border-2 border-retro-black rounded-none"></div>
+              <div className="w-3 h-3 bg-window-maximize border-2 border-retro-black rounded-none"></div>
+              <div className="w-3 h-3 bg-window-close border-2 border-retro-black rounded-none"></div>
             </div>
           </div>
-          <div className="w-full h-5 bg-gray-200 border-2 border-gray-800 rounded-sm overflow-hidden">
+          <div className="w-full h-5 bg-retro-lightGray border-4 border-retro-black rounded-none overflow-hidden">
             <div
-              className="h-full bg-blue-500 transition-all duration-200"
+              className="h-full bg-retro-blue transition-all duration-200"
               style={{ width: `${loadingProgress}%` }}
             ></div>
           </div>
-          <div className="mt-2 text-right text-sm font-bold">{loadingProgress}%</div>
+          <div className="mt-2 text-right text-sm font-pixel text-retro-black">{loadingProgress}%</div>
         </div>
       </div>
     )
   }
 
   return (
-    <div className={cn("transition-all duration-300 p-4", isFullscreen ? "fixed inset-0 z-50 bg-gray-100" : "")}>
+    <div className={cn("transition-all duration-300 p-4", isFullscreen ? "fixed inset-0 z-50 bg-retro-darkGray" : "")}>
       <div
         className={cn(
-          "retro-window flex flex-col rounded-md border-2 border-gray-800 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.9)] transition-all duration-200 bg-white",
+          "retro-window flex flex-col rounded-none border-4 border-retro-black shadow-pixel transition-all duration-200 bg-retro-white",
           isFullscreen ? "h-full" : "",
           isMinimized ? "h-12 overflow-hidden" : "",
         )}
       >
         <div
           className={cn(
-            "retro-window-header flex items-center justify-between px-4 py-2 border-b-2 border-gray-800 bg-gradient-to-r",
+            "retro-window-header flex items-center justify-between px-4 py-2 border-b-4 border-retro-black",
             getHeaderColor(),
           )}
         >
           <div className="flex items-center gap-2">
             {getIconComponent()}
-            <div className="retro-window-title font-bold text-gray-800 text-lg pixel-font">{title}</div>
+            <div className="retro-window-title font-bold text-retro-black text-lg font-pixel">{title}</div>
           </div>
           <div className="retro-window-controls flex gap-2">
             <button
               onClick={toggleMinimize}
-              className="retro-window-button w-6 h-6 flex items-center justify-center bg-yellow-400 border-2 border-yellow-600 rounded-sm hover:bg-yellow-300 transition-colors"
+              className="retro-window-button w-6 h-6 flex items-center justify-center bg-window-minimize border-2 border-retro-black rounded-none hover:bg-opacity-80 transition-colors"
             >
               {isMinimized ? (
-                <Maximize2 className="h-3 w-3 text-yellow-800" />
+                <Maximize2 className="h-3 w-3 text-retro-black" />
               ) : (
-                <Minimize2 className="h-3 w-3 text-yellow-800" />
+                <Minimize2 className="h-3 w-3 text-retro-black" />
               )}
             </button>
             <button
               onClick={toggleFullscreen}
-              className="retro-window-button w-6 h-6 flex items-center justify-center bg-green-400 border-2 border-green-600 rounded-sm hover:bg-green-300 transition-colors"
+              className="retro-window-button w-6 h-6 flex items-center justify-center bg-window-maximize border-2 border-retro-black rounded-none hover:bg-opacity-80 transition-colors"
             >
-              <Maximize2 className="h-3 w-3 text-green-800" />
+              <Maximize2 className="h-3 w-3 text-retro-black" />
             </button>
             <button
               onClick={() => window.history.back()}
-              className="retro-window-button w-6 h-6 flex items-center justify-center bg-red-400 border-2 border-red-600 rounded-sm hover:bg-red-300 transition-colors"
+              className="retro-window-button w-6 h-6 flex items-center justify-center bg-window-close border-2 border-retro-black rounded-none hover:bg-opacity-80 transition-colors"
             >
-              <X className="h-3 w-3 text-red-800" />
+              <X className="h-3 w-3 text-retro-black" />
             </button>
           </div>
         </div>
         <div
           className={cn(
-            "retro-window-content flex-1 p-6 bg-white bg-opacity-80 backdrop-blur-sm overflow-auto",
+            "retro-window-content flex-1 p-6 bg-retro-white overflow-auto",
             isMinimized ? "hidden" : "",
           )}
         >
