@@ -1,13 +1,23 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  SmilePlus,
+  Smile,
+  Meh,
+  Frown,
+  FrownIcon as FrownPlus,
+  CalendarDays,
+  Info,
+  TrendingUp,
+  Heart,
+} from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { SmilePlus, Smile, Meh, Frown, FrownIcon as FrownPlus, CalendarDays, Info, TrendingUp } from "lucide-react"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { useToast } from "@/components/ui/use-toast"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible"
+import { RetroWindow } from "@/components/ui/retro-window"
 import React from "react"
 
 const moods = [
@@ -64,36 +74,9 @@ const moodCorrelations = [
   { metric: "Screen Time", correlation: -0.56, description: "Moderate negative correlation" },
 ]
 
-function Heart(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-    </svg>
-  )
-}
-
-type CalendarDay = {
-  date: Date | null
-  mood: number | null
-}
-
 export function MoodTracker() {
   const [selectedMood, setSelectedMood] = useState<number | null>(null)
-  const [days, setDays] = useState<CalendarDay[]>(generateCalendarDays().map(day => ({
-    ...day,
-    mood: day.mood as number | null
-  })))
+  const [days, setDays] = useState(generateCalendarDays())
   const [activeDay, setActiveDay] = useState<number | null>(null)
   const [isPopoverOpen, setIsPopoverOpen] = useState(false)
   const [showInsights, setShowInsights] = useState(false)
@@ -103,8 +86,8 @@ export function MoodTracker() {
     y: 0,
     active: false,
   })
-  const dayRefs = useRef<Array<HTMLDivElement | null>>([])
-  const moodButtonRefs = useRef<Array<HTMLButtonElement | null>>([])
+  const dayRefs = useRef<(HTMLDivElement | null)[]>([])
+  const moodButtonRefs = useRef<(HTMLButtonElement | null)[]>([])
   const { toast } = useToast()
 
   // Load saved moods from localStorage
@@ -157,9 +140,8 @@ export function MoodTracker() {
   // Save moods to localStorage when they change
   const saveMoodForDay = (dayIndex: number, moodIndex: number) => {
     const updatedDays = [...days]
-
     if (updatedDays[dayIndex].date) {
-      updatedDays[dayIndex].mood = moodIndex
+      updatedDays[dayIndex].mood = moodIndex as number | null 
       setDays(updatedDays)
 
       // Save to localStorage
@@ -247,249 +229,226 @@ export function MoodTracker() {
     }
   }
 
-  // Fix ref callbacks
-  const setDayRef = (el: HTMLDivElement | null, index: number) => {
-    dayRefs.current[index] = el
-  }
-
-  const setMoodButtonRef = (el: HTMLButtonElement | null, index: number) => {
-    moodButtonRefs.current[index] = el
-  }
-
   return (
-    <Card className="shadow-sm hover:shadow-md transition-all duration-200 group">
-      <CardHeader className="pb-2">
-        <CardTitle className="text-lg font-medium flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Heart className="h-5 w-5 text-pink-500" />
-            Mood Tracker
+    <RetroWindow
+      title="Mood Tracker"
+      icon={<Heart className="h-4 w-4 text-pink-500" />}
+      variant="pink"
+      className="transition-all duration-200 group"
+    >
+      <div className="flex justify-between mb-4">
+        {moods.map((mood, index) => {
+          const Icon = mood.icon
+          return (
+            <Button
+              key={mood.label}
+              ref={(el) => (moodButtonRefs.current[index] = el)}
+              variant="outline"
+              className={`relative overflow-hidden flex flex-col items-center p-2 transition-all duration-200 hover:scale-[1.08] focus:outline-none border-2 border-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)] ${
+                selectedMood === index ? "bg-pink-100 ring-2 ring-pink-400" : "hover:bg-pink-100"
+              } ${activeMoodButton === index ? "animate-pulse" : ""}`}
+              onClick={(e) => handleMoodButtonClick(index, e)}
+            >
+              {rippleEffect.active && activeMoodButton === index && (
+                <span
+                  className="absolute bg-pink-300 opacity-70 rounded-full animate-ripple"
+                  style={{
+                    left: rippleEffect.x + "px",
+                    top: rippleEffect.y + "px",
+                    transform: "translate(-50%, -50%)",
+                  }}
+                />
+              )}
+              <Icon className={`h-8 w-8 ${mood.color} transition-transform duration-200 hover:scale-110`} />
+              <span className="text-xs mt-1 font-bold">{mood.label}</span>
+            </Button>
+          )
+        })}
+      </div>
+
+      <Collapsible open={showInsights} onOpenChange={setShowInsights} className="mb-4">
+        <CollapsibleContent className="p-3 border-2 border-gray-800 bg-pink-100 rounded-md mb-4 animate-in slide-in-from-top-5 duration-300">
+          <h4 className="text-sm font-bold text-pink-700 mb-2 flex items-center gap-1 pixel-font">
+            <Info className="h-4 w-4" />
+            Mood Insights
+          </h4>
+
+          <div className="space-y-3">
+            {moodStats.dominantMood !== null && (
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-gray-600 font-bold">Dominant Mood:</span>
+                <div className="flex items-center gap-1">
+                  {React.createElement(moods[moodStats.dominantMood].icon, {
+                    className: `h-4 w-4 ${moods[moodStats.dominantMood].color}`,
+                  })}
+                  <span className="text-xs font-bold">{moods[moodStats.dominantMood].label}</span>
+                </div>
+              </div>
+            )}
+
+            {moodStats.averageMood !== null && (
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-gray-600 font-bold">Average Mood:</span>
+                <span className="text-xs font-bold">
+                  {moodStats.averageMood < 1.5
+                    ? "Awful to Bad"
+                    : moodStats.averageMood < 2.5
+                      ? "Bad to Okay"
+                      : moodStats.averageMood < 3.5
+                        ? "Okay to Good"
+                        : "Good to Great"}
+                </span>
+              </div>
+            )}
+
+            <div className="pt-2 border-t-2 border-pink-300">
+              <h5 className="text-xs font-bold text-pink-700 mb-1">Correlations with other metrics:</h5>
+              <div className="space-y-2">
+                {moodCorrelations.map((correlation, i) => (
+                  <div key={i} className="flex items-center justify-between">
+                    <span className="text-xs text-gray-600 font-bold">{correlation.metric}:</span>
+                    <div className="flex items-center gap-1">
+                      <div className="w-16 h-2 bg-gray-200 rounded-full overflow-hidden border border-gray-800">
+                        <div
+                          className={`h-full rounded-full ${correlation.correlation > 0 ? "bg-green-500" : "bg-red-500"}`}
+                          style={{ width: `${Math.abs(correlation.correlation) * 100}%` }}
+                        />
+                      </div>
+                      <span className="text-xs font-bold">{correlation.description}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-7 w-7 rounded-full hover:bg-pink-100 transition-colors"
-                  onClick={() => setShowInsights(!showInsights)}
-                >
-                  <TrendingUp className="h-4 w-4 text-pink-500" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>View mood insights</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="group-hover:bg-yellow-50 rounded-b-lg transition-colors duration-200">
-        <div className="flex justify-between mb-4">
-          {moods.map((mood, index) => {
-            const Icon = mood.icon
-            return (
-              <Button
-                key={mood.label}
-                ref={(el) => setMoodButtonRef(el, index)}
-                variant="ghost"
-                className={`relative overflow-hidden flex flex-col items-center p-2 transition-all duration-200 hover:scale-[1.08] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-200 ${
-                  selectedMood === index ? "bg-yellow-100 ring-2 ring-yellow-200" : "hover:bg-yellow-100"
-                } ${activeMoodButton === index ? "animate-pulse" : ""}`}
-                onClick={(e) => handleMoodButtonClick(index, e)}
+        </CollapsibleContent>
+      </Collapsible>
+
+      <div className="mt-4">
+        <div className="flex items-center justify-between mb-2">
+          <h4 className="text-sm font-bold text-gray-700 flex items-center gap-1 pixel-font">
+            <CalendarDays className="h-4 w-4" />
+            {new Date().toLocaleString("default", { month: "long", year: "numeric" })}
+          </h4>
+          <Button
+            variant="outline"
+            size="sm"
+            className="border-2 border-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)] hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,0.8)] hover:translate-y-[1px] hover:translate-x-[1px] bg-pink-200 hover:bg-pink-300"
+            onClick={() => setShowInsights(!showInsights)}
+          >
+            <TrendingUp className="h-4 w-4 mr-1" />
+            Insights
+          </Button>
+        </div>
+        <div className="grid grid-cols-7 gap-1 border-2 border-gray-800 p-2 rounded-md bg-white">
+          {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
+            <div key={day} className="text-xs text-center font-bold text-gray-500">
+              {day}
+            </div>
+          ))}
+          {days.map((day, i) => {
+            const moodColors = day.mood !== null ? moods[day.mood].bgColor : "bg-gray-100"
+            const hoverColors = day.mood !== null ? moods[day.mood].hoverColor : "hover:bg-gray-200"
+            return day.date ? (
+              <Popover
+                key={i}
+                open={isPopoverOpen && activeDay === i}
+                onOpenChange={(open) => {
+                  setIsPopoverOpen(open)
+                  if (open) setActiveDay(i)
+                }}
               >
-                {rippleEffect.active && activeMoodButton === index && (
-                  <span
-                    className="absolute bg-yellow-300 opacity-70 rounded-full animate-ripple"
-                    style={{
-                      left: rippleEffect.x + "px",
-                      top: rippleEffect.y + "px",
-                      transform: "translate(-50%, -50%)",
-                    }}
-                  />
-                )}
-                <Icon className={`h-8 w-8 ${mood.color} transition-transform duration-200 hover:scale-110`} />
-                <span className="text-xs mt-1 font-medium">{mood.label}</span>
-              </Button>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <PopoverTrigger asChild>
+                        <div
+                          ref={(el) => (dayRefs.current[i] = el)}
+                          className={`aspect-square rounded-sm ${moodColors} ${hoverColors} hover:opacity-90 cursor-pointer transition-all duration-200 hover:scale-[1.1] focus:outline-none border border-gray-800 shadow-[1px_1px_0px_0px_rgba(0,0,0,0.8)]`}
+                          title={
+                            day.date
+                              ? `${day.date.toLocaleDateString()}: ${
+                                  day.mood !== null ? moods[day.mood].label : "No mood set"
+                                }`
+                              : ""
+                          }
+                          onClick={() => {
+                            setActiveDay(i)
+                            setIsPopoverOpen(true)
+                          }}
+                          onKeyDown={(e) => handleKeyDown(e, i)}
+                          tabIndex={0}
+                          role="button"
+                          aria-label={`Select mood for ${day.date.toLocaleDateString()}`}
+                        >
+                          <div className="flex items-center justify-center h-full">
+                            <span className="text-xs font-bold">{day.date.getDate()}</span>
+                            {day.mood !== null && (
+                              <span className="absolute bottom-0.5 right-0.5">
+                                {React.createElement(moods[day.mood].icon, { className: "h-2.5 w-2.5" })}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </PopoverTrigger>
+                    </TooltipTrigger>
+                    <TooltipContent side="bottom" className="p-2 text-xs border-2 border-gray-800">
+                      <p className="font-bold">{day.date.toLocaleDateString()}</p>
+                      {day.mood !== null ? (
+                        <div className="flex items-center gap-1 mt-1">
+                          <span>Mood:</span>
+                          {React.createElement(moods[day.mood].icon, {
+                            className: `h-3.5 w-3.5 ${moods[day.mood].color}`,
+                          })}
+                          <span>{moods[day.mood].label}</span>
+                        </div>
+                      ) : (
+                        <p className="italic mt-1">No mood recorded</p>
+                      )}
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+                <PopoverContent
+                  className="w-auto p-2 border-2 border-gray-800 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.8)]"
+                  align="center"
+                >
+                  <div className="flex gap-1">
+                    {moods.map((mood, moodIndex) => {
+                      const Icon = mood.icon
+                      return (
+                        <Button
+                          key={mood.label}
+                          variant="outline"
+                          size="sm"
+                          className={`relative overflow-hidden p-1 hover:bg-gray-100 transition-all duration-150 border-2 border-gray-800 ${
+                            day.mood === moodIndex ? "bg-gray-100 ring-2 ring-gray-400" : ""
+                          }`}
+                          onClick={(e) => handleMoodSelection(moodIndex, e)}
+                          aria-label={`Set mood to ${mood.label}`}
+                        >
+                          {rippleEffect.active && activeDay === i && (
+                            <span
+                              className="absolute bg-gray-200 opacity-70 rounded-full animate-ripple"
+                              style={{
+                                left: rippleEffect.x + "px",
+                                top: rippleEffect.y + "px",
+                                transform: "translate(-50%, -50%)",
+                              }}
+                            />
+                          )}
+                          <Icon className={`h-6 w-6 ${mood.color} transition-transform duration-200 hover:scale-110`} />
+                        </Button>
+                      )
+                    })}
+                  </div>
+                </PopoverContent>
+              </Popover>
+            ) : (
+              <div key={i} className="aspect-square rounded-sm bg-transparent" />
             )
           })}
         </div>
-
-        <Collapsible open={showInsights} onOpenChange={setShowInsights} className="mb-4">
-          <CollapsibleContent className="p-3 bg-pink-50 rounded-lg mb-4 animate-in slide-in-from-top-5 duration-300">
-            <h4 className="text-sm font-medium text-pink-700 mb-2 flex items-center gap-1">
-              <Info className="h-4 w-4" />
-              Mood Insights
-            </h4>
-
-            <div className="space-y-3">
-              {moodStats.dominantMood !== null && (
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-gray-600">Dominant Mood:</span>
-                  <div className="flex items-center gap-1">
-                    {React.createElement(moods[moodStats.dominantMood].icon, {
-                      className: `h-4 w-4 ${moods[moodStats.dominantMood].color}`,
-                    })}
-                    <span className="text-xs font-medium">{moods[moodStats.dominantMood].label}</span>
-                  </div>
-                </div>
-              )}
-
-              {moodStats.averageMood !== null && (
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-gray-600">Average Mood:</span>
-                  <span className="text-xs font-medium">
-                    {moodStats.averageMood < 1.5
-                      ? "Awful to Bad"
-                      : moodStats.averageMood < 2.5
-                        ? "Bad to Okay"
-                        : moodStats.averageMood < 3.5
-                          ? "Okay to Good"
-                          : "Good to Great"}
-                  </span>
-                </div>
-              )}
-
-              <div className="pt-2 border-t border-pink-200">
-                <h5 className="text-xs font-medium text-pink-700 mb-1">Correlations with other metrics:</h5>
-                <div className="space-y-2">
-                  {moodCorrelations.map((correlation, i) => (
-                    <div key={i} className="flex items-center justify-between">
-                      <span className="text-xs text-gray-600">{correlation.metric}:</span>
-                      <div className="flex items-center gap-1">
-                        <div className="w-16 h-2 bg-gray-200 rounded-full overflow-hidden">
-                          <div
-                            className={`h-full rounded-full ${correlation.correlation > 0 ? "bg-green-500" : "bg-red-500"}`}
-                            style={{ width: `${Math.abs(correlation.correlation) * 100}%` }}
-                          />
-                        </div>
-                        <span className="text-xs font-medium">{correlation.description}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </CollapsibleContent>
-        </Collapsible>
-
-        <div className="mt-4">
-          <div className="flex items-center justify-between mb-2">
-            <h4 className="text-sm font-medium text-gray-700 flex items-center gap-1">
-              <CalendarDays className="h-4 w-4" />
-              {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' })}
-            </h4>
-          </div>
-          <div className="grid grid-cols-7 gap-1">
-            {["S", "M", "T", "W", "T", "F", "S"].map((day, index) => (
-              <div key={`${day}-${index}`} className="text-xs text-center font-medium text-gray-500">
-                {day}
-              </div>
-            ))}
-            {days.map((day, i) => {
-              const moodColors = day.mood !== null ? moods[day.mood].bgColor : "bg-gray-100"
-              const hoverColors = day.mood !== null ? moods[day.mood].hoverColor : "hover:bg-gray-200"
-              return day.date ? (
-                <Popover
-                  key={i}
-                  open={isPopoverOpen && activeDay === i}
-                  onOpenChange={(open) => {
-                    setIsPopoverOpen(open)
-                    if (open) setActiveDay(i)
-                  }}
-                >
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <PopoverTrigger asChild>
-                          <div
-                            ref={(el) => setDayRef(el, i)}
-                            className={`aspect-square rounded-sm ${moodColors} ${hoverColors} hover:opacity-90 cursor-pointer transition-all duration-200 hover:scale-[1.1] focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:ring-offset-2 shadow-sm hover:shadow`}
-                            title={
-                              day.date
-                                ? `${day.date.toLocaleDateString()}: ${
-                                    day.mood !== null ? moods[day.mood].label : "No mood set"
-                                  }`
-                                : ""
-                            }
-                            onClick={() => {
-                              setActiveDay(i)
-                              setIsPopoverOpen(true)
-                            }}
-                            onKeyDown={(e) => handleKeyDown(e, i)}
-                            tabIndex={0}
-                            role="button"
-                            aria-label={`Select mood for ${day.date.toLocaleDateString()}`}
-                          >
-                            <div className="flex items-center justify-center h-full">
-                              <span className="text-xs font-medium">
-                                {day.date instanceof Date ? day.date.getDate() : ''}
-                              </span>
-                              {day.mood !== null && (
-                                <span className="absolute bottom-0.5 right-0.5">
-                                  {React.createElement(moods[day.mood].icon, { className: "h-2.5 w-2.5" })}
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                        </PopoverTrigger>
-                      </TooltipTrigger>
-                      <TooltipContent side="bottom" className="p-2 text-xs">
-                        <p className="font-medium">{day.date.toLocaleDateString()}</p>
-                        {day.mood !== null ? (
-                          <div className="flex items-center gap-1 mt-1">
-                            <span>Mood:</span>
-                            {React.createElement(moods[day.mood].icon, {
-                              className: `h-3.5 w-3.5 ${moods[day.mood].color}`,
-                            })}
-                            <span>{moods[day.mood].label}</span>
-                          </div>
-                        ) : (
-                          <p className="italic mt-1">No mood recorded</p>
-                        )}
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                  <PopoverContent className="w-auto p-2" align="center">
-                    <div className="flex gap-1">
-                      {moods.map((mood, moodIndex) => {
-                        const Icon = mood.icon
-                        return (
-                          <Button
-                            key={moodIndex}
-                            variant="ghost"
-                            size="sm"
-                            className={`relative overflow-hidden ${mood.color} hover:bg-opacity-20`}
-                            onClick={(e) => handleMoodSelection(moodIndex, e)}
-                            aria-label={`Set mood to ${mood.label}`}
-                          >
-                            {rippleEffect.active && activeDay === i && (
-                              <span
-                                className="absolute bg-gray-200 opacity-70 rounded-full animate-ripple"
-                                style={{
-                                  left: rippleEffect.x + "px",
-                                  top: rippleEffect.y + "px",
-                                  transform: "translate(-50%, -50%)",
-                                }}
-                              />
-                            )}
-                            <Icon
-                              className={`h-6 w-6 ${mood.color} transition-transform duration-200 hover:scale-110`}
-                            />
-                          </Button>
-                        )
-                      })}
-                    </div>
-                  </PopoverContent>
-                </Popover>
-              ) : (
-                <div key={`empty-${i}`} className="text-xs text-center font-medium text-gray-500">
-                  {day.date ? day.date.getDate() : ""}
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      </CardContent>
-    </Card>
+      </div>
+    </RetroWindow>
   )
 }

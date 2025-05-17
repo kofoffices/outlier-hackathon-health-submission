@@ -3,7 +3,6 @@
 import type React from "react"
 
 import { useState, useEffect } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Slider } from "@/components/ui/slider"
 import { Moon } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -19,6 +18,7 @@ import {
   SheetFooter,
   SheetClose,
 } from "@/components/ui/sheet"
+import { RetroWindow } from "@/components/ui/retro-window"
 
 // Define the type for sleep data
 type SleepEntry = {
@@ -108,87 +108,86 @@ export function SleepTracker() {
   }
 
   return (
-    <Card className="shadow-sm hover:shadow-md transition-all duration-200 group">
-      <CardHeader className="pb-2">
-        <CardTitle className="text-lg font-medium flex items-center gap-2">
-          <Moon className="h-5 w-5 text-indigo-500" />
-          Sleep Tracker
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="group-hover:bg-indigo-50 rounded-b-lg transition-colors duration-200">
-        <div className="h-40 mt-2">
-          <div className="flex h-full items-end gap-2">
-            {sleepData.map((data) => (
+    <RetroWindow
+      title="Sleep Tracker"
+      icon={<Moon className="h-4 w-4 text-indigo-500" />}
+      variant="purple"
+      className="transition-all duration-200"
+    >
+      <div className="h-40 mt-2 border-2 border-gray-800 p-2 rounded-md bg-white">
+        <div className="flex h-full items-end gap-2">
+          {sleepData.map((data) => (
+            <div
+              key={data.day}
+              className="flex flex-col items-center flex-1 group/bar cursor-pointer"
+              onClick={() => openDayEditor(data)}
+            >
               <div
-                key={data.day}
-                className="flex flex-col items-center flex-1 group/bar cursor-pointer"
-                onClick={() => openDayEditor(data)}
-              >
-                <div
-                  className="w-full rounded-t-sm bg-indigo-400 group-hover/bar:bg-indigo-500 transition-all duration-200 hover:scale-y-105"
-                  style={{
-                    height: `${(data.hours / 10) * 100}%`,
-                    opacity: 0.6 + data.quality * 0.1,
-                  }}
-                />
-                <span className="text-xs font-medium mt-1 hover:text-indigo-600 transition-colors duration-200">
-                  {data.day}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="mt-6">
-          <div className="flex justify-between mb-2">
-            <span className="text-sm font-medium">Sleep Quality</span>
-            <span className="text-sm font-medium text-indigo-600">
-              {getQualityLabel(sleepData.reduce((sum, entry) => sum + entry.quality, 0) / sleepData.length)}
-            </span>
-          </div>
-          <Slider
-            value={[
-              sleepData.length > 0 ? sleepData.reduce((sum, entry) => sum + entry.quality, 0) / sleepData.length : 0,
-            ]}
-            max={5}
-            step={1}
-            className="[&>span]:bg-indigo-500 [&>span]:hover:bg-indigo-600 [&>span]:transition-colors [&>span]:duration-200 [&>span]:hover:scale-110"
-            disabled
-          />
-          <div className="flex justify-between mt-1">
-            <span className="text-xs text-gray-500">Poor</span>
-            <span className="text-xs text-gray-500">Excellent</span>
-          </div>
-        </div>
-
-        <div className="mt-4 pt-4 border-t border-gray-100">
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <p className="text-xs text-gray-500">Avg. Duration</p>
-              <p className="text-xl font-semibold text-indigo-600">
-                {avgDuration} <span className="text-sm font-normal">hrs</span>
-              </p>
+                className="w-full rounded-t-sm bg-indigo-400 border-2 border-gray-800 border-b-0 group-hover/bar:bg-indigo-500 transition-all duration-200 hover:scale-y-105"
+                style={{
+                  height: `${(data.hours / 10) * 100}%`,
+                  opacity: 0.6 + data.quality * 0.1,
+                }}
+              />
+              <span className="text-xs font-bold mt-1 hover:text-indigo-600 transition-colors duration-200">
+                {data.day}
+              </span>
             </div>
-            <div>
-              <p className="text-xs text-gray-500">Avg. Bedtime</p>
-              <p className="text-xl font-semibold text-indigo-600">{formatBedtime(avgBedtime)}</p>
-            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-6 border-2 border-gray-800 p-3 rounded-md bg-indigo-50">
+        <div className="flex justify-between mb-2">
+          <span className="text-sm font-bold">Sleep Quality</span>
+          <span className="text-sm font-bold text-indigo-600">
+            {getQualityLabel(sleepData.reduce((sum, entry) => sum + entry.quality, 0) / sleepData.length)}
+          </span>
+        </div>
+        <Slider
+          value={[
+            sleepData.length > 0 ? sleepData.reduce((sum, entry) => sum + entry.quality, 0) / sleepData.length : 0,
+          ]}
+          max={5}
+          step={1}
+          className="[&>span]:bg-indigo-500 [&>span]:hover:bg-indigo-600 [&>span]:transition-colors [&>span]:duration-200 [&>span]:hover:scale-110 [&>span]:border-2 [&>span]:border-gray-800"
+          disabled
+        />
+        <div className="flex justify-between mt-1">
+          <span className="text-xs text-gray-700 font-bold">Poor</span>
+          <span className="text-xs text-gray-700 font-bold">Excellent</span>
+        </div>
+      </div>
+
+      <div className="mt-4 pt-4 border-t-2 border-gray-300">
+        <div className="grid grid-cols-2 gap-4">
+          <div className="border-2 border-gray-800 p-2 rounded-md bg-indigo-50 hover:bg-indigo-100 transition-colors duration-200 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)]">
+            <p className="text-xs text-gray-700 font-bold">Avg. Duration</p>
+            <p className="text-xl font-bold text-indigo-600">
+              {avgDuration} <span className="text-sm font-normal">hrs</span>
+            </p>
+          </div>
+          <div className="border-2 border-gray-800 p-2 rounded-md bg-indigo-50 hover:bg-indigo-100 transition-colors duration-200 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)]">
+            <p className="text-xs text-gray-700 font-bold">Avg. Bedtime</p>
+            <p className="text-xl font-bold text-indigo-600">{formatBedtime(avgBedtime)}</p>
           </div>
         </div>
-      </CardContent>
+      </div>
 
       {/* Sheet for editing sleep data */}
       <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-        <SheetContent className="sm:max-w-md">
+        <SheetContent className="sm:max-w-md border-2 border-gray-800 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.8)]">
           <SheetHeader>
-            <SheetTitle>Edit Sleep Data</SheetTitle>
+            <SheetTitle className="font-bold">Edit Sleep Data</SheetTitle>
             <SheetDescription>Update your sleep information for {selectedDay?.day || ""}</SheetDescription>
           </SheetHeader>
 
           {editedEntry && (
             <div className="py-6 space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="hours">Sleep Duration (hours)</Label>
+                <Label htmlFor="hours" className="font-bold">
+                  Sleep Duration (hours)
+                </Label>
                 <Input
                   id="hours"
                   name="hours"
@@ -198,43 +197,55 @@ export function SleepTracker() {
                   max="24"
                   value={editedEntry.hours}
                   onChange={handleInputChange}
+                  className="border-2 border-gray-800"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="bedtime">Bedtime</Label>
+                <Label htmlFor="bedtime" className="font-bold">
+                  Bedtime
+                </Label>
                 <Input
                   id="bedtime"
                   name="bedtime"
                   type="time"
                   value={editedEntry.bedtime}
                   onChange={handleInputChange}
+                  className="border-2 border-gray-800"
                 />
               </div>
 
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <Label>Sleep Quality</Label>
-                  <span className="text-sm text-indigo-600">{getQualityLabel(editedEntry.quality)}</span>
+                  <Label className="font-bold">Sleep Quality</Label>
+                  <span className="text-sm text-indigo-600 font-bold">{getQualityLabel(editedEntry.quality)}</span>
                 </div>
                 <Slider
                   value={[editedEntry.quality]}
                   onValueChange={handleQualityChange}
                   max={5}
                   step={1}
-                  className="[&>span]:bg-indigo-500 [&>span]:hover:bg-indigo-600 [&>span]:transition-colors [&>span]:duration-200 [&>span]:hover:scale-110"
+                  className="[&>span]:bg-indigo-500 [&>span]:hover:bg-indigo-600 [&>span]:transition-colors [&>span]:duration-200 [&>span]:hover:scale-110 [&>span]:border-2 [&>span]:border-gray-800"
                 />
                 <div className="flex justify-between">
-                  <span className="text-xs text-gray-500">Poor</span>
-                  <span className="text-xs text-gray-500">Excellent</span>
+                  <span className="text-xs text-gray-700 font-bold">Poor</span>
+                  <span className="text-xs text-gray-700 font-bold">Excellent</span>
                 </div>
               </div>
 
               <SheetFooter>
                 <SheetClose asChild>
-                  <Button variant="outline">Cancel</Button>
+                  <Button
+                    variant="outline"
+                    className="border-2 border-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)]"
+                  >
+                    Cancel
+                  </Button>
                 </SheetClose>
-                <Button onClick={saveEntry} className="bg-indigo-500 hover:bg-indigo-600">
+                <Button
+                  onClick={saveEntry}
+                  className="bg-indigo-500 hover:bg-indigo-600 border-2 border-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)]"
+                >
                   Save Changes
                 </Button>
               </SheetFooter>
@@ -242,7 +253,7 @@ export function SleepTracker() {
           )}
         </SheetContent>
       </Sheet>
-    </Card>
+    </RetroWindow>
   )
 }
 

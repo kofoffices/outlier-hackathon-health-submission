@@ -1,11 +1,11 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Wind, Play, Pause, CheckCircle } from "lucide-react"
 import { useHealth } from "@/components/health-provider"
 import { motion, AnimatePresence } from "framer-motion"
+import { RetroWindow } from "@/components/ui/retro-window"
 
 export function BreathingExercise() {
   const { addBreathingSession, getLastBreathingSession } = useHealth()
@@ -125,85 +125,81 @@ export function BreathingExercise() {
   }
 
   return (
-    <Card className="shadow-sm hover:shadow-md transition-all duration-200 group">
-      <CardHeader className="pb-2">
-        <CardTitle className="text-lg font-medium flex items-center gap-2">
-          <Wind className="h-5 w-5 text-blue-500" />
-          Breathing Exercise
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="group-hover:bg-blue-50 rounded-b-lg transition-colors duration-200">
-        <div className="flex flex-col items-center justify-center py-4">
-          <div className="relative flex items-center justify-center mb-6" style={{ height: "150px" }}>
-            <AnimatePresence mode="wait">
-              {showSuccess ? (
-                <motion.div
-                  key="success"
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0, opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="absolute"
-                >
-                  <CheckCircle className="h-24 w-24 text-green-500" />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="circle"
-                  initial={{ scale: 0.8 }}
-                  animate={{ scale: 1 }}
-                  className="absolute rounded-full border-4 transition-all duration-200"
-                  style={{
-                    width: `${getCircleSize()}px`,
-                    height: `${getCircleSize()}px`,
-                    borderColor:
-                      phase === "inhale"
-                        ? "#60A5FA" // blue-400
-                        : phase === "hold"
-                          ? "#A78BFA" // purple-400
-                          : "#2DD4BF", // teal-400
-                  }}
-                />
-              )}
-            </AnimatePresence>
-            {!showSuccess && <div className={`text-2xl font-semibold ${getColor()}`}>{getInstructions()}</div>}
-          </div>
-
-          <p className="text-sm text-gray-500 mb-4">{isActive ? getDuration() : "4-7-8 Breathing Technique"}</p>
-
-          <Button
-            onClick={toggleActive}
-            className={`hover:scale-[1.03] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
-              isActive
-                ? "bg-red-500 hover:bg-red-600 focus:ring-red-200"
-                : "bg-blue-500 hover:bg-blue-600 focus:ring-blue-200"
-            }`}
-          >
-            {isActive ? (
-              <>
-                <Pause className="h-4 w-4 mr-2" /> Stop Exercise ({formatTime(sessionDuration)})
-              </>
+    <RetroWindow
+      title="Breathing Exercise"
+      icon={<Wind className="h-4 w-4 text-blue-500" />}
+      variant="teal"
+      className="transition-all duration-200"
+    >
+      <div className="flex flex-col items-center justify-center py-4">
+        <div className="relative flex items-center justify-center mb-6" style={{ height: "150px" }}>
+          <AnimatePresence mode="wait">
+            {showSuccess ? (
+              <motion.div
+                key="success"
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0, opacity: 0 }}
+                transition={{ duration: 0.5 }}
+                className="absolute"
+              >
+                <CheckCircle className="h-24 w-24 text-green-500" />
+              </motion.div>
             ) : (
-              <>
-                <Play className="h-4 w-4 mr-2" /> Start Exercise
-              </>
+              <motion.div
+                key="circle"
+                initial={{ scale: 0.8 }}
+                animate={{ scale: 1 }}
+                className="absolute rounded-full border-4 border-gray-800 transition-all duration-200"
+                style={{
+                  width: `${getCircleSize()}px`,
+                  height: `${getCircleSize()}px`,
+                  borderColor:
+                    phase === "inhale"
+                      ? "#60A5FA" // blue-400
+                      : phase === "hold"
+                        ? "#A78BFA" // purple-400
+                        : "#2DD4BF", // teal-400
+                }}
+              />
             )}
-          </Button>
-
-          {!isActive && !showSuccess && (
-            <div className="mt-4 text-sm text-gray-600">
-              <p className="mb-1">• Inhale through your nose for 4 seconds</p>
-              <p className="mb-1">• Hold your breath for 7 seconds</p>
-              <p>• Exhale through your mouth for 8 seconds</p>
-            </div>
-          )}
+          </AnimatePresence>
+          {!showSuccess && <div className={`text-2xl font-bold ${getColor()}`}>{getInstructions()}</div>}
         </div>
-      </CardContent>
+
+        <p className="text-sm text-gray-700 mb-4 font-bold">{isActive ? getDuration() : "4-7-8 Breathing Technique"}</p>
+
+        <Button
+          onClick={toggleActive}
+          className={`hover:scale-[1.03] transition-all duration-200 border-2 border-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)] hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,0.8)] hover:translate-y-[1px] hover:translate-x-[1px] ${
+            isActive ? "bg-red-500 hover:bg-red-600" : "bg-teal-500 hover:bg-teal-600"
+          }`}
+        >
+          {isActive ? (
+            <>
+              <Pause className="h-4 w-4 mr-2" /> Stop Exercise ({formatTime(sessionDuration)})
+            </>
+          ) : (
+            <>
+              <Play className="h-4 w-4 mr-2" /> Start Exercise
+            </>
+          )}
+        </Button>
+
+        {!isActive && !showSuccess && (
+          <div className="mt-4 text-sm text-gray-700 font-bold border-2 border-gray-800 p-3 rounded-md bg-teal-50">
+            <p className="mb-1">• Inhale through your nose for 4 seconds</p>
+            <p className="mb-1">• Hold your breath for 7 seconds</p>
+            <p>• Exhale through your mouth for 8 seconds</p>
+          </div>
+        )}
+      </div>
+
       {lastSession && (
-        <CardFooter className="text-xs text-gray-500 pt-0">
+        <div className="text-xs text-gray-700 pt-2 border-t-2 border-gray-300 mt-2 font-bold">
           Last session: {formatTime(lastSession.duration)} on {formatDate(lastSession.date)}
-        </CardFooter>
+        </div>
       )}
-    </Card>
+    </RetroWindow>
   )
 }

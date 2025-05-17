@@ -3,7 +3,6 @@
 import type React from "react"
 
 import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Button } from "@/components/ui/button"
 import { Dumbbell, Timer, Plus } from "lucide-react"
@@ -20,6 +19,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useToast } from "@/components/ui/use-toast"
+import { RetroWindow } from "@/components/ui/retro-window"
 
 export function FitnessChecklist() {
   const { exercises, addExercise, toggleExercise } = useHealth()
@@ -70,110 +70,110 @@ export function FitnessChecklist() {
 
   return (
     <>
-      <Card className="shadow-sm hover:shadow-md transition-all duration-200 group">
-        <CardHeader className="pb-2">
-          <CardTitle className="text-lg font-medium flex items-center gap-2">
-            <Dumbbell className="h-5 w-5 text-purple-500" />
-            Fitness Checklist
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="group-hover:bg-purple-50 rounded-b-lg transition-colors duration-200">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <p className="text-sm text-gray-500">Today's Progress</p>
-              <p className="text-lg font-semibold">
-                {completedCount} <span className="text-gray-500">/ {totalCount} exercises</span>
+      <RetroWindow
+        title="Fitness Checklist"
+        icon={<Dumbbell className="h-4 w-4 text-purple-500" />}
+        variant="purple"
+        className="transition-all duration-200"
+      >
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <p className="text-sm text-gray-700 font-bold">Today's Progress</p>
+            <p className="text-lg font-bold">
+              {completedCount} <span className="text-gray-500">/ {totalCount} exercises</span>
+            </p>
+          </div>
+          <Button
+            size="sm"
+            variant="outline"
+            className="border-2 border-gray-800 text-purple-600 bg-purple-100 hover:bg-purple-200 hover:scale-[1.03] transition-all duration-200 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)] hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,0.8)] hover:translate-y-[1px] hover:translate-x-[1px]"
+            onClick={() => setIsSheetOpen(true)}
+          >
+            <Plus className="h-4 w-4 mr-1" />
+            Add Exercise
+          </Button>
+        </div>
+
+        <div className="w-full bg-gray-200 rounded-full h-2.5 mb-4 border-2 border-gray-800">
+          <div
+            className="bg-purple-500 h-2.5 rounded-full transition-all duration-500"
+            style={{ width: `${progressPercentage}%` }}
+          />
+        </div>
+
+        <div className="space-y-3">
+          {exercises.map((exercise) => (
+            <div
+              key={exercise.id}
+              className={`flex items-center justify-between p-3 rounded-md border-2 border-gray-800 transition-all duration-200 hover:scale-[1.02] shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)] ${
+                exercise.completed ? "bg-purple-50 hover:bg-purple-100" : "bg-white hover:bg-purple-50"
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <Checkbox
+                  checked={exercise.completed}
+                  onCheckedChange={() => toggleExercise(exercise.id)}
+                  className="border-2 border-purple-300 data-[state=checked]:bg-purple-500 focus:ring-2 focus:ring-purple-200 focus:ring-offset-2 h-5 w-5"
+                />
+                <div>
+                  <p className={`font-bold ${exercise.completed ? "line-through text-gray-500" : ""}`}>
+                    {exercise.name}
+                  </p>
+                  <p className="text-xs text-gray-700">{exercise.description}</p>
+                </div>
+              </div>
+              <div className="flex items-center text-sm text-gray-700 font-bold">
+                <Timer className="h-3.5 w-3.5 mr-1" />
+                {exercise.duration} min
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-4 pt-4 border-t-2 border-gray-300">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="border-2 border-gray-800 p-2 rounded-md bg-purple-50 hover:bg-purple-100 transition-colors duration-200 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)]">
+              <p className="text-xs text-gray-700 font-bold">Weekly Goal</p>
+              <p className="text-lg font-bold text-purple-600">
+                4 <span className="text-sm font-normal">/ 7 days</span>
               </p>
             </div>
-            <Button
-              size="sm"
-              variant="outline"
-              className="border-purple-200 text-purple-600 hover:bg-purple-100 hover:scale-[1.03] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-200 focus:ring-offset-2"
-              onClick={() => setIsSheetOpen(true)}
-            >
-              <Plus className="h-4 w-4 mr-1" />
-              Add Exercise
-            </Button>
-          </div>
-
-          <div className="w-full bg-gray-200 rounded-full h-2.5 mb-4">
-            <div
-              className="bg-purple-500 h-2.5 rounded-full transition-all duration-500"
-              style={{ width: `${progressPercentage}%` }}
-            />
-          </div>
-
-          <div className="space-y-3">
-            {exercises.map((exercise) => (
-              <div
-                key={exercise.id}
-                className={`flex items-center justify-between p-3 rounded-lg border transition-all duration-200 hover:scale-[1.02] ${
-                  exercise.completed
-                    ? "bg-purple-50 border-purple-200 group-hover:bg-purple-100"
-                    : "bg-white border-gray-200"
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <Checkbox
-                    checked={exercise.completed}
-                    onCheckedChange={() => toggleExercise(exercise.id)}
-                    className="border-purple-300 data-[state=checked]:bg-purple-500 focus:ring-2 focus:ring-purple-200 focus:ring-offset-2"
-                  />
-                  <div>
-                    <p className={`font-medium ${exercise.completed ? "line-through text-gray-500" : ""}`}>
-                      {exercise.name}
-                    </p>
-                    <p className="text-xs text-gray-500">{exercise.description}</p>
-                  </div>
-                </div>
-                <div className="flex items-center text-sm text-gray-500">
-                  <Timer className="h-3.5 w-3.5 mr-1" />
-                  {exercise.duration} min
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-4 pt-4 border-t border-gray-100">
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <p className="text-xs text-gray-500">Weekly Goal</p>
-                <p className="text-lg font-semibold text-purple-600">
-                  4 <span className="text-sm font-normal">/ 7 days</span>
-                </p>
-              </div>
-              <div>
-                <p className="text-xs text-gray-500">Calories Burned</p>
-                <p className="text-lg font-semibold text-purple-600">
-                  320 <span className="text-sm font-normal">kcal</span>
-                </p>
-              </div>
+            <div className="border-2 border-gray-800 p-2 rounded-md bg-purple-50 hover:bg-purple-100 transition-colors duration-200 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)]">
+              <p className="text-xs text-gray-700 font-bold">Calories Burned</p>
+              <p className="text-lg font-bold text-purple-600">
+                320 <span className="text-sm font-normal">kcal</span>
+              </p>
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </RetroWindow>
 
       <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-        <SheetContent className="sm:max-w-md">
+        <SheetContent className="sm:max-w-md border-2 border-gray-800 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.8)]">
           <SheetHeader>
-            <SheetTitle>Add Exercise</SheetTitle>
+            <SheetTitle className="font-bold">Add Exercise</SheetTitle>
             <SheetDescription>Add a new exercise to your fitness checklist.</SheetDescription>
           </SheetHeader>
           <form onSubmit={handleSubmit} className="space-y-6 py-6">
             <div className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="name">Exercise Name</Label>
+                <Label htmlFor="name" className="font-bold">
+                  Exercise Name
+                </Label>
                 <Input
                   id="name"
                   name="name"
                   placeholder="e.g. Morning Run"
                   value={newExercise.name}
                   onChange={handleInputChange}
+                  className="border-2 border-gray-800"
                   required
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="duration">Duration (minutes)</Label>
+                <Label htmlFor="duration" className="font-bold">
+                  Duration (minutes)
+                </Label>
                 <Input
                   id="duration"
                   name="duration"
@@ -181,28 +181,39 @@ export function FitnessChecklist() {
                   placeholder="30"
                   value={newExercise.duration || ""}
                   onChange={handleInputChange}
+                  className="border-2 border-gray-800"
                   required
                   min="1"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="description">Description (optional)</Label>
+                <Label htmlFor="description" className="font-bold">
+                  Description (optional)
+                </Label>
                 <Input
                   id="description"
                   name="description"
                   placeholder="Brief description of the exercise"
                   value={newExercise.description}
                   onChange={handleInputChange}
+                  className="border-2 border-gray-800"
                 />
               </div>
             </div>
             <SheetFooter>
               <SheetClose asChild>
-                <Button type="button" variant="outline">
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="border-2 border-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)]"
+                >
                   Cancel
                 </Button>
               </SheetClose>
-              <Button type="submit" className="bg-purple-500 hover:bg-purple-600">
+              <Button
+                type="submit"
+                className="bg-purple-500 hover:bg-purple-600 border-2 border-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)]"
+              >
                 Add Exercise
               </Button>
             </SheetFooter>

@@ -52,56 +52,88 @@ type HealthContextType = {
 const HealthContext = createContext<HealthContextType | undefined>(undefined)
 
 export function HealthProvider({ children }: { children: React.ReactNode }) {
-  // Initialize state with default values
-  const [hydration, setHydration] = useState<HydrationData>({ cups: 3, goal: 8 })
-  const [breathingSessions, setBreathingSessions] = useState<BreathingSession[]>([])
-  const [streak, setStreak] = useState<number>(0)
-  const [meals, setMeals] = useState<MealEntry[]>([
-    { name: "Breakfast", calories: 350, time: "8:30 AM" },
-    { name: "Lunch", calories: 550, time: "12:45 PM" },
-    { name: "Snack", calories: 150, time: "3:30 PM" },
-    { name: "Dinner", calories: 400, time: "7:00 PM" },
-  ])
-  const [exercises, setExercises] = useState<ExerciseItem[]>([
-    {
-      id: 1,
-      name: "Morning Stretching",
-      duration: 10,
-      description: "Gently tilt your head to each side",
-      completed: true,
-    },
-    { id: 2, name: "Cardio Workout", duration: 30, description: "Run or jog at moderate pace", completed: false },
-    { id: 3, name: "Strength Training", duration: 45, description: "Focus on upper body", completed: false },
-    { id: 4, name: "Evening Yoga", duration: 20, description: "Relaxation poses", completed: false },
-  ])
-
-  // Load data from localStorage after mount
-  useEffect(() => {
-    const savedHydration = localStorage.getItem("hydration")
-    if (savedHydration) {
-      setHydration(JSON.parse(savedHydration))
+  // Initialize state with localStorage values or defaults
+  const [hydration, setHydration] = useState<HydrationData>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("hydration")
+      return saved ? JSON.parse(saved) : { cups: 3, goal: 8 }
     }
+    return { cups: 3, goal: 8 }
+  })
 
-    const savedBreathingSessions = localStorage.getItem("breathingSessions")
-    if (savedBreathingSessions) {
-      setBreathingSessions(JSON.parse(savedBreathingSessions))
+  const [breathingSessions, setBreathingSessions] = useState<BreathingSession[]>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("breathingSessions")
+      return saved ? JSON.parse(saved) : []
     }
+    return []
+  })
 
-    const savedStreak = localStorage.getItem("streak")
-    if (savedStreak) {
-      setStreak(Number.parseInt(savedStreak, 10))
+  const [streak, setStreak] = useState<number>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("streak")
+      return saved ? Number.parseInt(saved, 10) : 0
     }
+    return 0
+  })
 
-    const savedMeals = localStorage.getItem("meals")
-    if (savedMeals) {
-      setMeals(JSON.parse(savedMeals))
+  const [meals, setMeals] = useState<MealEntry[]>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("meals")
+      return saved
+        ? JSON.parse(saved)
+        : [
+            { name: "Breakfast", calories: 350, time: "8:30 AM" },
+            { name: "Lunch", calories: 550, time: "12:45 PM" },
+            { name: "Snack", calories: 150, time: "3:30 PM" },
+            { name: "Dinner", calories: 400, time: "7:00 PM" },
+          ]
     }
+    return [
+      { name: "Breakfast", calories: 350, time: "8:30 AM" },
+      { name: "Lunch", calories: 550, time: "12:45 PM" },
+      { name: "Snack", calories: 150, time: "3:30 PM" },
+      { name: "Dinner", calories: 400, time: "7:00 PM" },
+    ]
+  })
 
-    const savedExercises = localStorage.getItem("exercises")
-    if (savedExercises) {
-      setExercises(JSON.parse(savedExercises))
+  const [exercises, setExercises] = useState<ExerciseItem[]>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("exercises")
+      return saved
+        ? JSON.parse(saved)
+        : [
+            {
+              id: 1,
+              name: "Morning Stretching",
+              duration: 10,
+              description: "Gently tilt your head to each side",
+              completed: true,
+            },
+            {
+              id: 2,
+              name: "Cardio Workout",
+              duration: 30,
+              description: "Run or jog at moderate pace",
+              completed: false,
+            },
+            { id: 3, name: "Strength Training", duration: 45, description: "Focus on upper body", completed: false },
+            { id: 4, name: "Evening Yoga", duration: 20, description: "Relaxation poses", completed: false },
+          ]
     }
-  }, [])
+    return [
+      {
+        id: 1,
+        name: "Morning Stretching",
+        duration: 10,
+        description: "Gently tilt your head to each side",
+        completed: true,
+      },
+      { id: 2, name: "Cardio Workout", duration: 30, description: "Run or jog at moderate pace", completed: false },
+      { id: 3, name: "Strength Training", duration: 45, description: "Focus on upper body", completed: false },
+      { id: 4, name: "Evening Yoga", duration: 20, description: "Relaxation poses", completed: false },
+    ]
+  })
 
   const [searchTerm, setSearchTerm] = useState("")
 

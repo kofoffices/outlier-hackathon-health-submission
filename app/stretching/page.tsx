@@ -1,12 +1,12 @@
 import { StretchRoutine } from "@/components/widgets/stretch-routine"
+import { RetroPageLayout } from "@/components/retro-page-layout"
 
 export default function StretchingPage() {
   return (
-    <>
-      <h1 className="text-3xl font-semibold text-gray-800 mb-6">Stretch Routine</h1>
-      <div className="max-w-md mx-auto">
+    <RetroPageLayout title="Stretch Routine" icon="stretching">
+      <div className="max-w-3xl mx-auto">
         <StretchRoutine />
       </div>
-    </>
+    </RetroPageLayout>
   )
 }

@@ -3,11 +3,11 @@
 import type React from "react"
 
 import { useState, useEffect, useRef } from "react"
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { StretchVerticalIcon as Stretch, Play, Pause, Clock, GripVertical, CheckCircle } from "lucide-react"
 import { useToast } from "@/components/ui/use-toast"
 import { Progress } from "@/components/ui/progress"
+import { RetroWindow } from "@/components/ui/retro-window"
 
 // Mock data for stretch exercises
 const stretchExercises = [
@@ -139,134 +139,129 @@ export function StretchRoutine() {
   }
 
   return (
-    <Card className="shadow-sm hover:shadow-md transition-all duration-200 group">
-      <CardHeader className="pb-2">
-        <CardTitle className="text-lg font-medium flex items-center gap-2">
-          <Stretch className="h-5 w-5 text-amber-500" />
-          Stretch Routine
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="group-hover:bg-amber-50 rounded-b-lg transition-colors duration-200">
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <p className="text-sm text-gray-500">Daily Routine</p>
-            <div className="flex items-center">
-              <Clock className="h-4 w-4 text-amber-500 mr-1" />
-              <p className="font-medium">{formattedDuration} min</p>
+    <RetroWindow
+      title="Stretch Routine"
+      icon={<Stretch className="h-4 w-4 text-amber-500" />}
+      variant="amber"
+      className="transition-all duration-200"
+    >
+      <div className="flex items-center justify-between mb-4">
+        <div>
+          <p className="text-sm text-gray-700 font-bold">Daily Routine</p>
+          <div className="flex items-center">
+            <Clock className="h-4 w-4 text-amber-500 mr-1" />
+            <p className="font-bold">{formattedDuration} min</p>
+          </div>
+        </div>
+        <Button
+          className={`hover:scale-[1.03] transition-all duration-200 border-2 border-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)] hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,0.8)] hover:translate-y-[1px] hover:translate-x-[1px] ${
+            isTimerRunning ? "bg-amber-600 hover:bg-amber-700" : "bg-amber-500 hover:bg-amber-600"
+          }`}
+          onClick={toggleRoutine}
+        >
+          {isTimerRunning ? (
+            <>
+              <Pause className="h-4 w-4 mr-1" />
+              Pause Routine
+            </>
+          ) : (
+            <>
+              <Play className="h-4 w-4 mr-1" />
+              {timerSeconds > 0 ? "Resume Routine" : "Start Routine"}
+            </>
+          )}
+        </Button>
+      </div>
+
+      {/* Timer display when active */}
+      {(isTimerRunning || timerSeconds > 0) && (
+        <div className="mb-4 p-3 bg-amber-100 rounded-md border-2 border-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)]">
+          <div className="flex justify-between items-center mb-2">
+            <div>
+              <p className="text-sm font-bold text-amber-800">Current Exercise</p>
+              <p className="text-lg font-bold text-amber-900">{exercises[currentExerciseIndex]?.name || "Complete!"}</p>
+            </div>
+            <div className="text-right">
+              <p className="text-sm font-bold text-amber-800">Total Time</p>
+              <p className="text-lg font-bold text-amber-900">{formatTime(timerSeconds)}</p>
             </div>
           </div>
-          <Button
-            className={`hover:scale-[1.03] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
-              isTimerRunning
-                ? "bg-amber-600 hover:bg-amber-700 focus:ring-amber-300"
-                : "bg-amber-500 hover:bg-amber-600 focus:ring-amber-200"
+
+          {currentExerciseIndex < exercises.length && (
+            <>
+              <Progress value={exerciseProgress} className="h-2 bg-amber-200 border border-gray-800" />
+              <div className="flex justify-between mt-1">
+                <span className="text-xs text-amber-700 font-bold">
+                  {formatTime(timerSeconds % exercises[currentExerciseIndex].duration)}
+                </span>
+                <span className="text-xs text-amber-700 font-bold">
+                  {formatTime(exercises[currentExerciseIndex].duration)}
+                </span>
+              </div>
+            </>
+          )}
+
+          {timerSeconds > 0 && !isTimerRunning && (
+            <div className="mt-2 flex justify-end">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={resetRoutine}
+                className="text-amber-600 border-2 border-gray-800 bg-amber-50 hover:bg-amber-100 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)] hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,0.8)] hover:translate-y-[1px] hover:translate-x-[1px]"
+              >
+                Reset
+              </Button>
+            </div>
+          )}
+        </div>
+      )}
+
+      <div className="space-y-2 mt-4">
+        {exercises.map((exercise, index) => (
+          <div
+            key={exercise.id}
+            className={`flex items-center p-3 rounded-md border-2 border-gray-800 transition-all duration-200 hover:scale-[1.02] shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)] ${
+              index === currentExerciseIndex && isTimerRunning
+                ? "bg-amber-100 animate-pulse"
+                : activeExercise === exercise.id
+                  ? "bg-amber-50 hover:bg-amber-100"
+                  : "bg-white hover:bg-amber-50"
             }`}
-            onClick={toggleRoutine}
+            onClick={() => setActiveExercise(exercise.id === activeExercise ? null : exercise.id)}
           >
-            {isTimerRunning ? (
-              <>
-                <Pause className="h-4 w-4 mr-1" />
-                Pause Routine
-              </>
-            ) : (
-              <>
-                <Play className="h-4 w-4 mr-1" />
-                {timerSeconds > 0 ? "Resume Routine" : "Start Routine"}
-              </>
-            )}
+            <div className="mr-3 text-gray-700 cursor-move hover:text-amber-500 transition-colors duration-200">
+              <GripVertical className="h-5 w-5" />
+            </div>
+            <div className="flex-1">
+              <div className="flex justify-between">
+                <p className="font-bold">{exercise.name}</p>
+                <p className="text-sm text-gray-700 font-bold">{exercise.duration}s</p>
+              </div>
+              <p className="text-xs text-gray-700">{exercise.description}</p>
+            </div>
+            {index < currentExerciseIndex && <CheckCircle className="h-5 w-5 text-green-500 ml-2" />}
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-4 pt-4 border-t-2 border-gray-300">
+        <div className="flex justify-between items-center">
+          <p className="text-sm font-bold">Customize Routine</p>
+          <Button
+            variant="outline"
+            size="sm"
+            className="border-2 border-gray-800 text-amber-600 bg-amber-50 hover:bg-amber-100 hover:scale-[1.03] transition-all duration-200 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)] hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,0.8)] hover:translate-y-[1px] hover:translate-x-[1px]"
+          >
+            <Plus className="h-4 w-4 mr-1" />
+            Add Exercise
           </Button>
         </div>
-
-        {/* Timer display when active */}
-        {(isTimerRunning || timerSeconds > 0) && (
-          <div className="mb-4 p-3 bg-amber-100 rounded-lg">
-            <div className="flex justify-between items-center mb-2">
-              <div>
-                <p className="text-sm font-medium text-amber-800">Current Exercise</p>
-                <p className="text-lg font-semibold text-amber-900">
-                  {exercises[currentExerciseIndex]?.name || "Complete!"}
-                </p>
-              </div>
-              <div className="text-right">
-                <p className="text-sm font-medium text-amber-800">Total Time</p>
-                <p className="text-lg font-semibold text-amber-900">{formatTime(timerSeconds)}</p>
-              </div>
-            </div>
-
-            {currentExerciseIndex < exercises.length && (
-              <>
-                <Progress value={exerciseProgress} className="h-2 bg-amber-200" />
-                <div className="flex justify-between mt-1">
-                  <span className="text-xs text-amber-700">
-                    {formatTime(timerSeconds % exercises[currentExerciseIndex].duration)}
-                  </span>
-                  <span className="text-xs text-amber-700">{formatTime(exercises[currentExerciseIndex].duration)}</span>
-                </div>
-              </>
-            )}
-
-            {timerSeconds > 0 && !isTimerRunning && (
-              <div className="mt-2 flex justify-end">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={resetRoutine}
-                  className="text-amber-600 border-amber-300 hover:bg-amber-100"
-                >
-                  Reset
-                </Button>
-              </div>
-            )}
-          </div>
-        )}
-
-        <div className="space-y-2 mt-4">
-          {exercises.map((exercise, index) => (
-            <div
-              key={exercise.id}
-              className={`flex items-center p-3 rounded-lg border transition-all duration-200 hover:scale-[1.02] ${
-                index === currentExerciseIndex && isTimerRunning
-                  ? "bg-amber-100 border-amber-300 animate-pulse"
-                  : activeExercise === exercise.id
-                    ? "bg-amber-50 border-amber-200 group-hover:bg-amber-100"
-                    : "bg-white border-gray-200 hover:border-amber-200"
-              }`}
-              onClick={() => setActiveExercise(exercise.id === activeExercise ? null : exercise.id)}
-            >
-              <div className="mr-3 text-gray-400 cursor-move hover:text-amber-500 transition-colors duration-200">
-                <GripVertical className="h-5 w-5" />
-              </div>
-              <div className="flex-1">
-                <div className="flex justify-between">
-                  <p className="font-medium">{exercise.name}</p>
-                  <p className="text-sm text-gray-500">{exercise.duration}s</p>
-                </div>
-                <p className="text-xs text-gray-500">{exercise.description}</p>
-              </div>
-              {index < currentExerciseIndex && <CheckCircle className="h-5 w-5 text-green-500 ml-2" />}
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-4 pt-4 border-t border-gray-100">
-          <div className="flex justify-between items-center">
-            <p className="text-sm font-medium">Customize Routine</p>
-            <Button
-              variant="outline"
-              size="sm"
-              className="border-amber-200 text-amber-600 hover:bg-amber-100 hover:scale-[1.03] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-amber-200 focus:ring-offset-2"
-            >
-              <Plus className="h-4 w-4 mr-1" />
-              Add Exercise
-            </Button>
-          </div>
-        </div>
-      </CardContent>
+      </div>
 
       {lastRoutineTime && (
-        <CardFooter className="pt-0 text-xs text-gray-500">Last routine completed: {lastRoutineTime}</CardFooter>
+        <div className="pt-2 text-xs text-gray-700 font-bold mt-2">Last routine completed: {lastRoutineTime}</div>
       )}
-    </Card>
+    </RetroWindow>
   )
 }
 

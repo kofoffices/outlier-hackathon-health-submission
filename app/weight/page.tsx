@@ -1,12 +1,12 @@
 import { WeightTracker } from "@/components/widgets/weight-tracker"
+import { RetroPageLayout } from "@/components/retro-page-layout"
 
 export default function WeightPage() {
   return (
-    <>
-      <h1 className="text-3xl font-semibold text-gray-800 mb-6">Weight Tracker</h1>
-      <div className="max-w-md mx-auto">
+    <RetroPageLayout title="Weight Tracker" icon="weight">
+      <div className="max-w-3xl mx-auto">
         <WeightTracker />
       </div>
-    </>
+    </RetroPageLayout>
   )
 }

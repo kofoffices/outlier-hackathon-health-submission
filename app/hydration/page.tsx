@@ -1,12 +1,12 @@
 import { HydrationTracker } from "@/components/widgets/hydration-tracker"
+import { RetroPageLayout } from "@/components/retro-page-layout"
 
 export default function HydrationPage() {
   return (
-    <>
-      <h1 className="text-3xl font-semibold text-gray-800 mb-6">Hydration Tracker</h1>
-      <div className="max-w-md mx-auto">
+    <RetroPageLayout title="Hydration Tracker" icon="hydration">
+      <div className="max-w-3xl mx-auto">
         <HydrationTracker />
       </div>
-    </>
+    </RetroPageLayout>
   )
 }

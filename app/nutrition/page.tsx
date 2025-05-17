@@ -1,12 +1,12 @@
 import { NutritionTracker } from "@/components/widgets/nutrition-tracker"
+import { RetroPageLayout } from "@/components/retro-page-layout"
 
 export default function NutritionPage() {
   return (
-    <>
-      <h1 className="text-3xl font-semibold text-gray-800 mb-6">Nutrition Tracker</h1>
-      <div className="max-w-md mx-auto">
+    <RetroPageLayout title="Nutrition Tracker" icon="nutrition">
+      <div className="max-w-3xl mx-auto">
         <NutritionTracker />
       </div>
-    </>
+    </RetroPageLayout>
   )
 }

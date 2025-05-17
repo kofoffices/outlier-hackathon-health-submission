@@ -3,7 +3,6 @@
 import type React from "react"
 
 import { useState, useEffect } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Brain, Plus, Tag } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
@@ -19,6 +18,7 @@ import {
   DialogFooter,
   DialogClose,
 } from "@/components/ui/dialog"
+import { RetroWindow } from "@/components/ui/retro-window"
 
 // Define the type for journal entries
 type JournalEntry = {
@@ -222,85 +222,82 @@ export function MentalJournal() {
 
   return (
     <>
-      <Card className="shadow-sm hover:shadow-md transition-all duration-200 group">
-        <CardHeader className="pb-2">
-          <CardTitle className="text-lg font-medium flex items-center gap-2">
-            <Brain className="h-5 w-5 text-rose-500" />
-            Mental Journal
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="group-hover:bg-rose-50 rounded-b-lg transition-colors duration-200">
-          <div className="flex items-center justify-between mb-4">
-            <p className="text-sm text-gray-500">Recent Entries</p>
-            <Button
-              size="sm"
-              className="bg-rose-500 hover:bg-rose-600 hover:scale-[1.03] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-rose-200 focus:ring-offset-2"
-              onClick={() => setIsDialogOpen(true)}
+      <RetroWindow
+        title="Mental Journal"
+        icon={<Brain className="h-4 w-4 text-rose-500" />}
+        variant="rose"
+        className="transition-all duration-200"
+      >
+        <div className="flex items-center justify-between mb-4">
+          <p className="text-sm text-gray-700 font-bold">Recent Entries</p>
+          <Button
+            size="sm"
+            className="bg-rose-500 hover:bg-rose-600 hover:scale-[1.03] transition-all duration-200 border-2 border-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)] hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,0.8)] hover:translate-y-[1px] hover:translate-x-[1px]"
+            onClick={() => setIsDialogOpen(true)}
+          >
+            <Plus className="h-4 w-4 mr-1" />
+            New Entry
+          </Button>
+        </div>
+
+        <div className="space-y-3">
+          {entries.map((entry) => (
+            <div
+              key={entry.id}
+              className="p-3 rounded-md border-2 border-gray-800 hover:border-rose-400 hover:bg-rose-50 transition-all duration-200 cursor-pointer hover:scale-[1.02] shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)]"
             >
-              <Plus className="h-4 w-4 mr-1" />
-              New Entry
-            </Button>
-          </div>
-
-          <div className="space-y-3">
-            {entries.map((entry) => (
-              <div
-                key={entry.id}
-                className="p-3 rounded-lg border border-gray-200 hover:border-rose-200 hover:bg-white transition-all duration-200 cursor-pointer hover:scale-[1.02]"
-              >
-                <div className="flex justify-between items-start mb-1">
-                  <h4 className="font-medium">{entry.title}</h4>
-                  <p className="text-xs text-gray-500">{entry.date}</p>
-                </div>
-                <p className="text-sm text-gray-600 mb-2 line-clamp-2">{entry.excerpt}</p>
-                <div className="flex flex-wrap gap-1">
-                  {entry.tags.map((tag) => (
-                    <Badge
-                      key={tag}
-                      variant="outline"
-                      className="text-xs bg-rose-50 text-rose-600 border-rose-200 hover:bg-rose-100 transition-colors duration-200"
-                    >
-                      <Tag className="h-3 w-3 mr-1" />
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
+              <div className="flex justify-between items-start mb-1">
+                <h4 className="font-bold">{entry.title}</h4>
+                <p className="text-xs text-gray-700 font-bold">{entry.date}</p>
               </div>
-            ))}
-          </div>
-
-          <div className="mt-4 pt-4 border-t border-gray-100">
-            <h4 className="font-medium text-sm mb-2">Mood Trends</h4>
-            <div className="flex items-center gap-1">
-              {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day, i) => {
-                const moodColors = ["bg-red-400", "bg-orange-400", "bg-yellow-400", "bg-green-400", "bg-green-500"]
-                const moodIndex = moodTrends[i]
-                return (
-                  <div key={day} className="flex flex-col items-center flex-1 group/bar">
-                    <div
-                      className={`w-full rounded-t-sm ${moodColors[moodIndex]} group-hover/bar:scale-y-110 transition-transform duration-200`}
-                      style={{ height: `${(moodIndex + 1) * 8}px` }}
-                    />
-                    <span className="text-xs mt-1">{day}</span>
-                  </div>
-                )
-              })}
+              <p className="text-sm text-gray-700 mb-2 line-clamp-2 font-medium">{entry.excerpt}</p>
+              <div className="flex flex-wrap gap-1">
+                {entry.tags.map((tag) => (
+                  <Badge
+                    key={tag}
+                    variant="outline"
+                    className="text-xs bg-rose-50 text-rose-600 border-2 border-gray-800 hover:bg-rose-100 transition-colors duration-200 font-bold"
+                  >
+                    <Tag className="h-3 w-3 mr-1" />
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
             </div>
+          ))}
+        </div>
+
+        <div className="mt-4 pt-4 border-t-2 border-gray-300">
+          <h4 className="font-bold text-sm mb-2">Mood Trends</h4>
+          <div className="flex items-center gap-1 border-2 border-gray-800 p-2 rounded-md bg-white">
+            {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day, i) => {
+              const moodColors = ["bg-red-400", "bg-orange-400", "bg-yellow-400", "bg-green-400", "bg-green-500"]
+              const moodIndex = moodTrends[i]
+              return (
+                <div key={day} className="flex flex-col items-center flex-1 group/bar">
+                  <div
+                    className={`w-full rounded-t-sm border-2 border-gray-800 border-b-0 ${moodColors[moodIndex]} group-hover/bar:scale-y-110 transition-transform duration-200`}
+                    style={{ height: `${(moodIndex + 1) * 8}px` }}
+                  />
+                  <span className="text-xs mt-1 font-bold">{day}</span>
+                </div>
+              )
+            })}
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </RetroWindow>
 
       {/* Dialog for creating a new journal entry */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="sm:max-w-[600px]">
+        <DialogContent className="sm:max-w-[600px] border-2 border-gray-800 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.8)]">
           <DialogHeader>
-            <DialogTitle>New Journal Entry</DialogTitle>
+            <DialogTitle className="font-bold">New Journal Entry</DialogTitle>
             <DialogDescription>Record your thoughts, feelings, and experiences.</DialogDescription>
           </DialogHeader>
 
           <div className="grid gap-4 py-4">
             <div className="space-y-2">
-              <label htmlFor="title" className="text-sm font-medium">
+              <label htmlFor="title" className="text-sm font-bold">
                 Title
               </label>
               <Input
@@ -309,11 +306,12 @@ export function MentalJournal() {
                 placeholder="Give your entry a title"
                 value={newEntry.title}
                 onChange={handleInputChange}
+                className="border-2 border-gray-800"
               />
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="content" className="text-sm font-medium">
+              <label htmlFor="content" className="text-sm font-bold">
                 Content
               </label>
               <Textarea
@@ -323,12 +321,12 @@ export function MentalJournal() {
                 rows={6}
                 value={newEntry.content}
                 onChange={handleInputChange}
-                className="resize-none"
+                className="resize-none border-2 border-gray-800"
               />
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="tags" className="text-sm font-medium">
+              <label htmlFor="tags" className="text-sm font-bold">
                 Tags (comma separated)
               </label>
               <Input
@@ -337,16 +335,17 @@ export function MentalJournal() {
                 placeholder="e.g. Happy, Work, Goals"
                 value={newEntry.tags}
                 onChange={handleInputChange}
+                className="border-2 border-gray-800"
               />
 
               <div className="mt-2">
-                <p className="text-xs text-gray-500 mb-2">Suggested tags:</p>
+                <p className="text-xs text-gray-700 mb-2 font-bold">Suggested tags:</p>
                 <div className="flex flex-wrap gap-1">
                   {tagSuggestions.slice(0, 10).map((tag) => (
                     <Badge
                       key={tag}
                       variant="outline"
-                      className="text-xs bg-rose-50 text-rose-600 border-rose-200 hover:bg-rose-100 transition-colors duration-200 cursor-pointer"
+                      className="text-xs bg-rose-50 text-rose-600 border-2 border-gray-800 hover:bg-rose-100 transition-colors duration-200 cursor-pointer font-bold"
                       onClick={() => addTag(tag)}
                     >
                       <Tag className="h-3 w-3 mr-1" />
@@ -360,9 +359,14 @@ export function MentalJournal() {
 
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
+              <Button variant="outline" className="border-2 border-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)]">
+                Cancel
+              </Button>
             </DialogClose>
-            <Button onClick={saveEntry} className="bg-rose-500 hover:bg-rose-600">
+            <Button
+              onClick={saveEntry}
+              className="bg-rose-500 hover:bg-rose-600 border-2 border-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)]"
+            >
               Save Entry
             </Button>
           </DialogFooter>
