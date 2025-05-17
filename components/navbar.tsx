@@ -86,7 +86,8 @@ export function Navbar() {
           className="flex items-center gap-2 hover:scale-[1.02] transition-transform"
           aria-label="HealthQuest Home"
         >
-          <Heart className="h-8 w-8 fill-retro-pink stroke-retro-pink" />
+          {/* <Heart className="h-8 w-8 fill-retro-pink stroke-retro-pink" /> */}
+          <img src="/main_logo.png" alt="Main Logo" className="h-8 w-8 group-hover:scale-110 transition-transform"/>
           <div className="flex flex-col">
             <span className="text-xl font-bold font-pixel text-retro-black">HealthQuest</span>
             <span className="text-xs text-retro-gray font-pixel">Your Wellness Adventure-Visualized, Motivated, Rewarded.</span>

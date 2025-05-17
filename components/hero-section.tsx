@@ -86,7 +86,7 @@ export function HeroSection() {
 
             <div className="flex flex-col sm:flex-row gap-4">
               <Link href="/dashboard">
-                <Button className="w-full sm:w-auto bg-retro-blue hover:bg-retro-blue-dark text-retro-white border-4 border-retro-black shadow-pixel hover:translate-y-[-2px] transition-transform font-pixel group">
+                <Button className="w-full sm:w-auto bg-[#4E77FF] onhover:bg-blue-900 text-white border-4 border-retro-black shadow-pixel hover:translate-y-[-2px] transition-transform font-pixel group">
                   Get Started <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
@@ -105,14 +105,14 @@ export function HeroSection() {
           </div>
 
           <div className="relative">
-            <div className="retro-window bg-retro-white border-4 border-retro-black shadow-pixel rounded-none w-[420px] md:w-[520px] mx-auto">
-              <div className="flex items-center justify-between px-3 py-1 bg-retro-gray border-b-4 border-retro-black">
+            <div className="retro-window bg-[#4E77FF] border-4 border-retro-black shadow-pixel rounded-none w-[420px] md:w-[520px] mx-auto">
+              <div className="flex items-center justify-between px-3 py-1 bg-[#4E77FF] border-b-4 border-retro-black">
                 <div className="flex gap-1">
                   <span className="w-3 h-3 bg-window-minimize border-2 border-retro-black rounded-none mr-1"></span>
                   <span className="w-3 h-3 bg-window-maximize border-2 border-retro-black rounded-none mr-1"></span>
                   <span className="w-3 h-3 bg-window-close border-2 border-retro-black rounded-none"></span>
                 </div>
-                <span className="font-pixel text-xs text-retro-black tracking-wider">HealthQuest Preview</span>
+                <span className="font-pixel text-xlg text-retro-black tracking-wider"></span>
                 <span></span>
               </div>
               <div className="p-0 md:p-2">
@@ -124,7 +124,7 @@ export function HeroSection() {
                 />
               </div>
             </div>
-            <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 px-5 py-2 bg-retro-blue text-retro-white border-4 border-retro-black shadow-pixel font-pixel text-base font-bold rounded-none z-10 animate-pulse">
+            <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 px-5 py-2 bg-yellow-300 text-black border-4 border-retro-black shadow-pixel font-pixel text-base font-bold rounded-none z-10 animate-pulse">
               <span className="inline-block"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect width="20" height="20" rx="3" fill="#fff"/><path d="M10 3v14M3 10h14" stroke="#000" strokeWidth="2"/></svg></span>
               9 Health Trackers in One App!
             </div>

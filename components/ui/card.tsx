@@ -9,7 +9,8 @@ const Card = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "rounded-lg border bg-card text-card-foreground shadow-sm",
+      // Add retro/Mac cues: pixel border, glassy panel, subtle gradient, shadow, pixel font for headings
+      "rounded-2xl border-2 border-black bg-gradient-to-b from-white/90 to-gray-100 shadow-[4px_4px_0px_#222] p-6 font-['Press_Start_2P','system-ui',sans-serif] hover:scale-[1.03] hover:shadow-[6px_6px_0px_#222] transition-transform duration-150",
       className
     )}
     {...props}

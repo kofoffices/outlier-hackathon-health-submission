@@ -12,8 +12,8 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <div className="md:col-span-1">
             <Link href="/" className="flex items-center gap-2 mb-4 group">
-              <HeartPulse className="h-6 w-6 fill-retro-pink stroke-retro-pink group-hover:scale-110 transition-transform" />
-              <div className="flex flex-col">
+            <img src="/main_logo.png" alt="Main Logo" className="h-8 w-8 group-hover:scale-110 transition-transform"/>
+            <div className="flex flex-col">
                 <span className="text-xl font-bold font-pixel text-retro-black">HealthQuest</span>
                 <span className="text-xs text-retro-gray font-pixel">Your Wellness Adventure-Visualized, Motivated, Rewarded.</span>
               </div>
