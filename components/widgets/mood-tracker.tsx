@@ -20,6 +20,11 @@ import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible"
 import { RetroWindow } from "@/components/ui/retro-window"
 import React from "react"
 
+interface Day {
+  date: Date | null
+  mood: number | null
+}
+
 const moods = [
   {
     icon: SmilePlus,
@@ -35,7 +40,7 @@ const moods = [
 ]
 
 // Generate days for the current month
-const generateCalendarDays = () => {
+const generateCalendarDays = (): Day[] => {
   const today = new Date()
   const year = today.getFullYear()
   const month = today.getMonth()
@@ -76,7 +81,7 @@ const moodCorrelations = [
 
 export function MoodTracker() {
   const [selectedMood, setSelectedMood] = useState<number | null>(null)
-  const [days, setDays] = useState(generateCalendarDays())
+  const [days, setDays] = useState<Day[]>(generateCalendarDays())
   const [activeDay, setActiveDay] = useState<number | null>(null)
   const [isPopoverOpen, setIsPopoverOpen] = useState(false)
   const [showInsights, setShowInsights] = useState(false)
@@ -141,7 +146,7 @@ export function MoodTracker() {
   const saveMoodForDay = (dayIndex: number, moodIndex: number) => {
     const updatedDays = [...days]
     if (updatedDays[dayIndex].date) {
-      updatedDays[dayIndex].mood = moodIndex as number | null 
+      updatedDays[dayIndex].mood = moodIndex
       setDays(updatedDays)
 
       // Save to localStorage
@@ -236,19 +241,26 @@ export function MoodTracker() {
       variant="pink"
       className="transition-all duration-200 group"
     >
-      <div className="flex justify-between mb-4">
+      <div className="flex justify-between mb-6 gap-2">
         {moods.map((mood, index) => {
           const Icon = mood.icon
           return (
             <Button
               key={mood.label}
-              ref={(el) => (moodButtonRefs.current[index] = el)}
+              ref={el => { moodButtonRefs.current[index] = el }}
               variant="outline"
-              className={`relative overflow-hidden flex flex-col items-center p-2 transition-all duration-200 hover:scale-[1.08] focus:outline-none border-2 border-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)] ${
-                selectedMood === index ? "bg-pink-100 ring-2 ring-pink-400" : "hover:bg-pink-100"
-              } ${activeMoodButton === index ? "animate-pulse" : ""}`}
-              onClick={(e) => handleMoodButtonClick(index, e)}
+              className={`relative flex flex-col items-center px-4 py-3 min-w-[80px] transition-all duration-200 focus:outline-none border-2 border-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)] bg-white font-pixel text-base font-bold tracking-wide
+                ${selectedMood === index ? "bg-pink-100 ring-2 ring-pink-400" : "hover:bg-pink-100"}
+                ${activeMoodButton === index ? "animate-pulse" : ""}
+              `}
+              style={{ letterSpacing: '0.5px' }}
+              onClick={e => handleMoodButtonClick(index, e)}
+              aria-label={mood.label}
             >
+              <span className="flex items-center justify-center mb-1">
+                <Icon className={`h-7 w-7 ${mood.color} mr-2`} aria-hidden="true" />
+              </span>
+              <span className="text-base font-pixel font-bold leading-tight text-gray-900" style={{letterSpacing: '0.5px'}}>{mood.label}</span>
               {rippleEffect.active && activeMoodButton === index && (
                 <span
                   className="absolute bg-pink-300 opacity-70 rounded-full animate-ripple"
@@ -259,8 +271,6 @@ export function MoodTracker() {
                   }}
                 />
               )}
-              <Icon className={`h-8 w-8 ${mood.color} transition-transform duration-200 hover:scale-110`} />
-              <span className="text-xs mt-1 font-bold">{mood.label}</span>
             </Button>
           )
         })}
@@ -326,14 +336,14 @@ export function MoodTracker() {
 
       <div className="mt-4">
         <div className="flex items-center justify-between mb-2">
-          <h4 className="text-sm font-bold text-gray-700 flex items-center gap-1 pixel-font">
-            <CalendarDays className="h-4 w-4" />
+          <h4 className="text-base font-bold text-gray-700 flex items-center gap-1 font-pixel">
+            <CalendarDays className="h-5 w-5" />
             {new Date().toLocaleString("default", { month: "long", year: "numeric" })}
           </h4>
           <Button
             variant="outline"
             size="sm"
-            className="border-2 border-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)] hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,0.8)] hover:translate-y-[1px] hover:translate-x-[1px] bg-pink-200 hover:bg-pink-300"
+            className="border-2 border-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)] hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,0.8)] hover:translate-y-[1px] hover:translate-x-[1px] bg-pink-200 hover:bg-pink-300 font-pixel"
             onClick={() => setShowInsights(!showInsights)}
           >
             <TrendingUp className="h-4 w-4 mr-1" />
@@ -341,8 +351,8 @@ export function MoodTracker() {
           </Button>
         </div>
         <div className="grid grid-cols-7 gap-1 border-2 border-gray-800 p-2 rounded-md bg-white">
-          {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-            <div key={day} className="text-xs text-center font-bold text-gray-500">
+          {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(day => (
+            <div key={day} className="text-xs text-center font-bold text-gray-500 font-pixel tracking-wide pb-1">
               {day}
             </div>
           ))}
@@ -353,7 +363,7 @@ export function MoodTracker() {
               <Popover
                 key={i}
                 open={isPopoverOpen && activeDay === i}
-                onOpenChange={(open) => {
+                onOpenChange={open => {
                   setIsPopoverOpen(open)
                   if (open) setActiveDay(i)
                 }}
@@ -363,43 +373,36 @@ export function MoodTracker() {
                     <TooltipTrigger asChild>
                       <PopoverTrigger asChild>
                         <div
-                          ref={(el) => (dayRefs.current[i] = el)}
-                          className={`aspect-square rounded-sm ${moodColors} ${hoverColors} hover:opacity-90 cursor-pointer transition-all duration-200 hover:scale-[1.1] focus:outline-none border border-gray-800 shadow-[1px_1px_0px_0px_rgba(0,0,0,0.8)]`}
-                          title={
-                            day.date
-                              ? `${day.date.toLocaleDateString()}: ${
-                                  day.mood !== null ? moods[day.mood].label : "No mood set"
-                                }`
-                              : ""
-                          }
+                          ref={el => { dayRefs.current[i] = el }}
+                          className={`aspect-square rounded-sm ${moodColors} ${hoverColors} hover:opacity-90 cursor-pointer transition-all duration-200 hover:scale-[1.1] focus:outline-none border border-gray-800 shadow-[1px_1px_0px_0px_rgba(0,0,0,0.8)] flex flex-col items-center justify-center`}
+                          title={day.date ? `${day.date.toLocaleDateString()}: ${day.mood !== null ? moods[day.mood].label : "No mood set"}` : ""}
                           onClick={() => {
                             setActiveDay(i)
                             setIsPopoverOpen(true)
                           }}
-                          onKeyDown={(e) => handleKeyDown(e, i)}
+                          onKeyDown={e => handleKeyDown(e, i)}
                           tabIndex={0}
                           role="button"
                           aria-label={`Select mood for ${day.date.toLocaleDateString()}`}
                         >
-                          <div className="flex items-center justify-center h-full">
-                            <span className="text-xs font-bold">{day.date.getDate()}</span>
-                            {day.mood !== null && (
-                              <span className="absolute bottom-0.5 right-0.5">
-                                {React.createElement(moods[day.mood].icon, { className: "h-2.5 w-2.5" })}
-                              </span>
-                            )}
-                          </div>
+                          <span className="text-lg font-bold font-pixel text-gray-900 leading-none">
+                            {day.date.getDate()}
+                          </span>
+                          {day.mood !== null && (
+                            <span className="flex items-center justify-center mt-1">
+                              {React.createElement(moods[day.mood].icon, { className: `h-5 w-5 ${moods[day.mood].color} mr-1`, "aria-hidden": true })}
+                              <span className="text-xs font-pixel font-bold text-gray-900">{moods[day.mood].label}</span>
+                            </span>
+                          )}
                         </div>
                       </PopoverTrigger>
                     </TooltipTrigger>
-                    <TooltipContent side="bottom" className="p-2 text-xs border-2 border-gray-800">
+                    <TooltipContent side="bottom" className="p-2 text-xs border-2 border-gray-800 font-pixel">
                       <p className="font-bold">{day.date.toLocaleDateString()}</p>
                       {day.mood !== null ? (
                         <div className="flex items-center gap-1 mt-1">
                           <span>Mood:</span>
-                          {React.createElement(moods[day.mood].icon, {
-                            className: `h-3.5 w-3.5 ${moods[day.mood].color}`,
-                          })}
+                          {React.createElement(moods[day.mood].icon, { className: `h-4 w-4 ${moods[day.mood].color}` })}
                           <span>{moods[day.mood].label}</span>
                         </div>
                       ) : (
@@ -409,7 +412,7 @@ export function MoodTracker() {
                   </Tooltip>
                 </TooltipProvider>
                 <PopoverContent
-                  className="w-auto p-2 border-2 border-gray-800 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.8)]"
+                  className="w-auto p-2 border-2 border-gray-800 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.8)] font-pixel"
                   align="center"
                 >
                   <div className="flex gap-1">
@@ -420,23 +423,14 @@ export function MoodTracker() {
                           key={mood.label}
                           variant="outline"
                           size="sm"
-                          className={`relative overflow-hidden p-1 hover:bg-gray-100 transition-all duration-150 border-2 border-gray-800 ${
-                            day.mood === moodIndex ? "bg-gray-100 ring-2 ring-gray-400" : ""
-                          }`}
-                          onClick={(e) => handleMoodSelection(moodIndex, e)}
+                          className={`relative overflow-hidden p-1 hover:bg-gray-100 transition-all duration-150 border-2 border-gray-800 flex flex-col items-center justify-center min-w-[40px] min-h-[40px] font-pixel text-xs font-bold
+                            ${day.mood === moodIndex ? "bg-gray-100 ring-2 ring-gray-400" : ""}
+                          `}
+                          onClick={e => handleMoodSelection(moodIndex, e)}
                           aria-label={`Set mood to ${mood.label}`}
                         >
-                          {rippleEffect.active && activeDay === i && (
-                            <span
-                              className="absolute bg-gray-200 opacity-70 rounded-full animate-ripple"
-                              style={{
-                                left: rippleEffect.x + "px",
-                                top: rippleEffect.y + "px",
-                                transform: "translate(-50%, -50%)",
-                              }}
-                            />
-                          )}
-                          <Icon className={`h-6 w-6 ${mood.color} transition-transform duration-200 hover:scale-110`} />
+                          <Icon className={`h-5 w-5 ${mood.color} mb-1`} aria-hidden="true" />
+                          <span>{mood.label}</span>
                         </Button>
                       )
                     })}
