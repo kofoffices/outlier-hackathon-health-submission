@@ -1,0 +1,24 @@
+Feature Implementation
+What makes a good implementation?
+Good implementations demonstrate both functionality and aesthetics. Your project should:
+Have intuitive navigation and flow
+Feature attractive and consistent visual design
+Function properly with all intended features working
+Include clean, efficient, and well-organized code
+What common errors should I avoid?
+
+
+Avoid these common issues in your implementation:
+Visual element mismatches (inconsistent styling across components)
+Missing interactivity (non-functional buttons or features)
+Incomplete UI sections (missing core functionality)
+Layout problems (poor responsiveness or spacing issues)
+Navigation confusion (unclear user flows)
+
+
+
+Projects will be judged based on:
+User Experience: Intuitive navigation and flow
+Visual Design: Aesthetics and brand consistency
+Functionality: Purpose-driven performance (i.e., it works)
+Code Quality: Clean, efficient, and well-organized implementation
