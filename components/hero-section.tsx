@@ -70,10 +70,14 @@ export function HeroSection() {
       <div className="relative max-w-6xl mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div className="text-center md:text-left">
-            <div className="inline-block bg-retro-yellow text-retro-black px-4 py-2 rounded-none border-4 border-retro-black shadow-pixel font-pixel text-sm mb-6 animate-bounce">
-              Your Complete Health Companion
+            {/* 1. Pill-shaped badge above headline (already present, but enhance with retro badge variant and bounce) */}
+            <div className="inline-block mb-6 animate-bounce">
+              <span className="font-pixel text-sm px-4 py-2 border-4 border-retro-black bg-retro-yellow text-retro-black shadow-pixel rounded-full badge badge-retro">
+                Your Complete Health Companion
+              </span>
             </div>
 
+            {/* 2. Main headline with pixel/arcade font (already present) */}
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-pixel mb-6 leading-tight">
               Gamify Your Wellness Journey
               <br />
@@ -84,15 +88,16 @@ export function HeroSection() {
               Experience health tracking like never before: retro-inspired visuals, playful interactions, and powerful insights-all in one beautifully crafted dashboard.
             </p>
 
+            {/* 4. Call-to-action buttons: use retro variant and add glowing effect */}
             <div className="flex flex-col sm:flex-row gap-4">
               <Link href="/dashboard">
-                <Button className="w-full sm:w-auto bg-[#4E77FF] onhover:bg-blue-900 text-white border-4 border-retro-black shadow-pixel hover:translate-y-[-2px] transition-transform font-pixel group">
+                <Button variant="retro" className="w-full sm:w-auto border-4 border-retro-black shadow-pixel hover:shadow-[0_0_16px_4px_#4E77FF] hover:scale-105 transition-transform font-pixel group">
                   Get Started <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
               <Button
-                variant="outline"
-                className="w-full sm:w-auto border-4 border-retro-black shadow-pixel hover:translate-y-[-2px] transition-transform font-pixel group"
+                variant="retro"
+                className="w-full sm:w-auto border-4 border-retro-black shadow-pixel hover:shadow-[0_0_16px_4px_#FFD600] hover:scale-105 transition-transform font-pixel group"
               >
                 <Play className="mr-2 h-4 w-4 group-hover:scale-110 transition-transform" />
                 Watch Demo
@@ -124,10 +129,52 @@ export function HeroSection() {
                 />
               </div>
             </div>
-            <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 px-5 py-2 bg-yellow-300 text-black border-4 border-retro-black shadow-pixel font-pixel text-base font-bold rounded-none z-10 animate-pulse">
+            {/* 6. Pixel badge below hero image (already present, but enhance with retro badge variant and bounce) */}
+            <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 px-5 py-2 bg-yellow-300 text-black border-4 border-retro-black shadow-pixel font-pixel text-base font-bold rounded-none z-10 animate-bounce badge badge-retro">
               <span className="inline-block"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect width="20" height="20" rx="3" fill="#fff"/><path d="M10 3v14M3 10h14" stroke="#000" strokeWidth="2"/></svg></span>
               9 Health Trackers in One App!
             </div>
+          </div>
+        </div>
+
+        {/* 5. Pixel-art tracker icons row with tooltips (below hero image) */}
+        <div className="mt-10 flex flex-wrap justify-center gap-4">
+          {/* Example pixel-art icons for each tracker, with tooltips */}
+          <div className="relative group">
+            <Heart className="h-8 w-8 text-retro-pink" />
+            <span className="absolute left-1/2 -translate-x-1/2 top-10 px-2 py-1 bg-retro-black text-retro-yellow text-xs rounded font-pixel opacity-0 group-hover:opacity-100 transition-opacity">Mood</span>
+          </div>
+          <div className="relative group">
+            <Droplet className="h-8 w-8 text-retro-blue" />
+            <span className="absolute left-1/2 -translate-x-1/2 top-10 px-2 py-1 bg-retro-black text-retro-blue text-xs rounded font-pixel opacity-0 group-hover:opacity-100 transition-opacity">Hydration</span>
+          </div>
+          <div className="relative group">
+            <Moon className="h-8 w-8 text-retro-purple" />
+            <span className="absolute left-1/2 -translate-x-1/2 top-10 px-2 py-1 bg-retro-black text-retro-purple text-xs rounded font-pixel opacity-0 group-hover:opacity-100 transition-opacity">Sleep</span>
+          </div>
+          <div className="relative group">
+            <Apple className="h-8 w-8 text-retro-green" />
+            <span className="absolute left-1/2 -translate-x-1/2 top-10 px-2 py-1 bg-retro-black text-retro-green text-xs rounded font-pixel opacity-0 group-hover:opacity-100 transition-opacity">Nutrition</span>
+          </div>
+          <div className="relative group">
+            <Dumbbell className="h-8 w-8 text-retro-orange" />
+            <span className="absolute left-1/2 -translate-x-1/2 top-10 px-2 py-1 bg-retro-black text-retro-orange text-xs rounded font-pixel opacity-0 group-hover:opacity-100 transition-opacity">Fitness</span>
+          </div>
+          <div className="relative group">
+            <Scale className="h-8 w-8 text-retro-yellow" />
+            <span className="absolute left-1/2 -translate-x-1/2 top-10 px-2 py-1 bg-retro-black text-retro-yellow text-xs rounded font-pixel opacity-0 group-hover:opacity-100 transition-opacity">Weight</span>
+          </div>
+          <div className="relative group">
+            <Brain className="h-8 w-8 text-retro-red" />
+            <span className="absolute left-1/2 -translate-x-1/2 top-10 px-2 py-1 bg-retro-black text-retro-red text-xs rounded font-pixel opacity-0 group-hover:opacity-100 transition-opacity">Mental</span>
+          </div>
+          <div className="relative group">
+            <Wind className="h-8 w-8 text-retro-blue" />
+            <span className="absolute left-1/2 -translate-x-1/2 top-10 px-2 py-1 bg-retro-black text-retro-blue text-xs rounded font-pixel opacity-0 group-hover:opacity-100 transition-opacity">Breathing</span>
+          </div>
+          <div className="relative group">
+            <Stretch className="h-8 w-8 text-retro-orange" />
+            <span className="absolute left-1/2 -translate-x-1/2 top-10 px-2 py-1 bg-retro-black text-retro-orange text-xs rounded font-pixel opacity-0 group-hover:opacity-100 transition-opacity">Stretching</span>
           </div>
         </div>
 

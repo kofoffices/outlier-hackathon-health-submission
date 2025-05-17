@@ -20,6 +20,15 @@ type HealthGoalType = {
   description: string
 }
 
+const categoryColors: Record<string, string> = {
+  happy: "bg-yellow-200 border-yellow-600",
+  sad: "bg-blue-200 border-blue-600",
+  angry: "bg-red-200 border-red-600",
+  calm: "bg-green-200 border-green-600",
+  excited: "bg-pink-200 border-pink-600",
+  bored: "bg-gray-200 border-gray-600",
+}
+
 interface HealthFactsProps {
   category: "mood" | "hydration" | "sleep" | "nutrition" | "fitness" | "weight" | "mental" | "breathing" | "stretching"
 }
@@ -370,60 +379,67 @@ export function HealthFacts({ category }: HealthFactsProps) {
 
   return (
     <div className="space-y-6">
-      {/* Facts Section */}
-      <div className="border-4 border-retro-black bg-retro-white shadow-pixel p-4">
-        <div className="flex items-center gap-2 mb-3">
-          <Lightbulb className={cn("h-5 w-5", getCategoryColors())} />
-          <h3 className="font-pixel text-lg font-bold text-retro-black">Did You Know?</h3>
-        </div>
-        <p className="text-retro-black font-pixel mb-2">{fact?.fact}</p>
-        {fact?.source && (
-          <p className="text-retro-gray text-sm font-pixel italic">Source: {fact.source}</p>
-        )}
-        <Button
-          variant="ghost"
-          className="mt-2 text-retro-black hover:text-retro-gray font-pixel"
-          onClick={() => setCurrentFact((prev) => (prev + 1) % facts.length)}
-        >
-          Next Fact <ArrowRight className="ml-2 h-4 w-4" />
-        </Button>
-      </div>
-
-      {/* Quotes Section */}
-      <div className="border-4 border-retro-black bg-retro-white shadow-pixel p-4">
-        <div className="flex items-center gap-2 mb-3">
-          <Quote className={cn("h-5 w-5", getCategoryColors())} />
-          <h3 className="font-pixel text-lg font-bold text-retro-black">Quote of the Day</h3>
-        </div>
-        <blockquote className="text-retro-black font-pixel mb-2">
-          "{quote?.quote}"
-        </blockquote>
-        <p className="text-retro-gray text-sm font-pixel italic">- {quote?.author}</p>
-        <Button
-          variant="ghost"
-          className="mt-2 text-retro-black hover:text-retro-gray font-pixel"
-          onClick={() => setCurrentQuote((prev) => (prev + 1) % quotes.length)}
-        >
-          Next Quote <ArrowRight className="ml-2 h-4 w-4" />
-        </Button>
-      </div>
-
-      {/* Goals Section */}
-      <div className="border-4 border-retro-black bg-retro-white shadow-pixel p-4">
-        <div className="flex items-center gap-2 mb-3">
-          <Target className={cn("h-5 w-5", getCategoryColors())} />
-          <h3 className="font-pixel text-lg font-bold text-retro-black">Daily Goal</h3>
-        </div>
-        <h4 className="text-retro-black font-pixel font-bold mb-1">{goal?.goal}</h4>
-        <p className="text-retro-gray text-sm font-pixel">{goal?.description}</p>
-        <Button
-          variant="ghost"
-          className="mt-2 text-retro-black hover:text-retro-gray font-pixel"
-          onClick={() => setCurrentGoal((prev) => (prev + 1) % goals.length)}
-        >
-          Next Goal <ArrowRight className="ml-2 h-4 w-4" />
-        </Button>
-      </div>
+  {/* Facts Section */}
+  <div
+    className="bg-yellow-200 border-yellow-600 border-4 shadow-pixel p-4 animate-fade-in-up relative overflow-hidden group rounded-lg"
+  >
+    <div className="flex items-center gap-2 mb-3">
+      <Lightbulb className="h-5 w-5 text-retro-black" />
+      <h3 className="text-retro-black font-bold text-lg">Health Fact</h3>
     </div>
+    <p className="text-sm text-retro-black mb-2 italic">"{fact.fact}"</p>
+    {fact.source && (
+      <p className="text-xs text-retro-black/70">Source: {fact.source}</p>
+    )}
+    <Button
+      variant="ghost"
+      className="mt-2 text-retro-black hover:text-retro-gray font-pixel animate-glow-pulse"
+      onClick={() => setCurrentFact((prev) => (prev + 1) % facts.length)}
+    >
+      Next Fact <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+    </Button>
+    <span className="absolute right-2 top-2 text-xs text-retro-green font-pixel animate-pulse">Auto-updating</span>
+  </div>
+
+  {/* Quotes Section */}
+  <div
+    className="bg-blue-200 border-blue-600 border-4 shadow-pixel p-4 animate-fade-in-up relative overflow-hidden group rounded-lg"
+  >
+    <div className="flex items-center gap-2 mb-3">
+      <Quote className="h-5 w-5 text-retro-black" />
+      <h3 className="text-retro-black font-bold text-lg">Quote</h3>
+    </div>
+    <p className="text-sm text-retro-black mb-2 italic">"{quote.quote}"</p>
+    <Button
+      variant="ghost"
+      className="mt-2 text-retro-black hover:text-retro-gray font-pixel animate-glow-pulse"
+      onClick={() => setCurrentQuote((prev) => (prev + 1) % quotes.length)}
+    >
+      Next Quote <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+    </Button>
+    <span className="absolute right-2 top-2 text-xs text-retro-pink font-pixel animate-pulse">Auto-updating</span>
+  </div>
+
+  {/* Goals Section */}
+  <div
+    className="bg-green-200 border-green-600 border-4 shadow-pixel p-4 animate-fade-in-up relative overflow-hidden group rounded-lg"
+  >
+    <div className="flex items-center gap-2 mb-3">
+      <Target className="h-5 w-5 text-retro-black" />
+      <h3 className="text-retro-black font-bold text-lg">Goal</h3>
+    </div>
+    <p className="text-sm text-retro-black font-semibold mb-1">{goal.goal}</p>
+    <p className="text-sm text-retro-black">{goal.description}</p>
+    <Button
+      variant="ghost"
+      className="mt-2 text-retro-black hover:text-retro-gray font-pixel animate-glow-pulse"
+      onClick={() => setCurrentGoal((prev) => (prev + 1) % goals.length)}
+    >
+      Next Goal <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+    </Button>
+    <span className="absolute right-2 top-2 text-xs text-retro-pink font-pixel animate-pulse">Auto-updating</span>
+  </div>
+</div>
+
   )
 }

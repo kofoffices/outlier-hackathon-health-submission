@@ -29,17 +29,18 @@ const moods = [
   {
     icon: SmilePlus,
     label: "Great",
-    color: "text-green-500",
-    bgColor: "bg-green-200",
+    color: "text-green-700",
+    bgColor: "bg-green-500",
     hoverColor: "hover:bg-green-300",
+    emoji: "😄",
+    emojiColor: "text-green-600 drop-shadow-[0_2px_0_#fff]",
   },
-  { icon: Smile, label: "Good", color: "text-blue-500", bgColor: "bg-blue-200", hoverColor: "hover:bg-blue-300" },
-  { icon: Meh, label: "Okay", color: "text-yellow-500", bgColor: "bg-yellow-200", hoverColor: "hover:bg-yellow-300" },
-  { icon: Frown, label: "Bad", color: "text-orange-500", bgColor: "bg-orange-200", hoverColor: "hover:bg-orange-300" },
-  { icon: FrownPlus, label: "Awful", color: "text-red-500", bgColor: "bg-red-200", hoverColor: "hover:bg-red-300" },
+  { icon: Smile, label: "Good", color: "text-blue-500", bgColor: "bg-blue-500", hoverColor: "hover:bg-blue-300", emoji: "🙂", emojiColor: "text-blue-600 drop-shadow-[0_2px_0_#fff]" },
+  { icon: Meh, label: "Okay", color: "text-yellow-500", bgColor: "bg-yellow-300", hoverColor: "hover:bg-yellow-300", emoji: "😐", emojiColor: "text-yellow-600 drop-shadow-[0_2px_0_#fff]" },
+  { icon: Frown, label: "Bad", color: "text-orange-500", bgColor: "bg-orange-400", hoverColor: "hover:bg-orange-300", emoji: "🙁", emojiColor: "text-orange-600 drop-shadow-[0_2px_0_#fff]" },
+  { icon: FrownPlus, label: "Awful", color: "text-red-500", bgColor: "bg-red-400", hoverColor: "hover:bg-red-300", emoji: "😢", emojiColor: "text-red-600 drop-shadow-[0_2px_0_#fff]" },
 ]
 
-// Generate days for the current month
 const generateCalendarDays = (): Day[] => {
   const today = new Date()
   const year = today.getFullYear()
@@ -48,19 +49,12 @@ const generateCalendarDays = (): Day[] => {
   // Get the first day of the month
   const firstDay = new Date(year, month, 1)
   const startingDayOfWeek = firstDay.getDay() // 0 = Sunday, 1 = Monday, etc.
-
-  // Get the number of days in the month
   const daysInMonth = new Date(year, month + 1, 0).getDate()
-
-  // Create an array for all days in the month
   const days = []
-
-  // Add empty cells for days before the first day of the month
   for (let i = 0; i < startingDayOfWeek; i++) {
     days.push({ date: null, mood: null })
   }
 
-  // Add days of the month
   for (let i = 1; i <= daysInMonth; i++) {
     days.push({
       date: new Date(year, month, i),
@@ -84,7 +78,8 @@ export function MoodTracker() {
   const [days, setDays] = useState<Day[]>(generateCalendarDays())
   const [activeDay, setActiveDay] = useState<number | null>(null)
   const [isPopoverOpen, setIsPopoverOpen] = useState(false)
-  const [showInsights, setShowInsights] = useState(false)
+  // Show insights by default
+  const [showInsights, setShowInsights] = useState(true)
   const [activeMoodButton, setActiveMoodButton] = useState<number | null>(null)
   const [rippleEffect, setRippleEffect] = useState<{ x: number; y: number; active: boolean }>({
     x: 0,
@@ -241,56 +236,19 @@ export function MoodTracker() {
       variant="pink"
       className="transition-all duration-200 group"
     >
-      <div className="flex justify-between mb-6 gap-2">
-        {moods.map((mood, index) => {
-          const Icon = mood.icon
-          return (
-            <Button
-              key={mood.label}
-              ref={el => { moodButtonRefs.current[index] = el }}
-              variant="outline"
-              className={`relative flex flex-col items-center px-4 py-3 min-w-[80px] transition-all duration-200 focus:outline-none border-2 border-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)] bg-white font-pixel text-base font-bold tracking-wide
-                ${selectedMood === index ? "bg-pink-100 ring-2 ring-pink-400" : "hover:bg-pink-100"}
-                ${activeMoodButton === index ? "animate-pulse" : ""}
-              `}
-              style={{ letterSpacing: '0.5px' }}
-              onClick={e => handleMoodButtonClick(index, e)}
-              aria-label={mood.label}
-            >
-              <span className="flex items-center justify-center mb-1">
-                <Icon className={`h-7 w-7 ${mood.color} mr-2`} aria-hidden="true" />
-              </span>
-              <span className="text-base font-pixel font-bold leading-tight text-gray-900" style={{letterSpacing: '0.5px'}}>{mood.label}</span>
-              {rippleEffect.active && activeMoodButton === index && (
-                <span
-                  className="absolute bg-pink-300 opacity-70 rounded-full animate-ripple"
-                  style={{
-                    left: rippleEffect.x + "px",
-                    top: rippleEffect.y + "px",
-                    transform: "translate(-50%, -50%)",
-                  }}
-                />
-              )}
-            </Button>
-          )
-        })}
-      </div>
-
+      {/* Show Insights as default, no top emoji row */}
       <Collapsible open={showInsights} onOpenChange={setShowInsights} className="mb-4">
         <CollapsibleContent className="p-3 border-2 border-gray-800 bg-pink-100 rounded-md mb-4 animate-in slide-in-from-top-5 duration-300">
           <h4 className="text-sm font-bold text-pink-700 mb-2 flex items-center gap-1 pixel-font">
             <Info className="h-4 w-4" />
-            Mood Insights
+            Mood Insights (Real-Time)
           </h4>
-
           <div className="space-y-3">
             {moodStats.dominantMood !== null && (
               <div className="flex items-center justify-between">
-                <span className="text-xs text-gray-600 font-bold">Dominant Mood:</span>
+                <span className="text-xs text-gray-600 font-bold">Dominant Mood (so far this month):</span>
                 <div className="flex items-center gap-1">
-                  {React.createElement(moods[moodStats.dominantMood].icon, {
-                    className: `h-4 w-4 ${moods[moodStats.dominantMood].color}`,
-                  })}
+                  <span className={`text-xl md:text-2xl ${moods[moodStats.dominantMood].emojiColor}`}>{moods[moodStats.dominantMood].emoji}</span>
                   <span className="text-xs font-bold">{moods[moodStats.dominantMood].label}</span>
                 </div>
               </div>
@@ -298,7 +256,7 @@ export function MoodTracker() {
 
             {moodStats.averageMood !== null && (
               <div className="flex items-center justify-between">
-                <span className="text-xs text-gray-600 font-bold">Average Mood:</span>
+                <span className="text-xs text-gray-600 font-bold">Average Mood (live):</span>
                 <span className="text-xs font-bold">
                   {moodStats.averageMood < 1.5
                     ? "Awful to Bad"
@@ -307,12 +265,13 @@ export function MoodTracker() {
                       : moodStats.averageMood < 3.5
                         ? "Okay to Good"
                         : "Good to Great"}
+                  <span className="ml-2 text-lg align-middle">{moodStats.averageMood !== null ? moods[Math.round(moodStats.averageMood)].emoji : ''}</span>
                 </span>
               </div>
             )}
 
             <div className="pt-2 border-t-2 border-pink-300">
-              <h5 className="text-xs font-bold text-pink-700 mb-1">Correlations with other metrics:</h5>
+              <h5 className="text-xs font-bold text-pink-700 mb-1">Correlations with other metrics (auto-updating):</h5>
               <div className="space-y-2">
                 {moodCorrelations.map((correlation, i) => (
                   <div key={i} className="flex items-center justify-between">
@@ -320,7 +279,7 @@ export function MoodTracker() {
                     <div className="flex items-center gap-1">
                       <div className="w-16 h-2 bg-gray-200 rounded-full overflow-hidden border border-gray-800">
                         <div
-                          className={`h-full rounded-full ${correlation.correlation > 0 ? "bg-green-500" : "bg-red-500"}`}
+                          className={`h-full rounded-full ${correlation.correlation > 0 ? "bg-green-500" : "bg-red-500"} animate-pulse`}
                           style={{ width: `${Math.abs(correlation.correlation) * 100}%` }}
                         />
                       </div>
@@ -330,6 +289,7 @@ export function MoodTracker() {
                 ))}
               </div>
             </div>
+            <div className="mt-2 text-xs text-pink-700 italic">* All insights update instantly as you log moods!</div>
           </div>
         </CollapsibleContent>
       </Collapsible>
@@ -343,7 +303,7 @@ export function MoodTracker() {
           <Button
             variant="outline"
             size="sm"
-            className="border-2 border-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)] hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,0.8)] hover:translate-y-[1px] hover:translate-x-[1px] bg-pink-200 hover:bg-pink-300 font-pixel"
+            className="border-2 border-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)] hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,0.8)] hover:translate-y-[1px] hover:translate-x-[1px] bg-pink-200 hover:bg-pink-300 font-pixel animate-glow-pulse ring-2 ring-pink-400 ring-offset-2 ring-offset-white"
             onClick={() => setShowInsights(!showInsights)}
           >
             <TrendingUp className="h-4 w-4 mr-1" />
@@ -351,7 +311,7 @@ export function MoodTracker() {
           </Button>
         </div>
         <div className="grid grid-cols-7 gap-1 border-2 border-gray-800 p-2 rounded-md bg-white">
-          {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(day => (
+          {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
             <div key={day} className="text-xs text-center font-bold text-gray-500 font-pixel tracking-wide pb-1">
               {day}
             </div>
@@ -389,9 +349,9 @@ export function MoodTracker() {
                             {day.date.getDate()}
                           </span>
                           {day.mood !== null && (
-                            <span className="flex items-center justify-center mt-1">
-                              {React.createElement(moods[day.mood].icon, { className: `h-5 w-5 ${moods[day.mood].color} mr-1`, "aria-hidden": true })}
-                              <span className="text-xs font-pixel font-bold text-gray-900">{moods[day.mood].label}</span>
+                            <span className="flex flex-col items-center justify-center mt-1">
+                              <span className={`text-2xl md:text-3xl ${moods[day.mood].emojiColor} transition-transform duration-200`}>{moods[day.mood].emoji}</span>
+                              <span className="text-xs font-pixel font-bold text-gray-900 mt-1">{moods[day.mood].label}</span>
                             </span>
                           )}
                         </div>
@@ -412,10 +372,10 @@ export function MoodTracker() {
                   </Tooltip>
                 </TooltipProvider>
                 <PopoverContent
-                  className="w-auto p-2 border-2 border-gray-800 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.8)] font-pixel"
+                  className="w-auto max-w-[260px] md:max-w-[320px] p-2 border-2 border-gray-800 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.8)] font-pixel"
                   align="center"
                 >
-                  <div className="flex gap-1">
+                  <div className="flex gap-2 flex-wrap justify-center items-center">
                     {moods.map((mood, moodIndex) => {
                       const Icon = mood.icon
                       return (
@@ -423,14 +383,14 @@ export function MoodTracker() {
                           key={mood.label}
                           variant="outline"
                           size="sm"
-                          className={`relative overflow-hidden p-1 hover:bg-gray-100 transition-all duration-150 border-2 border-gray-800 flex flex-col items-center justify-center min-w-[40px] min-h-[40px] font-pixel text-xs font-bold
+                          className={`relative overflow-hidden p-1 hover:bg-gray-100 transition-all duration-150 border-2 border-gray-800 flex flex-col items-center justify-center min-w-[80px] min-h-[80px] font-pixel text-xs font-bold
                             ${day.mood === moodIndex ? "bg-gray-100 ring-2 ring-gray-400" : ""}
                           `}
                           onClick={e => handleMoodSelection(moodIndex, e)}
                           aria-label={`Set mood to ${mood.label}`}
                         >
-                          <Icon className={`h-5 w-5 ${mood.color} mb-1`} aria-hidden="true" />
-                          <span>{mood.label}</span>
+                          <span className={`text-2xl md:text-3xl ${mood.emojiColor} transition-transform duration-200`}>{mood.emoji}</span>
+                          <span className="mt-1">{mood.label}</span>
                         </Button>
                       )
                     })}

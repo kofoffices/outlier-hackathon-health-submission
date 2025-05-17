@@ -19,7 +19,8 @@ const TooltipContent = React.forwardRef<
     ref={ref}
     sideOffset={sideOffset}
     className={cn(
-      "z-50 overflow-hidden rounded-md border bg-popover px-3 py-1.5 text-sm text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+      // Add retro/Mac cues: pixel border, glassy popover, pixel font, shadow, hover effect
+      "z-50 overflow-hidden rounded-md border-2 border-black bg-gradient-to-b from-white/90 to-gray-100 px-3 py-1.5 text-sm text-popover-foreground shadow-[2px_2px_0px_#222] font-['Press_Start_2P','system-ui',sans-serif] animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 hover:scale-105 hover:shadow-[4px_4px_0px_#222] transition-transform duration-150",
       className,
     )}
     {...props}

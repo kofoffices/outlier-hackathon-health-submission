@@ -36,12 +36,13 @@ function NavItem({ icon: Icon, label, href }: NavItemProps) {
     <Link
       href={href}
       className={cn(
-        "flex items-center gap-3 rounded-none px-3 py-2 transition-all duration-200 ease-in-out border-4 border-retro-black shadow-pixel mb-2 font-pixel",
+        "flex items-center gap-3 rounded-none px-3 py-2 transition-all duration-200 ease-in-out border-4 border-retro-black shadow-pixel mb-2 font-pixel relative",
         "hover:scale-[1.03] focus:scale-[1.03] focus:outline-none",
         isActive
-          ? "bg-retro-blue text-retro-white"
+          ? "bg-retro-blue text-retro-white after:absolute after:left-0 after:bottom-0 after:w-full after:h-1 after:bg-retro-yellow after:rounded-full after:animate-pulse"
           : "bg-retro-white text-retro-black hover:bg-retro-blue hover:text-retro-white",
       )}
+      aria-current={isActive ? "page" : undefined}
     >
       <Icon className="h-5 w-5" />
       <span className="text-sm font-bold">{label}</span>
@@ -55,16 +56,16 @@ export function Sidebar() {
   return (
     <div
       className={cn(
-        "border-r-4 border-retro-black bg-retro-white flex flex-col h-full transition-all duration-300",
+        "border-r-4 border-retro-black bg-retro-white flex flex-col h-full transition-all duration-300 retro-sidebar backdrop-blur-md",
         isOpen ? "w-64" : "w-16",
       )}
     >
       <div className="p-4 border-b-4 border-retro-black bg-gradient-to-r from-retro-blue to-retro-cyan">
         <Link
           href="/"
-          className="text-xl font-bold text-retro-white flex items-center gap-2 hover:scale-[1.03] transition-transform font-pixel"
+          className="text-xl font-bold text-retro-white flex items-center gap-2 hover:scale-[1.03] transition-transform font-pixel drop-shadow-[2px_2px_0px_#222]"
         >
-          <Heart className="h-6 w-6 fill-retro-pink stroke-retro-white" />
+          <Heart className="h-6 w-6 fill-retro-pink stroke-retro-white pixel-border" />
           {isOpen && <span>Health Tracker</span>}
         </Link>
       </div>

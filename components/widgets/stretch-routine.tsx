@@ -154,7 +154,7 @@ export function StretchRoutine() {
           </div>
         </div>
         <Button
-          className={`hover:scale-[1.03] transition-all duration-200 border-2 border-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)] hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,0.8)] hover:translate-y-[1px] hover:translate-x-[1px] ${
+          className={`text-black hover:scale-[1.03] transition-all duration-200 border-2 border-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)] hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,0.8)] hover:translate-y-[1px] hover:translate-x-[1px] ${
             isTimerRunning ? "bg-amber-600 hover:bg-amber-700" : "bg-amber-500 hover:bg-amber-600"
           }`}
           onClick={toggleRoutine}
@@ -166,7 +166,7 @@ export function StretchRoutine() {
             </>
           ) : (
             <>
-              <Play className="h-4 w-4 mr-1" />
+              <Play className="h-4 w-4 mr-1 text-black" />
               {timerSeconds > 0 ? "Resume Routine" : "Start Routine"}
             </>
           )}

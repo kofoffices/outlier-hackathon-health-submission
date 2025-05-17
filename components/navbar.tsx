@@ -17,12 +17,7 @@ import {
   Scale, 
   Brain, 
   Wind, 
-  StretchVerticalIcon as Stretch, 
-  Sun, 
-  Cpu, 
-  Zap, 
-  Volume2, 
-  Globe 
+  StretchVerticalIcon as Stretch
 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
@@ -76,7 +71,7 @@ export function Navbar() {
 
   return (
     <header 
-      className="h-16 border-b-4 border-retro-black bg-retro-white px-6 flex items-center justify-between shadow-pixel"
+      className="h-16 border-b-4 border-retro-black bg-retro-white px-6 flex items-center justify-between shadow-pixel retro-navbar backdrop-blur-md transition-all duration-200"
       role="banner"
       aria-label="Main navigation"
     >
@@ -86,10 +81,9 @@ export function Navbar() {
           className="flex items-center gap-2 hover:scale-[1.02] transition-transform"
           aria-label="HealthQuest Home"
         >
-          {/* <Heart className="h-8 w-8 fill-retro-pink stroke-retro-pink" /> */}
-          <img src="/main_logo.png" alt="Main Logo" className="h-8 w-8 group-hover:scale-110 transition-transform"/>
+          <img src="/main_logo.png" alt="Main Logo" className="h-8 w-8 group-hover:scale-110 transition-transform pixel-border"/>
           <div className="flex flex-col">
-            <span className="text-xl font-bold font-pixel text-retro-black">HealthQuest</span>
+            <span className="text-xl font-bold font-pixel text-retro-black drop-shadow-[2px_2px_0px_#fff]">HealthQuest</span>
             <span className="text-xs text-retro-gray font-pixel">Your Wellness Adventure-Visualized, Motivated, Rewarded.</span>
           </div>
         </Link>
@@ -116,7 +110,7 @@ export function Navbar() {
               <DropdownMenuItem 
                 key={item.name} 
                 asChild
-                className={pathname === item.href ? "bg-retro-blue text-retro-white" : ""}
+                className={pathname === item.href ? "bg-retro-blue text-retro-white relative after:absolute after:left-0 after:bottom-0 after:w-full after:h-1 after:bg-retro-yellow after:rounded-full after:animate-pulse" : ""}
               >
                 <Link 
                   href={item.href} 

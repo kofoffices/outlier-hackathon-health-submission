@@ -49,7 +49,8 @@ export function RetroWindow({
   return (
     <div
       className={cn(
-        "retro-window flex flex-col rounded-md border-2 border-gray-800 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.9)] transition-all duration-200 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,0.8)] bg-white",
+        // Add retro/Mac cues: pixel border, glassy panel, pixel font for window title, shadow, hover effect
+        "retro-window flex flex-col rounded-md border-2 border-black shadow-[4px_4px_0px_#222] transition-all duration-200 hover:shadow-[6px_6px_0px_#222] bg-gradient-to-b from-white/90 to-gray-100",
         className,
       )}
     >
@@ -62,7 +63,9 @@ export function RetroWindow({
       >
         <div className="flex items-center gap-2">
           {icon && <div className="retro-window-icon">{icon}</div>}
-          <div className="retro-window-title font-bold text-gray-800 text-sm">{title}</div>
+          <div className="retro-window-title font-bold text-gray-800 text-sm font-['Press_Start_2P','system-ui',sans-serif]">
+            {title}
+          </div>
         </div>
         <div className="retro-window-controls flex gap-1">
           <button
