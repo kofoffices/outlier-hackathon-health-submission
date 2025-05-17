@@ -93,33 +93,33 @@ export function Testimonials() {
   const getFeatureColor = (feature: string) => {
     switch (feature) {
       case "mood":
-        return "bg-pink-100 text-pink-800"
+        return "bg-retro-pink text-retro-white"
       case "hydration":
-        return "bg-blue-100 text-blue-800"
+        return "bg-retro-blue text-retro-white"
       case "sleep":
-        return "bg-indigo-100 text-indigo-800"
+        return "bg-retro-purple text-retro-white"
       case "nutrition":
-        return "bg-green-100 text-green-800"
+        return "bg-retro-green text-retro-white"
       case "fitness":
-        return "bg-purple-100 text-purple-800"
+        return "bg-retro-yellow text-retro-black"
       case "weight":
-        return "bg-teal-100 text-teal-800"
+        return "bg-retro-cyan text-retro-white"
       case "mental":
-        return "bg-rose-100 text-rose-800"
+        return "bg-retro-orange text-retro-white"
       case "breathing":
-        return "bg-blue-100 text-blue-800"
+        return "bg-retro-blue text-retro-white"
       case "stretching":
-        return "bg-amber-100 text-amber-800"
+        return "bg-retro-yellow text-retro-black"
       default:
-        return "bg-gray-100 text-gray-800"
+        return "bg-retro-gray text-retro-white"
     }
   }
 
   return (
-    <div className="py-12 px-4">
+    <div className="py-12 px-4 bg-retro-white">
       <div className="text-center mb-12">
-        <h2 className="text-3xl font-bold pixel-font mb-2">What Our Users Say</h2>
-        <p className="text-gray-600 max-w-2xl mx-auto">
+        <h2 className="text-3xl font-bold font-pixel mb-2 text-retro-black">What Our Users Say</h2>
+        <p className="text-retro-gray max-w-2xl mx-auto font-pixel">
           Join thousands of users who have transformed their health journey with HealthQuest
         </p>
       </div>
@@ -132,15 +132,15 @@ export function Testimonials() {
               isAnimating ? "opacity-0 scale-95" : "opacity-100 scale-100",
             )}
           >
-            <div className="bg-white p-6 rounded-lg border-2 border-gray-800 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.8)]">
+            <div className="bg-retro-white p-6 rounded-none border-4 border-retro-black shadow-pixel">
               <div className="flex flex-col md:flex-row gap-6 items-center">
                 <div className="flex-shrink-0">
-                  <Avatar className="h-20 w-20 border-2 border-gray-800">
+                  <Avatar className="h-20 w-20 border-4 border-retro-black shadow-pixel">
                     <AvatarImage
                       src={testimonials[activeIndex].avatar || "/placeholder.svg"}
                       alt={testimonials[activeIndex].name}
                     />
-                    <AvatarFallback className="bg-blue-100 text-blue-600 font-bold text-xl">
+                    <AvatarFallback className="bg-retro-blue text-retro-white font-pixel text-xl">
                       {testimonials[activeIndex].name.charAt(0)}
                     </AvatarFallback>
                   </Avatar>
@@ -152,13 +152,13 @@ export function Testimonials() {
                         key={i}
                         className={cn(
                           "h-5 w-5",
-                          i < testimonials[activeIndex].rating ? "text-yellow-500 fill-yellow-500" : "text-gray-300",
+                          i < testimonials[activeIndex].rating ? "text-retro-yellow fill-retro-yellow" : "text-retro-gray",
                         )}
                       />
                     ))}
                     <span
                       className={cn(
-                        "ml-2 text-xs px-2 py-1 rounded-full font-bold",
+                        "ml-2 text-xs px-2 py-1 rounded-none border-2 border-retro-black font-pixel",
                         getFeatureColor(testimonials[activeIndex].feature),
                       )}
                     >
@@ -168,11 +168,11 @@ export function Testimonials() {
                     </span>
                   </div>
                   <div className="relative">
-                    <Quote className="absolute -top-2 -left-2 h-6 w-6 text-gray-300 opacity-50" />
-                    <p className="text-gray-700 italic mb-4 pl-4">"{testimonials[activeIndex].text}"</p>
+                    <Quote className="absolute -top-2 -left-2 h-6 w-6 text-retro-gray opacity-50" />
+                    <p className="text-retro-black italic mb-4 pl-4 font-pixel">"{testimonials[activeIndex].text}"</p>
                   </div>
-                  <div className="font-bold">{testimonials[activeIndex].name}</div>
-                  <div className="text-sm text-gray-600">{testimonials[activeIndex].role}</div>
+                  <div className="font-bold font-pixel text-retro-black">{testimonials[activeIndex].name}</div>
+                  <div className="text-sm text-retro-gray font-pixel">{testimonials[activeIndex].role}</div>
                 </div>
               </div>
             </div>
@@ -184,7 +184,7 @@ export function Testimonials() {
             variant="outline"
             size="icon"
             onClick={prevTestimonial}
-            className="border-2 border-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)] hover:bg-blue-50"
+            className="border-4 border-retro-black shadow-pixel hover:bg-retro-blue hover:text-retro-white transition-colors"
           >
             <ChevronLeft className="h-5 w-5" />
           </Button>
@@ -193,8 +193,8 @@ export function Testimonials() {
               <button
                 key={index}
                 className={cn(
-                  "w-2 h-2 rounded-full transition-all",
-                  index === activeIndex ? "bg-blue-500 w-4" : "bg-gray-300",
+                  "w-2 h-2 rounded-none transition-all",
+                  index === activeIndex ? "bg-retro-blue w-4" : "bg-retro-gray",
                 )}
                 onClick={() => {
                   setIsAnimating(true)
@@ -208,7 +208,7 @@ export function Testimonials() {
             variant="outline"
             size="icon"
             onClick={nextTestimonial}
-            className="border-2 border-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)] hover:bg-blue-50"
+            className="border-4 border-retro-black shadow-pixel hover:bg-retro-blue hover:text-retro-white transition-colors"
           >
             <ChevronRight className="h-5 w-5" />
           </Button>

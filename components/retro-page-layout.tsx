@@ -19,6 +19,7 @@ import {
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { HealthFacts } from "@/components/health-facts"
+import { Navbar } from "@/components/navbar"
 
 type RetroPageLayoutProps = {
   children: React.ReactNode
@@ -133,63 +134,66 @@ export function RetroPageLayout({ children, title, icon }: RetroPageLayoutProps)
   }
 
   return (
-    <div className={cn("transition-all duration-300 p-4", isFullscreen ? "fixed inset-0 z-50 bg-retro-darkGray" : "")}>
-      <div
-        className={cn(
-          "retro-window flex flex-col rounded-none border-4 border-retro-black shadow-pixel transition-all duration-200 bg-retro-white",
-          isFullscreen ? "h-full" : "",
-          isMinimized ? "h-12 overflow-hidden" : "",
-        )}
-      >
+    <>
+      <Navbar />
+      <div className={cn("transition-all duration-300 p-4", isFullscreen ? "fixed inset-0 z-50 bg-retro-darkGray" : "")}>
         <div
           className={cn(
-            "retro-window-header flex items-center justify-between px-4 py-2 border-b-4 border-retro-black",
-            getHeaderColor(),
+            "retro-window flex flex-col rounded-none border-4 border-retro-black shadow-pixel transition-all duration-200 bg-retro-white",
+            isFullscreen ? "h-full" : "",
+            isMinimized ? "h-12 overflow-hidden" : "",
           )}
         >
-          <div className="flex items-center gap-2">
-            {getIconComponent()}
-            <div className="retro-window-title font-bold text-retro-black text-lg font-pixel">{title}</div>
-          </div>
-          <div className="retro-window-controls flex gap-2">
-            <button
-              onClick={toggleMinimize}
-              className="retro-window-button w-6 h-6 flex items-center justify-center bg-window-minimize border-2 border-retro-black rounded-none hover:bg-opacity-80 transition-colors"
-            >
-              {isMinimized ? (
+          <div
+            className={cn(
+              "retro-window-header flex items-center justify-between px-4 py-2 border-b-4 border-retro-black",
+              getHeaderColor(),
+            )}
+          >
+            <div className="flex items-center gap-2">
+              {getIconComponent()}
+              <div className="retro-window-title font-bold text-retro-black text-lg font-pixel">{title}</div>
+            </div>
+            <div className="retro-window-controls flex gap-2">
+              <button
+                onClick={toggleMinimize}
+                className="retro-window-button w-6 h-6 flex items-center justify-center bg-window-minimize border-2 border-retro-black rounded-none hover:bg-opacity-80 transition-colors"
+              >
+                {isMinimized ? (
+                  <Maximize2 className="h-3 w-3 text-retro-black" />
+                ) : (
+                  <Minimize2 className="h-3 w-3 text-retro-black" />
+                )}
+              </button>
+              <button
+                onClick={toggleFullscreen}
+                className="retro-window-button w-6 h-6 flex items-center justify-center bg-window-maximize border-2 border-retro-black rounded-none hover:bg-opacity-80 transition-colors"
+              >
                 <Maximize2 className="h-3 w-3 text-retro-black" />
-              ) : (
-                <Minimize2 className="h-3 w-3 text-retro-black" />
-              )}
-            </button>
-            <button
-              onClick={toggleFullscreen}
-              className="retro-window-button w-6 h-6 flex items-center justify-center bg-window-maximize border-2 border-retro-black rounded-none hover:bg-opacity-80 transition-colors"
-            >
-              <Maximize2 className="h-3 w-3 text-retro-black" />
-            </button>
-            <button
-              onClick={() => window.history.back()}
-              className="retro-window-button w-6 h-6 flex items-center justify-center bg-window-close border-2 border-retro-black rounded-none hover:bg-opacity-80 transition-colors"
-            >
-              <X className="h-3 w-3 text-retro-black" />
-            </button>
+              </button>
+              <button
+                onClick={() => window.history.back()}
+                className="retro-window-button w-6 h-6 flex items-center justify-center bg-window-close border-2 border-retro-black rounded-none hover:bg-opacity-80 transition-colors"
+              >
+                <X className="h-3 w-3 text-retro-black" />
+              </button>
+            </div>
           </div>
-        </div>
-        <div
-          className={cn(
-            "retro-window-content flex-1 p-6 bg-retro-white overflow-auto",
-            isMinimized ? "hidden" : "",
-          )}
-        >
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="md:col-span-2">{children}</div>
-            <div className="md:col-span-1">
-              <HealthFacts category={icon} />
+          <div
+            className={cn(
+              "retro-window-content flex-1 p-6 bg-retro-white overflow-auto",
+              isMinimized ? "hidden" : "",
+            )}
+          >
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="md:col-span-2">{children}</div>
+              <div className="md:col-span-1">
+                <HealthFacts category={icon} />
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }

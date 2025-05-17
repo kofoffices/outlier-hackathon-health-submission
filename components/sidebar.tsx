@@ -36,9 +36,11 @@ function NavItem({ icon: Icon, label, href }: NavItemProps) {
     <Link
       href={href}
       className={cn(
-        "flex items-center gap-3 rounded-lg px-3 py-2 transition-all duration-200 ease-in-out border-2 border-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)] mb-2",
+        "flex items-center gap-3 rounded-none px-3 py-2 transition-all duration-200 ease-in-out border-4 border-retro-black shadow-pixel mb-2 font-pixel",
         "hover:scale-[1.03] focus:scale-[1.03] focus:outline-none",
-        isActive ? "bg-blue-100 text-blue-600" : "text-gray-600 hover:bg-blue-50 hover:text-blue-600",
+        isActive
+          ? "bg-retro-blue text-retro-white"
+          : "bg-retro-white text-retro-black hover:bg-retro-blue hover:text-retro-white",
       )}
     >
       <Icon className="h-5 w-5" />
@@ -53,17 +55,17 @@ export function Sidebar() {
   return (
     <div
       className={cn(
-        "border-r-2 border-gray-800 bg-white flex flex-col h-full transition-all duration-300",
+        "border-r-4 border-retro-black bg-retro-white flex flex-col h-full transition-all duration-300",
         isOpen ? "w-64" : "w-16",
       )}
     >
-      <div className="p-4 border-b-2 border-gray-800 bg-gradient-to-r from-blue-300 to-blue-200">
+      <div className="p-4 border-b-4 border-retro-black bg-gradient-to-r from-retro-blue to-retro-cyan">
         <Link
           href="/"
-          className="text-xl font-bold text-blue-600 flex items-center gap-2 hover:scale-[1.03] transition-transform"
+          className="text-xl font-bold text-retro-white flex items-center gap-2 hover:scale-[1.03] transition-transform font-pixel"
         >
-          <Heart className="h-6 w-6 fill-blue-100 stroke-blue-600" />
-          {isOpen && <span className="pixel-font">Health Tracker</span>}
+          <Heart className="h-6 w-6 fill-retro-pink stroke-retro-white" />
+          {isOpen && <span>Health Tracker</span>}
         </Link>
       </div>
 
@@ -81,21 +83,21 @@ export function Sidebar() {
           <NavItem icon={Stretch} label="Stretching" href="/stretching" />
         </div>
 
-        <div className="mt-6 border-t-2 border-gray-300 pt-4">
+        <div className="mt-6 border-t-4 border-retro-black pt-4">
           <div className="space-y-2">
-            <button className="w-full flex items-center gap-3 rounded-lg px-3 py-2 text-gray-600 hover:bg-blue-50 hover:text-blue-600 hover:scale-[1.03] transition-all duration-200 border-2 border-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)]">
+            <button className="w-full flex items-center gap-3 rounded-none px-3 py-2 text-retro-black hover:bg-retro-blue hover:text-retro-white hover:scale-[1.03] transition-all duration-200 border-4 border-retro-black shadow-pixel font-pixel">
               <Folder className="h-5 w-5" />
               {isOpen && <span className="text-sm font-bold">Files</span>}
             </button>
-            <button className="w-full flex items-center gap-3 rounded-lg px-3 py-2 text-gray-600 hover:bg-blue-50 hover:text-blue-600 hover:scale-[1.03] transition-all duration-200 border-2 border-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)]">
+            <button className="w-full flex items-center gap-3 rounded-none px-3 py-2 text-retro-black hover:bg-retro-blue hover:text-retro-white hover:scale-[1.03] transition-all duration-200 border-4 border-retro-black shadow-pixel font-pixel">
               <HelpCircle className="h-5 w-5" />
               {isOpen && <span className="text-sm font-bold">Help</span>}
             </button>
-            <button className="w-full flex items-center gap-3 rounded-lg px-3 py-2 text-gray-600 hover:bg-blue-50 hover:text-blue-600 hover:scale-[1.03] transition-all duration-200 border-2 border-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)]">
+            <button className="w-full flex items-center gap-3 rounded-none px-3 py-2 text-retro-black hover:bg-retro-blue hover:text-retro-white hover:scale-[1.03] transition-all duration-200 border-4 border-retro-black shadow-pixel font-pixel">
               <Settings className="h-5 w-5" />
               {isOpen && <span className="text-sm font-bold">Settings</span>}
             </button>
-            <button className="w-full flex items-center gap-3 rounded-lg px-3 py-2 text-gray-600 hover:bg-red-50 hover:text-red-600 hover:scale-[1.03] transition-all duration-200 border-2 border-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)]">
+            <button className="w-full flex items-center gap-3 rounded-none px-3 py-2 text-retro-black hover:bg-retro-pink hover:text-retro-white hover:scale-[1.03] transition-all duration-200 border-4 border-retro-black shadow-pixel font-pixel">
               <LogOut className="h-5 w-5" />
               {isOpen && <span className="text-sm font-bold">Logout</span>}
             </button>
@@ -103,10 +105,10 @@ export function Sidebar() {
         </div>
       </div>
 
-      <div className="p-2 border-t-2 border-gray-800 bg-gradient-to-r from-blue-200 to-blue-100">
+      <div className="p-2 border-t-4 border-retro-black bg-gradient-to-r from-retro-blue to-retro-cyan">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full flex items-center justify-center p-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition-colors border-2 border-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)]"
+          className="w-full flex items-center justify-center p-2 rounded-none bg-retro-blue text-retro-white hover:bg-retro-blue/90 transition-colors border-4 border-retro-black shadow-pixel font-pixel"
         >
           {isOpen ? "<<" : ">>"}
         </button>

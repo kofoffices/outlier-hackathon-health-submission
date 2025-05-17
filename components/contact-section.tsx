@@ -45,22 +45,22 @@ export function ContactSection() {
   }
 
   return (
-    <div className="py-12 px-4" id="contact">
+    <div className="py-12 px-4 bg-retro-white" id="contact">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold pixel-font mb-2">Get In Touch</h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <h2 className="text-3xl font-bold font-pixel mb-2 text-retro-black">Get In Touch</h2>
+          <p className="text-retro-gray max-w-2xl mx-auto font-pixel">
             Have questions about HealthQuest? We're here to help you on your wellness journey.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="bg-white p-6 rounded-lg border-2 border-gray-800 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.8)]">
-            <h3 className="text-xl font-bold pixel-font mb-4">Send Us a Message</h3>
+          <div className="bg-retro-white p-6 rounded-none border-4 border-retro-black shadow-pixel">
+            <h3 className="text-xl font-bold font-pixel mb-4 text-retro-black">Send Us a Message</h3>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label htmlFor="name" className="block text-sm font-bold mb-1">
+                <label htmlFor="name" className="block text-sm font-bold mb-1 font-pixel text-retro-black">
                   Your Name
                 </label>
                 <Input
@@ -69,13 +69,13 @@ export function ContactSection() {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="border-2 border-gray-800"
+                  className="border-4 border-retro-black rounded-none font-pixel focus:border-retro-blue focus:ring-0"
                   placeholder="John Doe"
                 />
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm font-bold mb-1">
+                <label htmlFor="email" className="block text-sm font-bold mb-1 font-pixel text-retro-black">
                   Email Address
                 </label>
                 <Input
@@ -85,13 +85,13 @@ export function ContactSection() {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="border-2 border-gray-800"
+                  className="border-4 border-retro-black rounded-none font-pixel focus:border-retro-blue focus:ring-0"
                   placeholder="john@example.com"
                 />
               </div>
 
               <div>
-                <label htmlFor="subject" className="block text-sm font-bold mb-1">
+                <label htmlFor="subject" className="block text-sm font-bold mb-1 font-pixel text-retro-black">
                   Subject
                 </label>
                 <Input
@@ -100,13 +100,13 @@ export function ContactSection() {
                   value={formData.subject}
                   onChange={handleChange}
                   required
-                  className="border-2 border-gray-800"
+                  className="border-4 border-retro-black rounded-none font-pixel focus:border-retro-blue focus:ring-0"
                   placeholder="Question about HealthQuest"
                 />
               </div>
 
               <div>
-                <label htmlFor="message" className="block text-sm font-bold mb-1">
+                <label htmlFor="message" className="block text-sm font-bold mb-1 font-pixel text-retro-black">
                   Your Message
                 </label>
                 <Textarea
@@ -115,7 +115,7 @@ export function ContactSection() {
                   value={formData.message}
                   onChange={handleChange}
                   required
-                  className="border-2 border-gray-800 min-h-[120px]"
+                  className="border-4 border-retro-black rounded-none font-pixel focus:border-retro-blue focus:ring-0 min-h-[120px]"
                   placeholder="Type your message here..."
                 />
               </div>
@@ -123,7 +123,7 @@ export function ContactSection() {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-blue-500 hover:bg-blue-600 border-2 border-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)]"
+                className="w-full bg-retro-blue hover:bg-retro-blue/90 text-retro-white border-4 border-retro-black shadow-pixel font-pixel transition-colors"
               >
                 {isSubmitting ? (
                   <>Sending...</>
@@ -137,35 +137,35 @@ export function ContactSection() {
           </div>
 
           <div className="space-y-6">
-            <div className="bg-white p-6 rounded-lg border-2 border-gray-800 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.8)]">
-              <h3 className="text-xl font-bold pixel-font mb-4">Contact Information</h3>
+            <div className="bg-retro-white p-6 rounded-none border-4 border-retro-black shadow-pixel">
+              <h3 className="text-xl font-bold font-pixel mb-4 text-retro-black">Contact Information</h3>
 
               <div className="space-y-4">
                 <div className="flex items-start gap-3">
-                  <Mail className="h-5 w-5 text-blue-500 mt-1" />
+                  <Mail className="h-5 w-5 text-retro-blue mt-1" />
                   <div>
-                    <p className="font-bold">Email Us</p>
-                    <a href="mailto:support@healthtrackerpro.com" className="text-blue-600 hover:underline">
+                    <p className="font-bold font-pixel text-retro-black">Email Us</p>
+                    <a href="mailto:support@healthtrackerpro.com" className="text-retro-blue hover:text-retro-blue/80 font-pixel">
                       support@healthtrackerpro.com
                     </a>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <Phone className="h-5 w-5 text-blue-500 mt-1" />
+                  <Phone className="h-5 w-5 text-retro-blue mt-1" />
                   <div>
-                    <p className="font-bold">Call Us</p>
-                    <a href="tel:+18005551234" className="text-blue-600 hover:underline">
+                    <p className="font-bold font-pixel text-retro-black">Call Us</p>
+                    <a href="tel:+18005551234" className="text-retro-blue hover:text-retro-blue/80 font-pixel">
                       +1 (800) 555-1234
                     </a>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <MapPin className="h-5 w-5 text-blue-500 mt-1" />
+                  <MapPin className="h-5 w-5 text-retro-blue mt-1" />
                   <div>
-                    <p className="font-bold">Visit Us</p>
-                    <address className="not-italic">
+                    <p className="font-bold font-pixel text-retro-black">Visit Us</p>
+                    <address className="not-italic font-pixel text-retro-gray">
                       123 Wellness Street
                       <br />
                       Health City, HC 98765
@@ -177,28 +177,28 @@ export function ContactSection() {
               </div>
             </div>
 
-            <div className="bg-white p-6 rounded-lg border-2 border-gray-800 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.8)]">
-              <h3 className="text-xl font-bold pixel-font mb-4">Support Hours</h3>
+            <div className="bg-retro-white p-6 rounded-none border-4 border-retro-black shadow-pixel">
+              <h3 className="text-xl font-bold font-pixel mb-4 text-retro-black">Support Hours</h3>
 
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <span className="font-bold">Monday - Friday:</span>
-                  <span>9:00 AM - 8:00 PM EST</span>
+                  <span className="font-bold font-pixel text-retro-black">Monday - Friday:</span>
+                  <span className="font-pixel text-retro-gray">9:00 AM - 8:00 PM EST</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="font-bold">Saturday:</span>
-                  <span>10:00 AM - 6:00 PM EST</span>
+                  <span className="font-bold font-pixel text-retro-black">Saturday:</span>
+                  <span className="font-pixel text-retro-gray">10:00 AM - 6:00 PM EST</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="font-bold">Sunday:</span>
-                  <span>Closed</span>
+                  <span className="font-bold font-pixel text-retro-black">Sunday:</span>
+                  <span className="font-pixel text-retro-gray">Closed</span>
                 </div>
               </div>
 
-              <div className="mt-4 pt-4 border-t-2 border-gray-200">
+              <div className="mt-4 pt-4 border-t-4 border-retro-black">
                 <Button
                   variant="outline"
-                  className="w-full border-2 border-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)] bg-blue-50 hover:bg-blue-100"
+                  className="w-full border-4 border-retro-black shadow-pixel bg-retro-white hover:bg-retro-blue hover:text-retro-white font-pixel transition-colors"
                 >
                   <MessageSquare className="mr-2 h-4 w-4" /> Start Live Chat
                 </Button>
