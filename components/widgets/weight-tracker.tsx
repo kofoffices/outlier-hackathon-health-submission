@@ -217,7 +217,7 @@ export function WeightTracker() {
           </div>
           <DialogFooter>
             <DialogClose asChild><Button type="button" variant="outline" className="border-2 border-gray-800 shadow-sm">Cancel</Button></DialogClose>
-            <Button onClick={handleAddWeight} className="bg-teal-500 hover:bg-teal-600 active:bg-teal-700 text-white border-2 border-gray-800 shadow-sm active:shadow-none">Save Weight</Button>
+            <Button onClick={handleAddWeight} className="bg-teal-500 hover:bg-teal-600 active:bg-teal-700 text-black border-2 border-gray-800 shadow-sm active:shadow-none">Save Weight</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

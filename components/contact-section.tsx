@@ -123,13 +123,13 @@ export function ContactSection() {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-retro-blue hover:bg-retro-blue/90 text-retro-white border-4 border-retro-black shadow-pixel font-pixel transition-colors"
+                className="w-full bg-retro-blue hover:bg-retro-blue/90 text-black border-4 border-retro-black shadow-pixel font-pixel transition-colors"
               >
                 {isSubmitting ? (
                   <>Sending...</>
                 ) : (
                   <>
-                    <Send className="mr-2 h-4 w-4" /> Send Message
+                    <Send className="mr-2 h-4 w-4 text-black" /> Send Message
                   </>
                 )}
               </Button>

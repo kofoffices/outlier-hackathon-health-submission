@@ -131,7 +131,7 @@ export function BreathingExercise() {
         </div>
         <p className="text-sm text-gray-700 mb-1 font-bold font-pixel h-5">{isActive ? `Target: ${getCurrentPhaseTargetTime()}s` : "4-7-8 Breathing Technique"}</p>
         <p className="text-xs text-gray-500 mb-5 font-pixel h-3">{isActive ? `Cycle: ${cycleCount + 1}` : ""}</p>
-        <Button onClick={toggleActive} size="lg" className={`text-black min-w-[180px] text-black se hover:scale-[1.03] transition-all duration-200 border-2 border-gray-800 shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)] active:shadow-none active:translate-y-0.5 active:translate-x-0.5 ${isActive ? "bg-rose-500 hover:bg-rose-600 text-white" : "bg-sky-400 hover:bg-sky-500 text-black"}`}>
+        <Button onClick={toggleActive} size="lg" className={`text-black min-w-[180px] text-black se hover:scale-[1.03] transition-all duration-200 border-2 border-gray-800 shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)] active:shadow-none active:translate-y-0.5 active:translate-x-0.5 ${isActive ? "bg-rose-500 hover:bg-rose-600 text-black" : "bg-sky-400 hover:bg-sky-500 text-black"}`}>
           {isActive ? <><Pause className="text-black h-5 w-5 mr-2" /> Stop Session</> : <><Play className="text-black h-5 w-5 mr-2" /> Start Session</>}
         </Button>
         {!isActive && !showSuccess && ( /* ... (instructions - no change) ... */

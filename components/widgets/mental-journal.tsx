@@ -236,7 +236,7 @@ export function MentalJournal() {
             className={`mt-3 text-sm bg-transparent border-0 border-b ${activeTheme.textColorClass.includes("black") || activeTheme.textColorClass.includes("slate") || activeTheme.textColorClass.includes("rose-800") ? 'border-gray-400 focus:border-gray-700 placeholder-gray-500' : 'border-gray-600 focus:border-gray-300 placeholder-gray-400'} rounded-none px-1 py-1 focus:ring-0`}
           />
           <div className="mt-4 flex justify-between items-center">
-            <Button variant="ghost" onClick={() => setEditingEntry(null)} className={`hover:bg-opacity-20 ${activeTheme.textColorClass.includes("black") || activeTheme.textColorClass.includes("slate") || activeTheme.textColorClass.includes("rose-800") ? 'hover:bg-gray-500 text-black' : 'hover:bg-gray-200 text-gray-200'}`}>Cancel</Button>
+            <Button variant="ghost" onClick={() => setEditingEntry(null)} className="text-black hover:bg-opacity-20 hover:bg-gray-200 text-gray-200">Cancel</Button>
             <Button onClick={handleSaveEntry} className="bg-rose-500 hover:bg-rose-600 text-black font-bold shadow-md border border-rose-700"><Save className="h-4 w-4 mr-2"/>Save Entry</Button>
           </div>
         </div>
@@ -264,7 +264,7 @@ export function MentalJournal() {
                 <Button variant="ghost" onClick={() => setViewingEntry(null)} className={`hover:bg-opacity-20 ${entryTheme.textColorClass.includes("black") || entryTheme.textColorClass.includes("slate") || entryTheme.textColorClass.includes("rose-800") ? 'hover:bg-gray-500 text-gray-700' : 'hover:bg-gray-200 text-gray-200'}`}>Back to List</Button>
                 <div>
                     <Button onClick={() => handleEditEntry(viewingEntry)} className="mr-2 bg-yellow-500 hover:bg-yellow-600 text-black font-bold shadow-md"><Edit3 className="h-4 w-4 mr-1"/>Edit</Button>
-                    <Button onClick={() => handleDeleteEntry(viewingEntry.id)} className="bg-red-500 hover:bg-red-600 text-white font-bold shadow-md"><Trash2 className="h-4 w-4 mr-1"/>Delete</Button>
+                    <Button onClick={() => handleDeleteEntry(viewingEntry.id)} className="bg-red-500 hover:bg-red-600 text-black font-bold shadow-md"><Trash2 className="h-4 w-4 mr-1"/>Delete</Button>
                 </div>
             </div>
         </div>
