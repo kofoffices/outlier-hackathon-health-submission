@@ -15,7 +15,7 @@ const pixelFont = VT323({
 
 export const metadata: Metadata = {
   title: "Health Quest",
-  description: "Track your wellness journey with Health Tracker Pro",
+  description: "Track your wellness journey with Health Quest",
   generator: 'v0.dev',
   icons: {
     icon: "/main_logo.png", // for favicon or tab icon
