@@ -96,10 +96,10 @@ export function NutritionTracker() {
           </div>
           <Button
             size="sm"
-            className="bg-green-500 hover:bg-green-600 hover:scale-[1.03] transition-all duration-200 border-2 border-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)] hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,0.8)] hover:translate-y-[1px] hover:translate-x-[1px]"
+            className="text-black bg-green-500 hover:bg-green-600 hover:scale-[1.03] transition-all duration-200 border-2 border-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)] hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,0.8)] hover:translate-y-[1px] hover:translate-x-[1px]"
             onClick={() => setIsDialogOpen(true)}
           >
-            <Plus className="h-4 w-4 mr-1" />
+            <Plus className="text-black h-4 w-4 mr-1" />
             Log Meal
           </Button>
         </div>
@@ -248,7 +248,7 @@ export function NutritionTracker() {
               </DialogClose>
               <Button
                 type="submit"
-                className="bg-green-500 hover:bg-green-600 border-2 border-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)]"
+                className="text-black bg-green-500 hover:bg-green-600 border-2 border-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)]"
               >
                 Add Meal
               </Button>

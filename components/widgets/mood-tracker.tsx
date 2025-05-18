@@ -231,7 +231,7 @@ export function MoodTracker() {
 
   return (
     <RetroWindow
-      title="Mood Tracker"
+      title="Mood Tracker - Click on a day to set the mood"
       icon={<Heart className="h-4 w-4 text-pink-500" />}
       variant="pink"
       className="transition-all duration-200 group"
