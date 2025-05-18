@@ -30,7 +30,7 @@ Health Quest offers multiple wellness trackers, each with unique gamification el
 1. **Clone the repository**
 
 ```powershell
-git clone https://github.com/your-username/health-tracker-pro.git
+git clone https://github.com/kofoffices/outlier-hackathon-health-submission.git
 cd health-tracker-pro
 ```
 
