@@ -92,6 +92,14 @@ const config = {
         'pixel-lg': '8px 8px 0px 0px rgba(0, 0, 0, 1)',
       },
       keyframes: {
+        'twinkle': {
+          '0%, 100%': { opacity: '0.3' },
+          '50%': { opacity: '0.8' },
+        },
+        'pulse-slow': {
+          '0%, 100%': { transform: 'scale(1)', opacity: '0.8' },
+          '50%': { transform: 'scale(1.1)', opacity: '1' },
+        },
         "accordion-down": {
           from: { height: "0" },
           to: { height: "var(--radix-accordion-content-height)" },
@@ -120,6 +128,8 @@ const config = {
         "pixel-bounce": "pixel-bounce 1s ease-in-out infinite",
         "pixel-pulse": "pixel-pulse 2s ease-in-out infinite",
         "pixel-shake": "pixel-shake 0.2s ease-in-out",
+        'twinkle': 'twinkle 3s infinite ease-in-out',
+        'pulse-slow': 'pulse-slow 2.5s infinite ease-in-out',
       },
     },
   },

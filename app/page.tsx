@@ -32,58 +32,54 @@ export default function LandingPage() {
 
   if (showStartup) {
     return (
-      <div className="fixed inset-0 bg-black text-green-500 font-pixel flex flex-col items-center justify-center">
-        <div className="w-full max-w-3xl p-8 flex flex-col">
-          <div className="text-4xl mb-8 text-center animate-pulse">Health Tracker Pro OS v1.0</div>
-          <div className="text-2xl mb-4 text-center">Initializing system...</div>
-          <div className="mb-8">
-            <div className="text-xl mb-2 text-center">Loading components: {bootProgress}%</div>
-            <div className="w-full h-8 bg-gray-800 border-2 border-green-500 overflow-hidden">
+      <div className="fixed inset-0 bg-black text-green-500 font-mono flex flex-col items-center justify-center min-h-screen">
+        <div className="w-full max-w-2xl p-0 flex flex-col">
+          <div className="text-3xl mb-6 text-center tracking-widest font-bold" style={{letterSpacing:'0.08em'}}>Health Tracker Pro OS v1.0</div>
+          <div className="text-xl mb-2 text-center">Initializing system...</div>
+          <div className="mb-6">
+            <div className="text-lg mb-1 text-center">Loading components: <span className="font-bold">{bootProgress}%</span></div>
+            <div className="w-full h-6 bg-black border border-green-500 relative overflow-hidden">
               <div
-                className="h-full bg-green-500 transition-all duration-100 relative"
+                className="h-full bg-green-600 transition-all duration-100"
                 style={{ width: `${bootProgress}%` }}
-              >
-                {Array.from({ length: 10 }).map((_, i) => (
+              />
+              {/* Retro block progress effect */}
+              <div className="absolute inset-0 flex">
+                {Array.from({ length: 20 }).map((_, i) => (
                   <div
                     key={i}
-                    className="absolute top-0 bottom-0 w-4 bg-green-700"
-                    style={{ left: `${i * 10}%`, opacity: Math.random() * 0.5 + 0.5 }}
+                    className="flex-1 border-r border-green-700 last:border-none"
+                    style={{ opacity: 0.3 }}
                   />
                 ))}
               </div>
             </div>
           </div>
-          <div className="flex-1 overflow-auto text-lg space-y-2 max-h-80 w-full max-w-2xl mx-auto border-2 border-green-500 p-4 bg-black">
-            {bootProgress > 5 && <div className="typing-effect">$ INITIALIZING HEALTH_TRACKER_PRO...</div>}
-            {bootProgress > 10 && <div className="typing-effect">$ Loading system kernel...</div>}
-            {bootProgress > 20 && <div className="typing-effect">$ Initializing health modules...</div>}
-            {bootProgress > 30 && <div className="typing-effect">$ Loading user interface...</div>}
-            {bootProgress > 40 && <div className="typing-effect">$ Connecting to health database...</div>}
-            {bootProgress > 50 && <div className="typing-effect">$ Loading mood tracker module...</div>}
-            {bootProgress > 60 && <div className="typing-effect">$ Loading fitness module...</div>}
-            {bootProgress > 70 && <div className="typing-effect">$ Loading nutrition module...</div>}
-            {bootProgress > 80 && <div className="typing-effect">$ Loading sleep tracker module...</div>}
-            {bootProgress > 90 && <div className="typing-effect">$ System check complete. Starting application...</div>}
-            {bootProgress === 100 && (
-              <div className="text-2xl text-center animate-pulse mt-4">
-                Welcome to Health Tracker Pro!
-                <div className="text-sm mt-2">Your Wellness Adventure-Visualized, Motivated, Rewarded.</div>
-              </div>
-            )}
+          <div className="border border-green-500 bg-black p-4 min-h-[180px] max-h-64 overflow-auto text-green-400 text-base font-mono mb-6" style={{boxShadow:'0 0 8px #0f0'}}>
+            {bootProgress > 5 && <div>$ INITIALIZING HEALTH_TRACKER_PRO...</div>}
+            {bootProgress > 10 && <div>$ Loading system kernel...</div>}
+            {bootProgress > 20 && <div>$ Initializing health modules...</div>}
+            {bootProgress > 30 && <div>$ Loading user interface...</div>}
+            {bootProgress > 40 && <div>$ Connecting to health database...</div>}
+            {bootProgress > 50 && <div>$ Loading mood tracker module...</div>}
+            {bootProgress > 60 && <div>$ Loading fitness module...</div>}
+            {bootProgress > 70 && <div>$ Loading nutrition module...</div>}
+            {bootProgress > 80 && <div>$ Loading sleep tracker module...</div>}
+            {bootProgress > 90 && <div>$ System check complete. Starting application...</div>}
+            <span className="inline-block animate-pulse ml-1 align-middle">█</span>
           </div>
-
-          <div className="grid grid-cols-3 gap-4 mt-8">
-            <div className="text-center">
-              <div className="text-sm">CPU</div>
-              <div className="text-xs">HEALTH_CORE_1.0</div>
+          <div className="flex justify-between text-green-400 text-xs border-t border-green-700 pt-2 mt-2">
+            <div className="text-left">
+              <div>CPU</div>
+              <div className="font-bold">HEALTH_CORE_1.0</div>
             </div>
             <div className="text-center">
-              <div className="text-sm">MEMORY</div>
-              <div className="text-xs">512K WELLNESS</div>
+              <div>MEMORY</div>
+              <div className="font-bold">512K WELLNESS</div>
             </div>
-            <div className="text-center">
-              <div className="text-sm">STORAGE</div>
-              <div className="text-xs">UNLIMITED</div>
+            <div className="text-right">
+              <div>STORAGE</div>
+              <div className="font-bold">UNLIMITED</div>
             </div>
           </div>
         </div>
