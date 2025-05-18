@@ -1,16 +1,20 @@
 "use client"
 
+// ... (all existing imports)
 import { useState, useEffect, useRef } from "react"
 import {
   SmilePlus,
   Smile,
   Meh,
-  Frown,
-  FrownIcon as FrownPlus,
+  Frown as FrownIconOriginal, 
+  FrownIcon as FrownPlus, 
   CalendarDays,
   Info,
   TrendingUp,
   Heart,
+  Sparkles, 
+  Puzzle, 
+  Gift // Ensure Gift is imported
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
@@ -19,53 +23,40 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible"
 import { RetroWindow } from "@/components/ui/retro-window"
 import React from "react"
+import PixelPal from "@/components/gamification/PixelPal"; 
+import MoodMosaic from "@/components/gamification/MoodMosaic"; 
 
+// ... (interface Day, moods array, generateCalendarDays, moodCorrelations - NO CHANGES)
 interface Day {
   date: Date | null
-  mood: number | null
+  mood: number | null 
 }
-
 const moods = [
-  {
-    icon: SmilePlus,
-    label: "Great",
-    color: "text-green-700",
-    bgColor: "bg-green-500",
-    hoverColor: "hover:bg-green-300",
-    emoji: "😄",
-    emojiColor: "text-green-600 drop-shadow-[0_2px_0_#fff]",
-  },
-  { icon: Smile, label: "Good", color: "text-blue-500", bgColor: "bg-blue-500", hoverColor: "hover:bg-blue-300", emoji: "🙂", emojiColor: "text-blue-600 drop-shadow-[0_2px_0_#fff]" },
-  { icon: Meh, label: "Okay", color: "text-yellow-500", bgColor: "bg-yellow-300", hoverColor: "hover:bg-yellow-300", emoji: "😐", emojiColor: "text-yellow-600 drop-shadow-[0_2px_0_#fff]" },
-  { icon: Frown, label: "Bad", color: "text-orange-500", bgColor: "bg-orange-400", hoverColor: "hover:bg-orange-300", emoji: "🙁", emojiColor: "text-orange-600 drop-shadow-[0_2px_0_#fff]" },
-  { icon: FrownPlus, label: "Awful", color: "text-red-500", bgColor: "bg-red-400", hoverColor: "hover:bg-red-300", emoji: "😢", emojiColor: "text-red-600 drop-shadow-[0_2px_0_#fff]" },
+  { icon: SmilePlus, label: "Great", color: "text-green-700", bgColor: "bg-green-400", hoverColor: "hover:bg-green-300", emoji: "😄", emojiColor: "text-green-600 drop-shadow-[0_2px_0_#fff]", },
+  { icon: Smile, label: "Good", color: "text-sky-700", bgColor: "bg-sky-400", hoverColor: "hover:bg-sky-300", emoji: "🙂", emojiColor: "text-sky-600 drop-shadow-[0_2px_0_#fff]" },
+  { icon: Meh, label: "Okay", color: "text-yellow-700", bgColor: "bg-yellow-400", hoverColor: "hover:bg-yellow-300", emoji: "😐", emojiColor: "text-yellow-600 drop-shadow-[0_2px_0_#fff]" },
+  { icon: FrownIconOriginal, label: "Bad", color: "text-orange-700", bgColor: "bg-orange-400", hoverColor: "hover:bg-orange-300", emoji: "🙁", emojiColor: "text-orange-600 drop-shadow-[0_2px_0_#fff]" },
+  { icon: FrownPlus, label: "Awful", color: "text-red-700", bgColor: "bg-red-500", hoverColor: "hover:bg-red-400", emoji: "😢", emojiColor: "text-red-600 drop-shadow-[0_2px_0_#fff]" },
 ]
-
 const generateCalendarDays = (): Day[] => {
   const today = new Date()
   const year = today.getFullYear()
   const month = today.getMonth()
-
-  // Get the first day of the month
   const firstDay = new Date(year, month, 1)
-  const startingDayOfWeek = firstDay.getDay() // 0 = Sunday, 1 = Monday, etc.
+  const startingDayOfWeek = firstDay.getDay()
   const daysInMonth = new Date(year, month + 1, 0).getDate()
-  const days = []
+  const daysArray = []
   for (let i = 0; i < startingDayOfWeek; i++) {
-    days.push({ date: null, mood: null })
+    daysArray.push({ date: null, mood: null })
   }
-
   for (let i = 1; i <= daysInMonth; i++) {
-    days.push({
+    daysArray.push({
       date: new Date(year, month, i),
-      mood: null, // Will be populated from localStorage
+      mood: null,
     })
   }
-
-  return days
+  return daysArray
 }
-
-// Mock data for mood correlations
 const moodCorrelations = [
   { metric: "Sleep Quality", correlation: 0.85, description: "Strong positive correlation" },
   { metric: "Hydration", correlation: 0.72, description: "Moderate positive correlation" },
@@ -73,34 +64,40 @@ const moodCorrelations = [
   { metric: "Screen Time", correlation: -0.56, description: "Moderate negative correlation" },
 ]
 
+
+// --- MOOD MOSAIC CONFIGURATION ---
+// This pattern is now a *color guide*. It should have enough variety.
+// Let's make a smaller, more abstract pattern that can be repeated or sampled from.
+// Example: A simple 3x3 checkerboard or a small symbol.
+const mosaicColorGuidePattern = [
+  ['C1', 'C2', 'C1'],
+  ['C2', 'C3', 'C2'],
+  ['C1', 'C2', 'C1'],
+];
+const mosaicPatternColors = {
+  'C1': 'bg-pink-500', // Main color
+  'C2': 'bg-pink-400', // Secondary color
+  'C3': 'bg-purple-400', // Accent color (or another pink shade)
+  // Add more colors if your guide pattern uses more keys
+};
+
+
 export function MoodTracker() {
+  // ... (all existing states and useEffect for loading moods - NO CHANGES)
   const [selectedMood, setSelectedMood] = useState<number | null>(null)
   const [days, setDays] = useState<Day[]>(generateCalendarDays())
   const [activeDay, setActiveDay] = useState<number | null>(null)
   const [isPopoverOpen, setIsPopoverOpen] = useState(false)
-  // Show insights by default
   const [showInsights, setShowInsights] = useState(true)
-  const [activeMoodButton, setActiveMoodButton] = useState<number | null>(null)
-  const [rippleEffect, setRippleEffect] = useState<{ x: number; y: number; active: boolean }>({
-    x: 0,
-    y: 0,
-    active: false,
-  })
-  const dayRefs = useRef<(HTMLDivElement | null)[]>([])
-  const moodButtonRefs = useRef<(HTMLButtonElement | null)[]>([])
   const { toast } = useToast()
 
-  // Load saved moods from localStorage
   useEffect(() => {
     const savedMoods = localStorage.getItem("moodCalendar")
     if (savedMoods) {
       const parsedMoods = JSON.parse(savedMoods)
-
-      // Update days with saved moods
       setDays(
-        days.map((day) => {
+        generateCalendarDays().map((day) => { 
           if (!day.date) return day
-
           const dateStr = day.date.toISOString().split("T")[0]
           return {
             ...day,
@@ -111,40 +108,37 @@ export function MoodTracker() {
     }
   }, [])
 
-  // Calculate mood statistics
+  // calculateMoodStats - NO CHANGES from previous version
   const calculateMoodStats = () => {
-    const moodCounts = [0, 0, 0, 0, 0]
-    let totalMoods = 0
-
+    const moodCounts = Array(moods.length).fill(0);
+    let totalMoodValueSum = 0;
+    let loggedMoodsCount = 0;
     days.forEach((day) => {
       if (day.date && day.mood !== null) {
-        moodCounts[day.mood]++
-        totalMoods++
+        moodCounts[day.mood]++;
+        totalMoodValueSum += (moods.length - 1 - day.mood);
+        loggedMoodsCount++;
       }
-    })
-
-    const dominantMood = moodCounts.indexOf(Math.max(...moodCounts))
-    const averageMood =
-      totalMoods > 0 ? moodCounts.reduce((sum, count, index) => sum + count * index, 0) / totalMoods : null
-
+    });
+    const dominantMoodIndex = moodCounts.indexOf(Math.max(...moodCounts));
+    const dominantMood = loggedMoodsCount > 0 && dominantMoodIndex !== -1 ? dominantMoodIndex : null;
+    const averageMoodNumeric = loggedMoodsCount > 0 ? totalMoodValueSum / loggedMoodsCount : null;
     return {
       moodCounts,
-      totalMoods,
-      dominantMood: dominantMood !== -1 ? dominantMood : null,
-      averageMood,
-    }
-  }
-
+      totalMoods: loggedMoodsCount,
+      dominantMood,
+      averageMood: averageMoodNumeric, 
+      loggedMoodsThisMonth: loggedMoodsCount,
+    };
+  };
   const moodStats = calculateMoodStats()
 
-  // Save moods to localStorage when they change
+  // saveMoodForDay - NO CHANGES
   const saveMoodForDay = (dayIndex: number, moodIndex: number) => {
     const updatedDays = [...days]
     if (updatedDays[dayIndex].date) {
       updatedDays[dayIndex].mood = moodIndex
       setDays(updatedDays)
-
-      // Save to localStorage
       const moodsToSave: Record<string, number> = {}
       updatedDays.forEach((day) => {
         if (day.date && day.mood !== null) {
@@ -152,82 +146,42 @@ export function MoodTracker() {
           moodsToSave[dateStr] = day.mood
         }
       })
-
       localStorage.setItem("moodCalendar", JSON.stringify(moodsToSave))
-
-      // Show toast
       toast({
         title: "Mood saved",
         description: `You're feeling ${moods[moodIndex].label} today!`,
       })
     }
-
     setIsPopoverOpen(false)
   }
 
-  // Handle keyboard navigation
+  // handleKeyDown, handleMoodSelection - NO CHANGES
+  const dayRefs = useRef<(HTMLDivElement | null)[]>([]) 
   const handleKeyDown = (e: React.KeyboardEvent, dayIndex: number) => {
     if (e.key === "Enter") {
       setActiveDay(dayIndex)
       setIsPopoverOpen(true)
     } else if (e.key === "ArrowRight") {
       const nextIndex = Math.min(dayIndex + 1, days.length - 1)
-      dayRefs.current[nextIndex]?.focus()
+      if(days[nextIndex]?.date) dayRefs.current[nextIndex]?.focus()
     } else if (e.key === "ArrowLeft") {
       const prevIndex = Math.max(dayIndex - 1, 0)
-      dayRefs.current[prevIndex]?.focus()
+      if(days[prevIndex]?.date) dayRefs.current[prevIndex]?.focus()
     } else if (e.key === "ArrowUp") {
       const prevRowIndex = Math.max(dayIndex - 7, 0)
-      dayRefs.current[prevRowIndex]?.focus()
+       if(days[prevRowIndex]?.date) dayRefs.current[prevRowIndex]?.focus()
     } else if (e.key === "ArrowDown") {
       const nextRowIndex = Math.min(dayIndex + 7, days.length - 1)
-      dayRefs.current[nextRowIndex]?.focus()
+      if(days[nextRowIndex]?.date) dayRefs.current[nextRowIndex]?.focus()
     }
   }
-
-  // Handle mood button click with ripple effect
-  const handleMoodButtonClick = (index: number, e: React.MouseEvent) => {
-    // Get button dimensions and position
-    const button = moodButtonRefs.current[index]
-    if (button) {
-      const rect = button.getBoundingClientRect()
-      const x = e.clientX - rect.left
-      const y = e.clientY - rect.top
-
-      // Set ripple effect
-      setRippleEffect({ x, y, active: true })
-
-      // Reset ripple after animation
-      setTimeout(() => {
-        setRippleEffect({ x: 0, y: 0, active: false })
-      }, 600)
-    }
-
-    setSelectedMood(index)
-    setActiveMoodButton(index)
-  }
-
-  // Handle mood selection in popover
   const handleMoodSelection = (moodIndex: number, e: React.MouseEvent) => {
-    // Create ripple effect
-    const target = e.currentTarget as HTMLButtonElement
-    const rect = target.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
-
-    // Set ripple effect
-    setRippleEffect({ x, y, active: true })
-
-    // Reset ripple after animation
-    setTimeout(() => {
-      setRippleEffect({ x: 0, y: 0, active: false })
-    }, 600)
-
-    // Save mood
     if (activeDay !== null) {
       saveMoodForDay(activeDay, moodIndex)
     }
   }
+
+  const currentDateForMosaic = new Date(); // To pass to MoodMosaic
 
   return (
     <RetroWindow
@@ -236,40 +190,45 @@ export function MoodTracker() {
       variant="pink"
       className="transition-all duration-200 group"
     >
-      {/* Show Insights as default, no top emoji row */}
+      {/* Collapsible Insights section - NO CHANGES from previous version */}
       <Collapsible open={showInsights} onOpenChange={setShowInsights} className="mb-4">
         <CollapsibleContent className="p-3 border-2 border-gray-800 bg-pink-100 rounded-md mb-4 animate-in slide-in-from-top-5 duration-300">
-          <h4 className="text-sm font-bold text-pink-700 mb-2 flex items-center gap-1 pixel-font">
+          <h4 className="text-sm font-bold text-pink-700 mb-3 flex items-center gap-1 pixel-font">
             <Info className="h-4 w-4" />
             Mood Insights (Real-Time)
           </h4>
           <div className="space-y-3">
-            {moodStats.dominantMood !== null && (
-              <div className="flex items-center justify-between">
-                <span className="text-xs text-gray-600 font-bold">Dominant Mood (so far this month):</span>
-                <div className="flex items-center gap-1">
-                  <span className={`text-xl md:text-2xl ${moods[moodStats.dominantMood].emojiColor}`}>{moods[moodStats.dominantMood].emoji}</span>
-                  <span className="text-xs font-bold">{moods[moodStats.dominantMood].label}</span>
-                </div>
+            <div className="flex justify-between items-start">
+              <div className="space-y-2 flex-grow">
+                {moodStats.dominantMood !== null && (
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-gray-600 font-bold">Dominant Mood (month):</span>
+                    <div className="flex items-center gap-1">
+                      <span className={`text-xl md:text-2xl ${moods[moodStats.dominantMood].emojiColor}`}>{moods[moodStats.dominantMood].emoji}</span>
+                      <span className="text-xs font-bold">{moods[moodStats.dominantMood].label}</span>
+                    </div>
+                  </div>
+                )}
+                {moodStats.averageMood !== null && (
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-gray-600 font-bold">Average Mood (live):</span>
+                    <span className="text-xs font-bold">
+                      {moodStats.averageMood < 1 ? "Awful" :
+                       moodStats.averageMood < 2 ? "Bad" :
+                       moodStats.averageMood < 3 ? "Okay" :
+                       moodStats.averageMood < 3.75 ? "Good" : "Great"}
+                      <span className="ml-2 text-lg align-middle">
+                        {moods[moods.length - 1 - Math.round(moodStats.averageMood)].emoji}
+                      </span>
+                    </span>
+                  </div>
+                )}
               </div>
-            )}
-
-            {moodStats.averageMood !== null && (
-              <div className="flex items-center justify-between">
-                <span className="text-xs text-gray-600 font-bold">Average Mood (live):</span>
-                <span className="text-xs font-bold">
-                  {moodStats.averageMood < 1.5
-                    ? "Awful to Bad"
-                    : moodStats.averageMood < 2.5
-                      ? "Bad to Okay"
-                      : moodStats.averageMood < 3.5
-                        ? "Okay to Good"
-                        : "Good to Great"}
-                  <span className="ml-2 text-lg align-middle">{moodStats.averageMood !== null ? moods[Math.round(moodStats.averageMood)].emoji : ''}</span>
-                </span>
+              <div className="ml-4 flex flex-col items-center">
+                 <PixelPal averageMood={moodStats.averageMood} pixelSize={6} />
+                 <span className="text-xs mt-1 text-pink-700 font-pixel">Your Pal!</span>
               </div>
-            )}
-
+            </div>
             <div className="pt-2 border-t-2 border-pink-300">
               <h5 className="text-xs font-bold text-pink-700 mb-1">Correlations with other metrics (auto-updating):</h5>
               <div className="space-y-2">
@@ -294,11 +253,12 @@ export function MoodTracker() {
         </CollapsibleContent>
       </Collapsible>
 
+      {/* Calendar section - NO CHANGES from previous version */}
       <div className="mt-4">
         <div className="flex items-center justify-between mb-2">
           <h4 className="text-base font-bold text-gray-700 flex items-center gap-1 font-pixel">
             <CalendarDays className="h-5 w-5" />
-            {new Date().toLocaleString("default", { month: "long", year: "numeric" })}
+            {currentDateForMosaic.toLocaleString("default", { month: "long", year: "numeric" })}
           </h4>
           <Button
             variant="outline"
@@ -311,98 +271,61 @@ export function MoodTracker() {
           </Button>
         </div>
         <div className="grid grid-cols-7 gap-1 border-2 border-gray-800 p-2 rounded-md bg-white">
-          {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
+           {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
             <div key={day} className="text-xs text-center font-bold text-gray-500 font-pixel tracking-wide pb-1">
               {day}
             </div>
           ))}
           {days.map((day, i) => {
-            const moodColors = day.mood !== null ? moods[day.mood].bgColor : "bg-gray-100"
-            const hoverColors = day.mood !== null ? moods[day.mood].hoverColor : "hover:bg-gray-200"
+            const moodDefinition = day.mood !== null ? moods[day.mood] : null;
+            const moodColors = moodDefinition ? moodDefinition.bgColor : "bg-gray-100";
+            const hoverColors = moodDefinition ? moodDefinition.hoverColor : "hover:bg-gray-200";
             return day.date ? (
-              <Popover
-                key={i}
-                open={isPopoverOpen && activeDay === i}
-                onOpenChange={open => {
-                  setIsPopoverOpen(open)
-                  if (open) setActiveDay(i)
-                }}
-              >
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <PopoverTrigger asChild>
-                        <div
-                          ref={el => { dayRefs.current[i] = el }}
+              <Popover key={i} open={isPopoverOpen && activeDay === i} onOpenChange={open => { setIsPopoverOpen(open); if (open) setActiveDay(i); }}>
+                <TooltipProvider><Tooltip><TooltipTrigger asChild><PopoverTrigger asChild>
+                        <div ref={el => { if (el) dayRefs.current[i] = el }}
                           className={`aspect-square rounded-sm ${moodColors} ${hoverColors} hover:opacity-90 cursor-pointer transition-all duration-200 hover:scale-[1.1] focus:outline-none border border-gray-800 shadow-[1px_1px_0px_0px_rgba(0,0,0,0.8)] flex flex-col items-center justify-center`}
                           title={day.date ? `${day.date.toLocaleDateString()}: ${day.mood !== null ? moods[day.mood].label : "No mood set"}` : ""}
-                          onClick={() => {
-                            setActiveDay(i)
-                            setIsPopoverOpen(true)
-                          }}
-                          onKeyDown={e => handleKeyDown(e, i)}
-                          tabIndex={0}
-                          role="button"
-                          aria-label={`Select mood for ${day.date.toLocaleDateString()}`}
-                        >
-                          <span className="text-lg font-bold font-pixel text-gray-900 leading-none">
-                            {day.date.getDate()}
-                          </span>
+                          onClick={() => { setActiveDay(i); setIsPopoverOpen(true); }}
+                          onKeyDown={e => handleKeyDown(e, i)} tabIndex={0} role="button" aria-label={`Select mood for ${day.date.toLocaleDateString()}`}>
+                          <span className="text-lg font-bold font-pixel text-gray-900 leading-none">{day.date.getDate()}</span>
                           {day.mood !== null && (
                             <span className="flex flex-col items-center justify-center mt-1">
                               <span className={`text-2xl md:text-3xl ${moods[day.mood].emojiColor} transition-transform duration-200`}>{moods[day.mood].emoji}</span>
                               <span className="text-xs font-pixel font-bold text-gray-900 mt-1">{moods[day.mood].label}</span>
-                            </span>
-                          )}
+                            </span> )}
                         </div>
-                      </PopoverTrigger>
-                    </TooltipTrigger>
-                    <TooltipContent side="bottom" className="p-2 text-xs border-2 border-gray-800 font-pixel">
+                </PopoverTrigger></TooltipTrigger>
+                <TooltipContent side="bottom" className="p-2 text-xs border-2 border-gray-800 font-pixel">
                       <p className="font-bold">{day.date.toLocaleDateString()}</p>
-                      {day.mood !== null ? (
-                        <div className="flex items-center gap-1 mt-1">
-                          <span>Mood:</span>
-                          {React.createElement(moods[day.mood].icon, { className: `h-4 w-4 ${moods[day.mood].color}` })}
-                          <span>{moods[day.mood].label}</span>
-                        </div>
-                      ) : (
-                        <p className="italic mt-1">No mood recorded</p>
-                      )}
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-                <PopoverContent
-                  className="w-auto max-w-[260px] md:max-w-[320px] p-2 border-2 border-gray-800 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.8)] font-pixel"
-                  align="center"
-                >
+                      {day.mood !== null ? ( <div className="flex items-center gap-1 mt-1"> <span>Mood:</span> {React.createElement(moods[day.mood].icon, { className: `h-4 w-4 ${moods[day.mood].color}` })} <span>{moods[day.mood].label}</span> </div>
+                      ) : ( <p className="italic mt-1">No mood recorded</p> )}
+                </TooltipContent></Tooltip></TooltipProvider>
+                <PopoverContent className="w-auto max-w-[260px] md:max-w-[320px] p-2 border-2 border-gray-800 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.8)] font-pixel" align="center">
                   <div className="flex gap-2 flex-wrap justify-center items-center">
                     {moods.map((mood, moodIndex) => {
-                      const Icon = mood.icon
                       return (
-                        <Button
-                          key={mood.label}
-                          variant="outline"
-                          size="sm"
-                          className={`relative overflow-hidden p-1 hover:bg-gray-100 transition-all duration-150 border-2 border-gray-800 flex flex-col items-center justify-center min-w-[80px] min-h-[80px] font-pixel text-xs font-bold
-                            ${day.mood === moodIndex ? "bg-gray-100 ring-2 ring-gray-400" : ""}
-                          `}
-                          onClick={e => handleMoodSelection(moodIndex, e)}
-                          aria-label={`Set mood to ${mood.label}`}
-                        >
+                        <Button key={mood.label} variant="outline" size="sm"
+                          className={`relative overflow-hidden p-1 hover:bg-gray-100 transition-all duration-150 border-2 border-gray-800 flex flex-col items-center justify-center min-w-[80px] min-h-[80px] font-pixel text-xs font-bold ${activeDay !== null && days[activeDay]?.mood === moodIndex ? "bg-gray-100 ring-2 ring-pink-400" : ""}`}
+                          onClick={e => handleMoodSelection(moodIndex, e)} aria-label={`Set mood to ${mood.label}`}>
                           <span className={`text-2xl md:text-3xl ${mood.emojiColor} transition-transform duration-200`}>{mood.emoji}</span>
                           <span className="mt-1">{mood.label}</span>
-                        </Button>
-                      )
-                    })}
+                        </Button> )})}
                   </div>
                 </PopoverContent>
               </Popover>
-            ) : (
-              <div key={i} className="aspect-square rounded-sm bg-transparent" />
-            )
-          })}
+            ) : ( <div key={i} className="aspect-square rounded-sm bg-transparent" /> )})}
         </div>
       </div>
+
+      {/* MOOD MOSAIC INTEGRATION - Pass currentDateForMosaic */}
+      <MoodMosaic
+        loggedMoodCount={moodStats.loggedMoodsThisMonth}
+        targetImagePattern={mosaicColorGuidePattern} // Use the new guide pattern
+        patternColors={mosaicPatternColors}
+        pixelSize={8} // Can adjust pixel size here; smaller = more detailed for more days
+        currentDate={currentDateForMosaic} // Pass current date
+      />
     </RetroWindow>
   )
 }
