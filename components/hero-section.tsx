@@ -90,7 +90,7 @@ export function HeroSection() {
 
             {/* 4. Call-to-action buttons: use retro variant and add glowing effect */}
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/dashboard">
+              <Link href="/features">
                 <Button variant="retro" className="w-full sm:w-auto border-4 border-retro-black shadow-pixel hover:shadow-[0_0_16px_4px_#4E77FF] hover:scale-105 transition-transform font-pixel group">
                   Get Started <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </Button>

@@ -46,7 +46,7 @@ const BOOT_MESSAGES = [
   { text: "  - Stretch Sequencer        [OK]", progressThreshold: 80, icon: "🤸" },
   { text: "$ Loading user interface [AQUA_GUI_RETRO]...", progressThreshold: 85 },
   { text: "$ System check complete.", progressThreshold: 95 },
-  { text: "$ Welcome to Health Tracker Pro OS!", progressThreshold: 100, style: "text-center text-xl mt-2" },
+  { text: "$ Welcome to HealthQuest OS!", progressThreshold: 100, style: "text-center text-xl mt-2" },
 ];
 
 

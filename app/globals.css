@@ -4,6 +4,16 @@
 
 @layer base {
   :root {
+     --rose-400-rgb: 251, 113, 133; /* Example for pink/rose */
+    --blue-400-rgb: 96, 165, 250;
+    --indigo-400-rgb: 129, 140, 248;
+    --green-400-rgb: 74, 222, 128;
+    --purple-400-rgb: 167, 139, 250;
+    --teal-400-rgb: 45, 212, 191;
+    --pink-400-rgb: 236, 72, 153; /* Different from rose if needed */
+    --cyan-400-rgb: 34, 211, 238;
+    --amber-400-rgb: 251, 191, 36;
+    
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 
@@ -190,3 +200,49 @@
 .animate-pulse-once {
   animation: pulse-once 0.6s ease-out;
 }
+
+/* In your global.css or equivalent */
+.scanline-bg {
+  position: relative;
+}
+.scanline-bg::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+  background-size: 100% 3px, 5px 100%; /* Adjust 3px for scanline thickness */
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.4; /* Adjust opacity */
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(-2%); animation-timing-function: cubic-bezier(0.8,0,1,1); }
+  50% { transform: translateY(0); animation-timing-function: cubic-bezier(0,0,0.2,1); }
+}
+.animate-bounce-slow {
+  animation: bounce-slow 1.5s infinite;
+}
+
+@keyframes color-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+.animate-color-pulse {
+    animation: color-pulse 2s infinite ease-in-out;
+}
+
