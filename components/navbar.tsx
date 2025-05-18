@@ -127,7 +127,7 @@ export function Navbar() {
               <Link 
                 href="/" 
                 className="cursor-pointer flex items-center gap-2 hover:bg-retro-blue hover:text-retro-white font-pixel"
-                aria-current={pathname === "/" ? "page" : undefined}
+                aria-current={pathname === "/features" ? "page" : undefined}
               >
                 <span className="font-bold">View All Trackers</span>
               </Link>

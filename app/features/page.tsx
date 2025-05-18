@@ -45,7 +45,7 @@ const GAMIFY_HEADER = (
       <Trophy className="h-10 w-10 sm:h-12 sm:w-12 text-yellow-500 drop-shadow-lg" />
     </div>
     <h1 className="text-4xl sm:text-5xl md:text-6xl font-pixel text-center text-yellow-600 drop-shadow-[2px_2px_0px_rgba(0,0,0,0.15)]">
-      HealthQuest: Your Wellness Adventure
+      Tracker-Hub: Turn Your Goals into High-Scores!
     </h1>
     <p className="mt-4 text-lg text-gray-700 font-pixel max-w-2xl mx-auto flex items-center justify-center gap-2">
       <Sparkles className="inline-block h-6 w-6 text-pink-400 animate-pulse" />
