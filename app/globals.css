@@ -165,7 +165,6 @@
   animation: pulse-slow 2.5s infinite ease-in-out;
 }
 
-/* In your global CSS or Tailwind setup */
 @keyframes ping-once {
   0%, 20% { transform: scale(1); opacity: 1; } /* Start and hold normal */
   50% { transform: scale(1.5); opacity: 0; } /* Ping out */
@@ -173,4 +172,21 @@
 }
 .animate-ping-once {
   animation: ping-once 1.5s ease-out;
+}
+
+@keyframes pulse-border {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.5); } /* amber-400 */
+  50% { box-shadow: 0 0 0 4px rgba(251, 191, 36, 0); }
+}
+.animate-pulse-border {
+  animation: pulse-border 1.5s infinite;
+}
+
+@keyframes pulse-once { /* For FlexibilityMatrix cells */
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+.animate-pulse-once {
+  animation: pulse-once 0.6s ease-out;
 }
