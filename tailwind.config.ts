@@ -138,6 +138,13 @@ const config = {
         'ping-once': 'ping-once 1.5s ease-out',
       },
     },
+    safelist: [
+    // Example theme classes
+    'font-mono', 'bg-black', 'text-green-400',
+    'font-pixel', 'bg-slate-100', 'text-slate-800',
+    'bg-rose-50', 'text-rose-800',
+    'bg-blue-900', 'text-blue-200',
+    ],
   },
   plugins: [require("tailwindcss-animate")],
 } satisfies Config
