@@ -121,6 +121,11 @@ const config = {
           "25%": { transform: "translateX(-2px)" },
           "75%": { transform: "translateX(2px)" },
         },
+        'ping-once': {
+          '0%, 20%': { transform: 'scale(1)', opacity: '1' },
+          '50%': { transform: 'scale(1.5)', opacity: '0' },
+          '100%': { transform: 'scale(1.5)', opacity: '0' },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -130,6 +135,7 @@ const config = {
         "pixel-shake": "pixel-shake 0.2s ease-in-out",
         'twinkle': 'twinkle 3s infinite ease-in-out',
         'pulse-slow': 'pulse-slow 2.5s infinite ease-in-out',
+        'ping-once': 'ping-once 1.5s ease-out',
       },
     },
   },

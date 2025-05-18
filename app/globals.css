@@ -164,3 +164,13 @@
 .animate-pulse-slow {
   animation: pulse-slow 2.5s infinite ease-in-out;
 }
+
+/* In your global CSS or Tailwind setup */
+@keyframes ping-once {
+  0%, 20% { transform: scale(1); opacity: 1; } /* Start and hold normal */
+  50% { transform: scale(1.5); opacity: 0; } /* Ping out */
+  100% { transform: scale(1.5); opacity: 0; } /* Stay invisible */
+}
+.animate-ping-once {
+  animation: ping-once 1.5s ease-out;
+}
