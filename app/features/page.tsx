@@ -34,7 +34,7 @@ const FEATURE_LIST: Feature[] = [
   { id: 4, title: "Nutrition Tracker", description: "Log meals, track macronutrients, and cultivate healthier eating habits with ease.", icon: Apple, image: "/nutrition.png", link: "/nutrition", themeColorName: "green" },
   { id: 5, title: "Fitness Checklist", description: "Stay consistent with workouts using an interactive checklist to track your achievements.", icon: Dumbbell, image: "/fitness.jpeg", link: "/fitness", themeColorName: "purple" },
   { id: 6, title: "Weight Tracker", description: "Visualize your weight management journey and monitor your progress over time.", icon: Scale, image: "/weight2.jpeg", link: "/weight", themeColorName: "teal" },
-  { id: 7, title: "Mental Journal", description: "Reflect on thoughts and experiences to gain clarity and support emotional well-being.", icon: Brain, image: "/journal.jpg", link: "/journal", themeColorName: "rose" },
+  { id: 7, title: "Mental Journal", description: "Reflect on thoughts and experiences to gain clarity and support emotional well-being.", icon: Brain, image: "/journal.jpg", link: "/mental", themeColorName: "rose" },
   { id: 8, title: "Breathing Exercises", description: "Find calm and reduce stress with simple, guided breathing techniques.", icon: Wind, image: "/breather.jpeg", link: "/breathing", themeColorName: "cyan" },
   { id: 9, title: "Stretching Routine", description: "Improve flexibility and prevent injuries with customizable daily stretch routines.", icon: Stretch, image: "/stretch.jpeg", link: "/stretching", themeColorName: "amber" },
 ];

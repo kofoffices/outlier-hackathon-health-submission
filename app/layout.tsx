@@ -14,9 +14,12 @@ const pixelFont = VT323({
 })
 
 export const metadata: Metadata = {
-  title: "Health Tracker Pro",
+  title: "Health Quest",
   description: "Track your wellness journey with Health Tracker Pro",
-    generator: 'v0.dev'
+  generator: 'v0.dev',
+  icons: {
+    icon: "/main_logo.png", // for favicon or tab icon
+  },
 }
 
 export default function RootLayout({

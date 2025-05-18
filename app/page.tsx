@@ -111,7 +111,7 @@ export default function LandingPage() {
           ) : (
             <>
               <div className="text-2xl mb-4 text-center tracking-wider font-bold" style={{textShadow: '0 0 5px #34d399'}}>
-                Health Tracker Pro OS <span className="text-xl">v1.0</span>
+                Health-Quest💓 OS <span className="text-xl">v1.0</span>
               </div>
               
               <div className="text-sm mb-1 text-center opacity-80">Initializing system...</div>
