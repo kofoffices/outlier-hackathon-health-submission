@@ -145,7 +145,7 @@ export default function FeaturesPage() {
           ))}
         </div>
         <div className="text-center mt-16 sm:mt-20 mb-8">
-            <Link href="/dashboard">
+            <Link href="/">
                 <button className={`font-pixel font-bold bg-yellow-400 hover:bg-yellow-500 active:bg-yellow-600 text-gray-900 px-7 py-3 rounded-lg shadow-md hover:shadow-lg active:shadow-sm text-base transition-all group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-yellow-400`}>
                     Back to Dashboard
                     <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform inline-block" />

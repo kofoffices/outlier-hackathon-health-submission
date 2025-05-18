@@ -125,7 +125,7 @@ export function Navbar() {
             <DropdownMenuSeparator className="border-retro-black" />
             <DropdownMenuItem asChild>
               <Link 
-                href="/" 
+                href="/features" 
                 className="cursor-pointer flex items-center gap-2 hover:bg-retro-blue hover:text-retro-white font-pixel"
                 aria-current={pathname === "/features" ? "page" : undefined}
               >

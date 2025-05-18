@@ -34,12 +34,39 @@ function FeatureShowcase({ title, description, icon, image, link, color, reverse
       className={cn("grid grid-cols-1 md:grid-cols-2 gap-8 items-center py-16", reversed ? "md:flex-row-reverse" : "")}
     >
       <div className={cn("order-2", reversed ? "md:order-1" : "md:order-2")}>
-        <div className="bg-retro-white p-6 rounded-none border-4 border-retro-black shadow-pixel transform transition-transform hover:translate-y-[-5px] group">
-          <img
-            src={image || "/placeholder.svg"}
-            alt={title}
-            className="w-full h-auto rounded-none border-4 border-retro-black group-hover:brightness-105 transition-all duration-300"
-          />
+        {/* Mac-inspired card design */}
+        <div className="bg-white border border-gray-200/80 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 ease-out overflow-hidden flex flex-col transform hover:scale-[1.02]">
+          {/* Title bar */}
+          <div className="px-3 py-2 border-b border-gray-200/70 flex items-center justify-between bg-gray-50/60">
+            <div className="flex items-center gap-1.5">
+              {React.cloneElement(icon, {
+                className: `h-4 w-4 ml-2 ${color.includes('pink') ? 'text-pink-600' : color.includes('blue') ? 'text-blue-600' : 'text-gray-600'} opacity-70`,
+              })}
+              <span className="text-xs font-pixel font-bold text-gray-700 opacity-90 tracking-wide">{title}</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="w-2.5 h-2.5 bg-red-400 rounded-full opacity-80"></span>
+              <span className="w-2.5 h-2.5 bg-yellow-400 rounded-full opacity-80"></span>
+              <span className="w-2.5 h-2.5 bg-green-400 rounded-full opacity-80"></span>
+            </div>
+          </div>
+          
+          {/* Image Container */}
+          <div className="relative">
+            <img
+              src={image || "/placeholder.svg"}
+              alt={title}
+              className="w-full h-auto object-cover aspect-[16/10] transition-all duration-300 group-hover:scale-[1.03] group-hover:brightness-110"
+            />
+            
+            {/* Badge overlay */}
+            <div className="absolute top-2 left-2 bg-white/80 px-2 py-1 rounded-full flex items-center gap-1 shadow text-xs font-pixel text-gray-700 border border-gray-200">
+              {React.cloneElement(icon, {
+                className: "h-3 w-3 text-yellow-400",
+              })}
+              {title.replace(/ Tracker| Checklist| Routine| Exercises| Journal/g, "")} XP
+            </div>
+          </div>
         </div>
       </div>
 
@@ -47,12 +74,12 @@ function FeatureShowcase({ title, description, icon, image, link, color, reverse
         <div className="flex items-center gap-3 mb-6">
           <div
             className={cn(
-              "p-4 rounded-none border-4 border-retro-black transform transition-all duration-500 hover:scale-110 hover:rotate-6 shadow-pixel",
+              "p-4 rounded-xl border-2 border-gray-800 transform transition-all duration-500 hover:scale-110 hover:rotate-6 shadow-lg",
               color,
             )}
           >
             {React.cloneElement(icon, {
-              className: `h-8 w-8 ${icon.props.className} animate-pulse`,
+              className: `h-8 w-8 ${icon.props.className}`,
             })}
           </div>
           <h2 className="text-3xl font-bold font-pixel">{title}</h2>
@@ -63,7 +90,7 @@ function FeatureShowcase({ title, description, icon, image, link, color, reverse
         <Link href={link}>
           <Button
             className={cn(
-              "text-lg px-6 py-6 border-4 border-retro-black shadow-pixel hover:shadow-none hover:translate-y-1 hover:translate-x-1 active:shadow-none active:translate-y-2 active:translate-x-2 transition-all duration-200 font-pixel group",
+              "text-lg px-6 py-6 rounded-lg border-2 border-gray-800 shadow-lg hover:shadow-xl hover:translate-y-[-2px] active:shadow-md active:translate-y-0 transition-all duration-200 font-pixel group",
               color.replace("bg-", "bg-").replace("-100", "-500").replace("text-", "text-retro-white"),
             )}
           >

@@ -9,25 +9,22 @@ import { Footer } from "@/components/footer"
 import { Navbar } from "@/components/navbar"
 import { HeartPulse } from "lucide-react" // Example icon
 
-// Pixelated Apple-like logo (simple heart)
+// Pixelated Apple-like logo (pixel health cross)
 const PixelHealthLogo = () => (
   <div className="mb-8">
-    <svg width="80" height="80" viewBox="0 0 20 20" className="mx-auto image-rendering-pixelated fill-current">
-      {/* Simple Pixel Heart */}
-      <rect x="6" y="3" width="8" height="1" />
-      <rect x="4" y="4" width="12" height="1" />
-      <rect x="3" y="5" width="14" height="1" />
-      <rect x="2" y="6" width="16" height="2" />
-      <rect x="3" y="8" width="14" height="1" />
-      <rect x="4" y="9" width="12" height="1" />
-      <rect x="5" y="10" width="10" height="1" />
-      <rect x="6" y="11" width="8" height="1" />
-      <rect x="7" y="12" width="6" height="1" />
-      <rect x="8" y="13" width="4" height="1" />
-      <rect x="9" y="14" width="2" height="1" />
+    <svg
+      width="80"
+      height="80"
+      viewBox="0 0 20 20"
+      className="mx-auto image-rendering-pixelated fill-current"
+    >
+      {/* Pixel Health Cross */}
+      <rect x="8" y="4" width="4" height="12" />
+      <rect x="4" y="8" width="12" height="4" />
     </svg>
   </div>
 );
+
 
 
 const BOOT_MESSAGES = [

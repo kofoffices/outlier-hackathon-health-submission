@@ -92,16 +92,17 @@ export function HeroSection() {
             <div className="flex flex-col sm:flex-row gap-4">
               <Link href="/features">
                 <Button variant="retro" className="w-full sm:w-auto border-4 border-retro-black shadow-pixel hover:shadow-[0_0_16px_4px_#4E77FF] hover:scale-105 transition-transform font-pixel group">
-                  Get Started <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  Get Started with Quests 📜<ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
+              {/* <Link href="/features">
               <Button
                 variant="retro"
                 className="w-full sm:w-auto border-4 border-retro-black shadow-pixel hover:shadow-[0_0_16px_4px_#FFD600] hover:scale-105 transition-transform font-pixel group"
               >
-                <Play className="mr-2 h-4 w-4 group-hover:scale-110 transition-transform" />
-                Watch Demo
+                View all Quests 
               </Button>
+              </Link>    */}
             </div>
 
             <div className="mt-8 text-sm text-retro-gray font-pixel">
