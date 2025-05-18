@@ -2,8 +2,6 @@
 
 > Turn your wellness journey into a game-like adventure!
 
-![Health Quest](public/main_logo.png)
-
 A beautifully designed, gamified health and wellness tracking application built with Next.js and TypeScript. Health Quest helps users monitor different aspects of their health with an engaging, retro-modern interface.
 
 ## ✨ Features
@@ -19,19 +17,6 @@ Health Quest offers multiple wellness trackers, each with unique gamification el
 - **📓 Mental Journal** - Reflect and collect mindful moments
 - **🧘‍♂️ Breathing Exercise** - Earn zen points with guided breathing
 - **🤸‍♀️ Stretching Routine** - Improve flexibility and mobility
-
-## 📸 Screenshots
-
-<table>
-  <tr>
-    <td><img src="/mood.jpg" alt="Mood Tracker" width="300"/></td>
-    <td><img src="/sleep.jpg" alt="Sleep Tracker" width="300"/></td>
-  </tr>
-  <tr>
-    <td><img src="/hydration-2.jpg" alt="Hydration Tracker" width="300"/></td>
-    <td><img src="/nutrition.png" alt="Nutrition Tracker" width="300"/></td>
-  </tr>
-</table>
 
 ## 🚀 Getting Started
 
